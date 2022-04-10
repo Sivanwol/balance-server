@@ -1,0 +1,53 @@
+{
+  "root": "apps/config-service",
+  "sourceRoot": "apps/config-service/src",
+  "projectType": "application",
+
+  "implicitDependencies": [
+    "shared-utils-server"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/config-service",
+        "main": "apps/config-service/src/server.ts",
+        "tsConfig": "apps/config-service/tsconfig.app.json",
+        "inspect": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "config-service:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/config-service/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/config-service"],
+      "options": {
+        "jestConfig": "apps/config-service/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "config",
+    "services"
+  ]
+}

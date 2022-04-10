@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "projects": {
+    "api-gate-way": "apps/api-gate-way",
+    "config-service": "apps/config-service",
+    "jest-common": "libs/jest-common",
+    "shared-utils-server": "libs/utils-server"
+  }
+}

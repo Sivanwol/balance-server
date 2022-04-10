@@ -1,1 +1,0 @@
-from src.models.mixin.TimestampMixin import TimestampMixin

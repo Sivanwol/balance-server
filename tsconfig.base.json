@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "pretty": true,
+    "declaration": true,
+    "outDir": "./dist",
+
+    "allowJs": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "commonjs",
+    "lib": ["es2018", "esnext.asynciterable", "dom"],
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@wolberg-pro-games/utils-server/*": ["libs/utils-server/src/*"],
+      "@wolberg-pro-games/jest-common/*": ["libs/jest-common/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
