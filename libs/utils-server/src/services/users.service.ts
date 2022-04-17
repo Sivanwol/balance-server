@@ -17,7 +17,8 @@ import { RegisterUserDto } from '../dtos/users.dto';
 import { IMailerData } from '../constraints/mailerData';
 
 @Service()
-export class UsersService {
+export class 
+UsersService {
 
   readonly emailService = Container.get( EmailService ) as EmailService;
   readonly rolesService = Container.get( RolesService ) as RolesService;
