@@ -6,15 +6,15 @@ import moment from 'moment';
 import { PlatformSettings } from '@prisma/client';
 import { Container } from 'typedi';
 import { authLogin } from '../../utils/gqlUtils';
-import { UserModel } from '@wolberg-pro-games/utils-server/models/user.model';
-import { UserNotFoundException } from '@wolberg-pro-games/utils-server/exceptions/UserNotFoundException';
-import { LoginUserDto, RegisterUserDto } from '@wolberg-pro-games/utils-server/dtos/users.dto';
-import { ConfigService, UsersService } from '@wolberg-pro-games/utils-server/services';
-import { InputVerifyError, TwoWayAuthType } from '@wolberg-pro-games/utils-server/utils/types';
+import { UserModel } from '@balancer/utils-server/models/user.model';
+import { UserNotFoundException } from '@balancer/utils-server/exceptions/UserNotFoundException';
+import { LoginUserDto, RegisterUserDto } from '@balancer/utils-server/dtos/users.dto';
+import { ConfigService, UsersService } from '@balancer/utils-server/services';
+import { InputVerifyError, TwoWayAuthType } from '@balancer/utils-server/utils/types';
 import { AuthService } from '../../services';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
-import { HttpException } from '@wolberg-pro-games/utils-server/exceptions/HttpException';
-import { parseValidatedErrors } from '@wolberg-pro-games/utils-server/utils/util';
+import { logger } from '@balancer/utils-server/utils/logger';
+import { HttpException } from '@balancer/utils-server/exceptions/HttpException';
+import { parseValidatedErrors } from '@balancer/utils-server/utils/util';
 
 export class AuthSchema implements ISchema {
   readonly userService = Container.get( UsersService ) as UsersService;

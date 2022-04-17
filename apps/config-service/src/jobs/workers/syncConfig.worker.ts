@@ -1,9 +1,9 @@
 import { Worker, Job } from 'bullmq';
 import { queueName } from '../queues/syncConfig.queue'
 import { Redis } from 'ioredis';
-import RedisUtil from '@wolberg-pro-games/utils-server/utils/redisUtil';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
-import { RabbitMQConnection } from '@wolberg-pro-games/utils-server/utils/RabbitMQConnection';
+import RedisUtil from '@balancer/utils-server/utils/redisUtil';
+import { logger } from '@balancer/utils-server/utils/logger';
+import { RabbitMQConnection } from '@balancer/utils-server/utils/RabbitMQConnection';
 import { PlatformSettingsService } from '../../services';
 
 export const syncConfigWorker = (redisConnection: Redis) => new Worker(queueName, async (job: Job) => {

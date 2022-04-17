@@ -1,5 +1,5 @@
 import { Container } from 'typedi';
-import { UsersService } from '@wolberg-pro-games/utils-server/services';
+import { UsersService } from '@balancer/utils-server/services';
 
 export const BindJWTAUth = () => {
   const passport = require( 'passport' );

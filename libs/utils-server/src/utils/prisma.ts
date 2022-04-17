@@ -12,7 +12,7 @@ console.log( `The connection URL is ${process.env.DATABASE_URL}` )
 let prisma
 // @ts-ignore
 if (process.env.NODE_ENV.toLowerCase().includes( 'test' )) {
-  const {prismaMock} = require( '@wolberg-pro-games/jest-common/PrismaMock' );
+  const {prismaMock} = require( '@balancer/jest-common/PrismaMock' );
   prisma = prismaMock as unknown
 } else {
   prisma = new PrismaClient( {

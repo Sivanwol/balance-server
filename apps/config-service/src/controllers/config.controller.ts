@@ -2,15 +2,15 @@ import { JsonController, Get, Put, Req, BodyParam, Param } from 'routing-control
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Service } from 'typedi';
-import { BaseResponse } from '@wolberg-pro-games/utils-server/responses/baseResponses';
+import { BaseResponse } from '@balancer/utils-server/responses/baseResponses';
 import {
   PlatformSettingsListResponse,
   PlatformSettingsMessageResponse,
   PlatformSettingsResponse
-} from '@wolberg-pro-games/utils-server/responses/PlatformSettingsResponse';
+} from '@balancer/utils-server/responses/PlatformSettingsResponse';
 import { queueKeys, queues } from '../jobs';
-import RedisUtil from '@wolberg-pro-games/utils-server/utils/redisUtil';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
+import RedisUtil from '@balancer/utils-server/utils/redisUtil';
+import { logger } from '@balancer/utils-server/utils/logger';
 import { PlatformSettingsService } from '../services';
 
 @OpenAPI( {

@@ -1,15 +1,15 @@
-import { GenerateUser, GenerateUserSelect, UserMock } from '@wolberg-pro-games/jest-common/mocks/user.mock';
-import { UsersService } from '@wolberg-pro-games/utils-server/services/users.service';
-import { checkUserDbModel, checkUserEntity, checkUserModel } from '@wolberg-pro-games/jest-common/checks/user.checks';
+import { GenerateUser, GenerateUserSelect, UserMock } from '@balancer/jest-common/mocks/user.mock';
+import { UsersService } from '@balancer/utils-server/services/users.service';
+import { checkUserDbModel, checkUserEntity, checkUserModel } from '@balancer/jest-common/checks/user.checks';
 import { mockReset } from 'jest-mock-extended';
-import { prismaMock } from '@wolberg-pro-games/jest-common/PrismaMock';
-import { logger } from '@wolberg-pro-games/jest-common/LoggerMock';
-import "@wolberg-pro-games/jest-common/SendGridMock"
+import { prismaMock } from '@balancer/jest-common/PrismaMock';
+import { logger } from '@balancer/jest-common/LoggerMock';
+import "@balancer/jest-common/SendGridMock"
 import 'reflect-metadata';
 import * as faker from 'faker';
 import { Ipware } from '@fullerstack/nax-ipware';
-import { UserNotFoundException } from '@wolberg-pro-games/utils-server/exceptions/UserNotFoundException';
-import { ActivityType } from '@wolberg-pro-games/utils-server/services/activityLog.service';
+import { UserNotFoundException } from '@balancer/utils-server/exceptions/UserNotFoundException';
+import { ActivityType } from '@balancer/utils-server/services/activityLog.service';
 import bcrypt from 'bcrypt';
 
 describe( 'User Service Testing', () => {

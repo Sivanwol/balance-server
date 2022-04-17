@@ -26,8 +26,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@wolberg-pro-games/utils-server/*": ["libs/utils-server/src/*"],
-      "@wolberg-pro-games/jest-common/*": ["libs/jest-common/src/*"]
+      "@balancer/utils-server/*": ["libs/utils-server/src/*"],
+      "@balancer/jest-common/*": ["libs/jest-common/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

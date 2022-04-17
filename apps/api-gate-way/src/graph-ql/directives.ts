@@ -3,10 +3,10 @@ import { addDirectiveResolveFunctionsToSchema } from 'graphql-directive';
 import { get, includes } from 'lodash';
 import { Container } from 'typedi';
 import { authJWT } from '../utils/gqlUtils';
-import { UserModel } from '@wolberg-pro-games/utils-server/models/user.model';
-import { UsersService } from '@wolberg-pro-games/utils-server/services';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
-import { AuthorizationError } from '@wolberg-pro-games/utils-server/exceptions/AuthorizationError';
+import { UserModel } from '@balancer/utils-server/models/user.model';
+import { UsersService } from '@balancer/utils-server/services';
+import { logger } from '@balancer/utils-server/utils/logger';
+import { AuthorizationError } from '@balancer/utils-server/exceptions/AuthorizationError';
 // schema for all custom directives
 const customDirectivesSchema = `
   # Checking if user is Authenticated

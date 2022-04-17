@@ -2,9 +2,9 @@ import { Get, Req, Param, Put, JsonController, Body } from 'routing-controllers'
 import { Ipware } from '@fullerstack/nax-ipware';
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Service } from 'typedi';
-import { ConfigService, UsersService } from '@wolberg-pro-games/utils-server/services';
-import { TwoWayAuthType } from '@wolberg-pro-games/utils-server/utils/types';
-import { ForgetPasswordUserDto } from '@wolberg-pro-games/utils-server/dtos/users.dto';
+import { ConfigService, UsersService } from '@balancer/utils-server/services';
+import { TwoWayAuthType } from '@balancer/utils-server/utils/types';
+import { ForgetPasswordUserDto } from '@balancer/utils-server/dtos/users.dto';
 
 @OpenAPI( {
   security: [],
@@ -17,7 +17,26 @@ export class UserController {
     private usersService: UsersService
   ) {  }
   readonly ipware = new Ipware();
-
+  @Get('callback/auth')
+  @OpenAPI( {summary: 'call back from auth0 user auth'})
+  public authCallback() {
+      passport.authenticate("auth0", (err, user, info) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.redirect("/login");
+        }
+        req.logIn(user, (err) => {
+          if (err) {
+            return next(err);
+          }
+          const returnTo = req.session.returnTo;
+          delete req.session.returnTo;
+          res.redirect(returnTo || "/");
+        });
+      })(req, res, next);
+  }
   @Get( '/email_confirm/:hashVerifyRequestId/:hashUserId/:hashCode' )
   @OpenAPI( {summary: 'confirm user email'} )
   public async confirmEmail(

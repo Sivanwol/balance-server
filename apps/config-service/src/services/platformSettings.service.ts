@@ -1,11 +1,11 @@
 import { PlatformSettings } from '@prisma/client';
 import { find, isArray } from 'lodash';
 import { Service } from 'typedi';
-import RedisUtil from '@wolberg-pro-games/utils-server/utils/redisUtil';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
-import { CacheKeys } from '@wolberg-pro-games/utils-server/constraints/CacheKeys';
-import { DbService } from '@wolberg-pro-games/utils-server/services';
-import { knownServices } from '@wolberg-pro-games/utils-server/constraints/knownservices';
+import RedisUtil from '@balancer/utils-server/utils/redisUtil';
+import { logger } from '@balancer/utils-server/utils/logger';
+import { CacheKeys } from '@balancer/utils-server/constraints/CacheKeys';
+import { DbService } from '@balancer/utils-server/services';
+import { knownServices } from '@balancer/utils-server/constraints/knownservices';
 import moment = require('moment');
 
 @Service()

@@ -1,5 +1,5 @@
 import { Message } from 'amqplib/properties';
-import { BaseEvent } from '@wolberg-pro-games/utils-server/events/BaseEvent';
+import { BaseEvent } from '@balancer/utils-server/events/BaseEvent';
 
 export class ListEvent extends BaseEvent {
   constructor() {

@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import { SyncConfigQueue } from './queues/syncConfig.queue';
-import RedisUtil from '@wolberg-pro-games/utils-server/utils/redisUtil';
+import RedisUtil from '@balancer/utils-server/utils/redisUtil';
 dotenv.config();
 
 const syncConfigQueue = SyncConfigQueue( RedisUtil.client )

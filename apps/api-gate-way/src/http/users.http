@@ -32,7 +32,8 @@ Content-Type: application/json
     "email": "example@gmail.com",
 	"password": "qwer1234"
 }
-
+# test call
+Get https://github.com/
 ###
 # Del User By Id
 DELETE {{baseURL}}/users/1

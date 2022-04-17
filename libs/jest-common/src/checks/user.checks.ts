@@ -1,5 +1,5 @@
-import { GenerateUserIncludeMock, UserMock, UserProfileMock } from '@wolberg-pro-games/jest-common/mocks/user.mock';
-import { UserModel } from '@wolberg-pro-games/utils-server/models/user.model';
+import { GenerateUserIncludeMock, UserMock, UserProfileMock } from '@balancer/jest-common/mocks/user.mock';
+import { UserModel } from '@balancer/utils-server/models/user.model';
 
 
 export const checkUserDbModel = async (entityMock: UserMock, entityModel) => {

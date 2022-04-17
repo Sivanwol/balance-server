@@ -162,8 +162,8 @@ export abstract class BaseApp {
         },
       },
       info: {
-        description: 'Party Tickets System Api System',
-        title: 'Party Tickets System',
+        description: 'Balancer System Api System',
+        title: 'Balancer System',
         version: '1.0.0',
       },
     });

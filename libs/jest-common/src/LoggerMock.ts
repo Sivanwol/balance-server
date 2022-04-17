@@ -1,4 +1,4 @@
-jest.mock('@wolberg-pro-games/utils-server/utils/logger' ,() => ({
+jest.mock('@balancer/utils-server/utils/logger' ,() => ({
   info: (msg)=> console.info(msg),
   error: (msg)=> console.error(msg)
 }))

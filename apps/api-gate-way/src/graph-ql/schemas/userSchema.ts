@@ -1,9 +1,9 @@
 import ISchema from './ISchema';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Container } from 'typedi';
-import { UserModel } from '@wolberg-pro-games/utils-server/models/user.model';
-import { UsersService } from '@wolberg-pro-games/utils-server/services';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
+import { UserModel } from '@balancer/utils-server/models/user.model';
+import { UsersService } from '@balancer/utils-server/services';
+import { logger } from '@balancer/utils-server/utils/logger';
 import { User } from '@prisma/client';
 
 export class UserSchema implements ISchema {

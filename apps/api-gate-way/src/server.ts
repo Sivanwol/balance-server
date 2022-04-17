@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-import { ServicesRoute } from '@wolberg-pro-games/utils-server/constraints/knownservices';
+import { ServicesRoute } from '@balancer/utils-server/constraints/knownservices';
 process.env['MICROSERVICE_Group'] = ServicesRoute.APIGateWay
 
 import { ApolloServer } from 'apollo-server-express';
@@ -14,8 +16,8 @@ import { createServer, Server } from 'http';
 import schema from './graph-ql/schema';
 import { BindJWTAUth } from './passport/jwt';
 import { BindLocalAUth } from './passport/local';
-import { BaseApp } from '@wolberg-pro-games/utils-server/baseApp';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
+import { BaseApp } from '@balancer/utils-server/baseApp';
+import { logger } from '@balancer/utils-server/utils/logger';
 import { IndexController } from './controllers/index.controller';
 class App extends BaseApp {
   constructor(Controllers: Function[]) {

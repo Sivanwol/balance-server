@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Container, Service } from 'typedi';
-import { UserModel } from '@wolberg-pro-games/utils-server/models/user.model';
-import { UserNotFoundException } from '@wolberg-pro-games/utils-server/exceptions/UserNotFoundException';
-import { DataStoredInToken, TokenData } from '@wolberg-pro-games/utils-server/models/auth.model';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
-import { UserPasswordNotMatchedException } from '@wolberg-pro-games/utils-server/exceptions/UserPasswordNotMatchedException';
-import { ConfigService, DbService, UsersService } from '@wolberg-pro-games/utils-server/services';
+import { UserModel } from '@balancer/utils-server/models/user.model';
+import { UserNotFoundException } from '@balancer/utils-server/exceptions/UserNotFoundException';
+import { DataStoredInToken, TokenData } from '@balancer/utils-server/models/auth.model';
+import { logger } from '@balancer/utils-server/utils/logger';
+import { UserPasswordNotMatchedException } from '@balancer/utils-server/exceptions/UserPasswordNotMatchedException';
+import { ConfigService, DbService, UsersService } from '@balancer/utils-server/services';
 import { UserProfile } from '@prisma/client';
 
 @Service()

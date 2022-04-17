@@ -5,7 +5,7 @@ import ISchema from './schemas/ISchema';
 import directives from './directives';
 import allSchemas from './schemas';
 import { merge } from 'lodash';
-import { logger } from '@wolberg-pro-games/utils-server/utils/logger';
+import { logger } from '@balancer/utils-server/utils/logger';
 
 const combine = ( schemas, property ) => {
   return schemas
