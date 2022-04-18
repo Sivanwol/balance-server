@@ -8,7 +8,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/sso",
-        "main": "apps/sso/src/main.ts",
+        "main": "apps/sso/src/server.ts",
         "tsConfig": "apps/sso/tsconfig.app.json",
         "assets": ["apps/sso/src/assets"]
       },
