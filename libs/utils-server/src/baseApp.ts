@@ -145,11 +145,6 @@ export abstract class BaseApp {
         origin: process.env.CORSOrigin,
         credentials: process.env.CORSCredentials,
       },
-      authorizationChecker: async (action: Action, roles: string[]) => {
-        const authorizationToken = action.request.headers['authorization'];
-        // Wait for JWT verification to complete, returning whether the token is valid or not
-        return await AuthMiddleware(authorizationToken, roles);
-      },
       controllers: controllers,
       defaultErrorHandler: false,
     });

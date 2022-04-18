@@ -1,4 +1,4 @@
-import { Get, JsonController, UseBefore, Params, Res } from 'routing-controllers'
+import { Get, JsonController, UseBefore, Params, Res, Post } from 'routing-controllers'
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Service } from 'typedi';
 
@@ -27,6 +27,10 @@ export class IndexController {
         screen_hint: 'signup',
       },
     });
+  }
+  @Post('/register')
+  public registerUser() {
+    return 'Ok'
   }
   @Get('/auth-test')
   @UseBefore(checkAuth)
