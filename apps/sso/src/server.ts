@@ -22,8 +22,9 @@ class App extends BaseApp {
         issuerBaseURL: process.env.AUTH0_DOMAIN,
         baseURL: process.env.SSO_Host,
         clientID: process.env.AUTH0_CLIENT_ID,
-        secret: process.env.AUTH0_CLIENT_SECRET,
-        idpLogout: true,
+        secret: process.env.SECRET,
+        authRequired: false,
+        auth0Logout: true,
       })
     );
   }

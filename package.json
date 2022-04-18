@@ -6,6 +6,7 @@
     "clear:unused:deps": "yarn nx generate @trumbitta/nx-plugin-unused-deps:check --no-interactive",
     "generate:server:app": "yarn nx g @nrwl/node:application ",
     "generate:server:lib": "yarn nx g @nrwl/node:library",
+    "generate:secretKey": "node -e \"console.log(crypto.randomBytes(32).toString('hex'))\"",
     "start": "nx serve",
     "start:all": "concurrently \"nx run api-gate-way:serve\" \"nx run config-service:serve\" ",
     "build": "nx build",

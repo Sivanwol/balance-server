@@ -3,9 +3,12 @@ import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 
 import passport from 'passport';
 import morgan from 'morgan';
-import jwt from 'express-jwt';
-import jwksRsa from 'jwks-rsa';
-import { getMetadataArgsStorage, useContainer, useExpressServer } from 'routing-controllers';
+import {
+  Action,
+  getMetadataArgsStorage,
+  useContainer,
+  useExpressServer,
+} from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
 import { Container } from 'typedi';
@@ -26,20 +29,22 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import express from 'express';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 
-if (process.env.NEWRELIC_ENABLE === "1") {
-  require( './newrelic' )
+if (process.env.NEWRELIC_ENABLE === '1') {
+  require('./newrelic');
 }
-export const newrelic = (process.env.NEWRELIC_ENABLE === "1") ?require( 'newrelic' ): null;
+export const newrelic =
+  process.env.NEWRELIC_ENABLE === '1' ? require('newrelic') : null;
 export abstract class BaseApp {
   protected app: express.Application;
   protected readonly server: Server;
   protected port: string | number;
   protected env: string;
-  protected onServerEvents: EventEmitter = new EventEmitter()
-  protected constructor(port,Controllers: Function[]) {
+  protected onServerEvents: EventEmitter = new EventEmitter();
+  protected constructor(port, Controllers: Function[]) {
     this.app = express();
-    this.server = createServer( this.app );
+    this.server = createServer(this.app);
     this.port = port;
     this.env = process.env.NODE_ENV || 'development';
     this.onServerEvents.emit(ServerEvents.Preload);
@@ -47,16 +52,17 @@ export abstract class BaseApp {
       console.log(`About to exit with code: ${code}`);
       this.onServerEvents.emit(ServerEvents.Exit);
     });
-    this.initServer(Controllers).finally(() => console.log('Server up and running'))
-
+    this.initServer(Controllers).finally(() =>
+      console.log('Server up and running')
+    );
   }
   private async initServer(Controllers: Function[]) {
-    await this.initializeMessageBrokerHandling()
+    await this.initializeMessageBrokerHandling();
     this.initializeMiddlewares();
     this.initializeExternalMiddlewares();
     if (process.env.MICROSERVICE_Group !== ServicesRoute.ConfigService)
       await this.requestServiceConfig();
-    this.initializeMiddlewaresAuth()
+    this.initializeMiddlewaresAuth();
     this.initializeRoutes(Controllers);
     this.initializeSwagger(Controllers);
     this.initializeErrorHandling();
@@ -78,21 +84,24 @@ export abstract class BaseApp {
 
   private async requestServiceConfig() {
     const configService = Container.get(ConfigService);
-    const requester = new RequestService()
+    const requester = new RequestService();
     requester.initRequest(ServicesRoute.ConfigService);
-    const payload = await requester.request(RequestMethod.GET, 'config/sync/service')
+    const payload = await requester.request(
+      RequestMethod.GET,
+      'config/sync/service'
+    );
     if (payload && payload.status === 200 && payload.data) {
-      const data =  payload.data as PlatformSettingsListResponse;
+      const data = payload.data as PlatformSettingsListResponse;
       if (data.status) {
-        const configs = data.data.items
+        const configs = data.data.items;
         await configService.SetServiceSettings(configs);
         return;
       }
-      logger.info('Unable load Config')
-      logger.error(data.errors.join("\n\r"))
-      throw new ConfigUnableToLoadException;
+      logger.info('Unable load Config');
+      logger.error(data.errors.join('\n\r'));
+      throw new ConfigUnableToLoadException();
     } else {
-      throw new ConfigUnableToLoadException;
+      throw new ConfigUnableToLoadException();
     }
   }
   protected abstract initializeExternalMiddlewares();
@@ -102,19 +111,20 @@ export abstract class BaseApp {
    */
   protected abstract registerMQEvents(): BaseEvent[];
   protected async initializeMessageBrokerHandling() {
-    RabbitMQConnection.getInstance().RegisterEventsList = this.registerMQEvents()
-      await RabbitMQConnection.getInstance().OpenConnection()
+    RabbitMQConnection.getInstance().RegisterEventsList =
+      this.registerMQEvents();
+    await RabbitMQConnection.getInstance().OpenConnection();
     process.on('beforeExit', async () => {
-      await RabbitMQConnection.getInstance().CloseConnection()
-    })
-    await RabbitMQConnection.getInstance().LoadEvents()
+      await RabbitMQConnection.getInstance().CloseConnection();
+    });
+    await RabbitMQConnection.getInstance().LoadEvents();
   }
 
   protected abstract setupAuth();
 
   private initializeMiddlewaresAuth() {
     // this.app.use( session() )
-    this.setupAuth()
+    this.setupAuth();
     this.app.use(passport.initialize());
     // this.app.use(passport.session());
   }
@@ -134,6 +144,11 @@ export abstract class BaseApp {
       cors: {
         origin: process.env.CORSOrigin,
         credentials: process.env.CORSCredentials,
+      },
+      authorizationChecker: async (action: Action, roles: string[]) => {
+        const authorizationToken = action.request.headers['authorization'];
+        // Wait for JWT verification to complete, returning whether the token is valid or not
+        return await AuthMiddleware(authorizationToken, roles);
       },
       controllers: controllers,
       defaultErrorHandler: false,
