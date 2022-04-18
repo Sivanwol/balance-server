@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 
 import passport from 'passport';
 import morgan from 'morgan';
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
 import { getMetadataArgsStorage, useContainer, useExpressServer } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
@@ -53,7 +56,7 @@ export abstract class BaseApp {
     this.initializeExternalMiddlewares();
     if (process.env.MICROSERVICE_Group !== ServicesRoute.ConfigService)
       await this.requestServiceConfig();
-    this.initializeMiddlewaresPassport()
+    this.initializeMiddlewaresAuth()
     this.initializeRoutes(Controllers);
     this.initializeSwagger(Controllers);
     this.initializeErrorHandling();
@@ -107,11 +110,11 @@ export abstract class BaseApp {
     await RabbitMQConnection.getInstance().LoadEvents()
   }
 
-  protected abstract setupExternalPassport();
+  protected abstract setupAuth();
 
-  private initializeMiddlewaresPassport() {
+  private initializeMiddlewaresAuth() {
     // this.app.use( session() )
-    this.setupExternalPassport()
+    this.setupAuth()
     this.app.use(passport.initialize());
     // this.app.use(passport.session());
   }
@@ -138,6 +141,7 @@ export abstract class BaseApp {
   }
 
   private initializeSwagger(controllers: Function[]) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
     const schemas = validationMetadatasToSchemas({

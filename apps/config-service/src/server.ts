@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 
@@ -20,7 +21,7 @@ class Server extends BaseApp {
     return;
   }
 
-  protected setupExternalPassport() {
+  protected setupAuth() {
     return;
   }
 }

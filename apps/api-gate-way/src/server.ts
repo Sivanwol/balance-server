@@ -26,7 +26,7 @@ class App extends BaseApp {
   protected registerMQEvents(): [] {
     return [];
   }
-  protected setupExternalPassport() {
+  protected setupAuth() {
     BindLocalAUth()
     BindJWTAUth()
   }

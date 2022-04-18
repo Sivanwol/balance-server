@@ -10,6 +10,7 @@ export const knownServices = [
 
 export enum ServicesRoute {
   APIGateWay = 'Web-API-Gateway',
+  SSO = "SSO-server",
   Backend = "Backend",
   Users = "Users",
   Communities = "Communities",
