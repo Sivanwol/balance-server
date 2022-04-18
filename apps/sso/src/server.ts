@@ -11,7 +11,7 @@ import { BaseApp } from '@balancer/utils-server/baseApp';
 import { IndexController } from './controllers/index.controller';
 class App extends BaseApp {
   constructor(Controllers: Function[]) {
-    super(Controllers)
+    super(process.env.SSO_PORT,Controllers)
   }
   protected registerMQEvents(): [] {
     return [];
@@ -19,10 +19,10 @@ class App extends BaseApp {
   protected setupAuth() {
     this.app.use(
       auth({
-        issuerBaseURL: 'https://YOUR_DOMAIN',
-        baseURL: 'https://YOUR_APPLICATION_ROOT_URL',
-        clientID: 'YOUR_CLIENT_ID',
-        secret: 'LONG_RANDOM_STRING',
+        issuerBaseURL: process.env.AUTH0_DOMAIN,
+        baseURL: process.env.SSO_Host,
+        clientID: process.env.AUTH0_CLIENT_ID,
+        secret: process.env.AUTH0_CLIENT_SECRET,
         idpLogout: true,
       })
     );

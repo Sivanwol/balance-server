@@ -37,10 +37,10 @@ export abstract class BaseApp {
   protected port: string | number;
   protected env: string;
   protected onServerEvents: EventEmitter = new EventEmitter()
-  protected constructor(Controllers: Function[]) {
+  protected constructor(port,Controllers: Function[]) {
     this.app = express();
     this.server = createServer( this.app );
-    this.port = process.env.PORT || 3000;
+    this.port = port;
     this.env = process.env.NODE_ENV || 'development';
     this.onServerEvents.emit(ServerEvents.Preload);
     process.on('exit', (code) => {
