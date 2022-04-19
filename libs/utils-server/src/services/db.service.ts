@@ -65,7 +65,7 @@ export class DbService {
       const value = this.encrypt( ((typeof (result) !== 'string') ?
         JSON.stringify( result ) : result) )
       if (!ttl)
-        RedisUtil.client.set( key, value, 'ex', this.cacheSettings.ttl )
+        RedisUtil.client.set( key, value )
       else
         RedisUtil.client.set( key, value, 'ex', ttl )
     } catch (e) {

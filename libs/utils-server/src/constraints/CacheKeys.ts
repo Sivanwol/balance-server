@@ -1,5 +1,5 @@
 export class CacheKeys {
-  static GlobalSettings = 'GlobalConfig'
-  static ServiceSettings = (serviceName: string) => `${serviceName}_config`
-  static LocateUser = (userId) => `FindUser_${userId}`
+  static GlobalSettings = 'config:Global'
+  static ServiceSettings = (serviceName: string) => `config:${serviceName}`
+  static LocateUser = (userId) => `users:${userId}`
 }

@@ -1,4 +1,4 @@
-import { Get, JsonController, UseBefore, Params, Res, Post } from 'routing-controllers'
+import { Get, JsonController, UseBefore, Params, Res, Post, Req } from 'routing-controllers'
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Service } from 'typedi';
 
@@ -14,8 +14,13 @@ export class IndexController {
   ) { }
 
   @Get('/')
-  index() {
-    return 'OK';
+  index(@Res() res: any , @Req() req:any) {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
+  }
+
+  @Get('callback')
+  callback(@Res() res: any , @Req() req:any) {
+    res.send({...req.oidc , ...req.data})
   }
 
   @Get('signup/:page')

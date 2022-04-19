@@ -68,6 +68,7 @@
     "dotenv": "^16.0.0",
     "envalid": "^7.3.1",
     "express": "^4.17.3",
+    "express-handlebars": "^6.0.5",
     "express-jwt": "^6.1.1",
     "express-jwt-authz": "^2.4.1",
     "express-openid-connect": "^2.7.2",
