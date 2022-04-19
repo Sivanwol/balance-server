@@ -69,7 +69,7 @@ export class RabbitMQConnection {
       const serviceName = knownServices.find(service => service === process.env.MICROSERVICE_Group)
       if (!serviceName) throw new Error('Unknown service group')
       this.serverServiceName = serviceName;
-      logger.info("Rabbit Mq Server", process.env.MICROSERVICE_MSG_BROKER)
+      logger.info(`Rabbit Mq Server ${process.env.MICROSERVICE_MSG_BROKER}`)
       // @ts-ignore
       this.connection = await amqp.connect(process.env.MICROSERVICE_MSG_BROKER)
       this.channel = await this.connection.createChannel()
