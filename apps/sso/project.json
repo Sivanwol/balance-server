@@ -32,6 +32,8 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
+        "inspect": true,
+        "port": 9223,
         "buildTarget": "sso:build"
       }
     },

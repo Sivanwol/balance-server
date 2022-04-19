@@ -27,6 +27,8 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
+        "inspect": true,
+        "port": 9221,
         "buildTarget": "config-service:build"
       }
     },
