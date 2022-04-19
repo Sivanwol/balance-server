@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import amqp, { Channel, Connection } from 'amqplib'
 import { Message, Options } from 'amqplib/properties';
@@ -39,6 +40,7 @@ export class RabbitMQConnection {
   }
 
   public FormatLogMessage(message: string) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const ip = require('ip');
     return `MicroService ${process.env.MICROSERVICE_Name}:${ip.address()} - ${message}`
   }

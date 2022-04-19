@@ -29,7 +29,6 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import express from 'express';
-import { AuthMiddleware } from './middlewares/auth.middleware';
 
 if (process.env.NEWRELIC_ENABLE === '1') {
   require('./newrelic');

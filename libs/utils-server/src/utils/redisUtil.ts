@@ -1,10 +1,14 @@
-import * as Redis from 'ioredis';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import Redis from "ioredis"
 import * as util from 'util';
 let RedisMock = null;
 // @ts-ignore
 if (process.env.NODE_ENV.toLowerCase().includes('test')){
   console.log("redis load as a mock")
   RedisMock = require('ioredis-mock')
+} else {
+  console.log(`========== RUNNING NODE : ${process.env.NODE_ENV} ==========`)
+  console.log(`Redis connections: ${process.env.REDIS_URL}`)
 }
 class RedisUtil {
   // if redis url is specified use that one, otherwise separate definitions

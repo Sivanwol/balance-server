@@ -2,6 +2,7 @@ export const knownServices = [
   'Web-API-Gateway',
   'Backend',
   'ConfigService',
+  'SSO-server',
   'Users',
   'Communities',
   'Communities-Groups',

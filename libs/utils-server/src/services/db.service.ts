@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PlatformSettings, PrismaClient } from '@prisma/client';
 import { Service } from 'typedi';
 import { decrypt_string, encrypt_string } from '../utils/strings';

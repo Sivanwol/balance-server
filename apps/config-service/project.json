@@ -1,5 +1,4 @@
 {
-  {
   "root": "apps/config-service",
   "sourceRoot": "apps/config-service/src",
   "projectType": "application",
