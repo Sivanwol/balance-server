@@ -18,7 +18,7 @@ export class IndexController {
     return 'OK';
   }
 
-  @Get('/signup/:page')
+  @Get('signup/:page')
   public signup(@Res() res: any , @Params() params:any) {
     const {page} = params;
     res.oidc.login({
@@ -28,11 +28,11 @@ export class IndexController {
       },
     });
   }
-  @Post('/register')
+  @Post('register')
   public registerUser() {
     return 'Ok'
   }
-  @Get('/auth-test')
+  @Get('auth-test')
   @UseBefore(checkAuth)
   public testAuth() {
     return 'OK'

@@ -85,12 +85,14 @@ export abstract class BaseApp {
     const configService = Container.get(ConfigService);
     const requester = new RequestService();
     requester.initRequest(ServicesRoute.ConfigService);
+    console.log(`Request config data`)
     const payload = await requester.request(
       RequestMethod.GET,
       'config/sync/service'
     );
     if (payload && payload.status === 200 && payload.data) {
       const data = payload.data as PlatformSettingsListResponse;
+      console.log(`recived config data ${payload.data}`)
       if (data.status) {
         const configs = data.data.items;
         await configService.SetServiceSettings(configs);

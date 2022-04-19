@@ -9,6 +9,10 @@ export const knownServices = [
   'Payments'
 ]
 
+export enum PlatformStatus {
+  Online=200,
+  Maintenance=300
+}
 export enum ServicesRoute {
   APIGateWay = 'Web-API-Gateway',
   SSO = "SSO-server",
