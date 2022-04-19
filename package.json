@@ -1,6 +1,6 @@
 {
   "name": "balance_buget_server",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "license": "private",
   "scripts": {
     "clear:unused:deps": "yarn nx generate @trumbitta/nx-plugin-unused-deps:check --no-interactive",
@@ -19,6 +19,7 @@
     "lint:apps:fix": "yarn run lint -- --fix",
     "lint:libs": "eslint -c .eslintrc --ignore-path .gitignore --ext .ts libs/**/src",
     "lint:libs:fix": "yarn run lint -- --fix",
+    "version": "conventional-changelog -i CHANGELOG.md -s",
     "prisma:init": "npx prisma init",
     "prisma:migrate": "npx prisma migrate dev --preview-feature",
     "prisma:generate": "npx prisma generate",
@@ -37,7 +38,7 @@
     "@fullerstack/nax-ipware": "^0.10.0",
     "@nrwl/nx-cloud": "^13.3.1",
     "@paljs/plugins": "^4.0.18",
-    "@prisma/client": "^3.12.0",
+    "@prisma/client": "latest",
     "@sendgrid/mail": "^7.6.2",
     "ajv": "^8.11.0",
     "amqplib": "^0.8.0",
@@ -138,6 +139,7 @@
     "@typescript-eslint/parser": "~5.20.0",
     "commitizen": "^4.2.4",
     "concurrently": "^7.1.0",
+    "conventional-changelog-cli": "^2.2.2",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "^4.0.0",

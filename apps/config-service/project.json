@@ -1,4 +1,5 @@
 {
+  {
   "root": "apps/config-service",
   "sourceRoot": "apps/config-service/src",
   "projectType": "application",
@@ -8,7 +9,7 @@
   ],
   "targets": {
     "build": {
-      "executor": "@nrwl/node:build",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/config-service",
@@ -25,7 +26,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/node:execute",
+      "executor": "@nrwl/node:node",
       "options": {
         "buildTarget": "config-service:build"
       }

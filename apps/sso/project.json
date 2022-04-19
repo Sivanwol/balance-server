@@ -2,6 +2,10 @@
   "root": "apps/sso",
   "sourceRoot": "apps/sso/src",
   "projectType": "application",
+  "implicitDependencies": [
+    "config-service",
+    "shared-utils-server"
+  ],
   "targets": {
     "build": {
       "executor": "@nrwl/node:build",
@@ -48,5 +52,7 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "SSO"
+  ]
 }
