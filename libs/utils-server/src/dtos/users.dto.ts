@@ -1,10 +1,26 @@
 import { IsEmail, IsString, IsOptional, MinLength, MaxLength, Matches, IsBoolean } from 'class-validator';
 
-export class VerifyUserDto {
+/**
+ * Auth0 user model
+ *
+    userName: event.user.username,
+    displayName: event.user.nickname,
+    fullname: event.user.name,
+    email: event.user.email,
+    emailVerified: event.user.email_verified,
+    phone: event.user.phone,
+    phoneVerified: event.user.phone_verified
+ */
+export class RegisterUserAuth0Dto {
   @IsString()
   @MinLength( 8 )
   @MaxLength( 32 )
   public userId: string;
+  @IsString()
+  public userName: string;
+  @IsOptional()
+  @IsString()
+  public displayName: string;
   @IsEmail()
   public email: string;
   @IsBoolean()

@@ -1,3 +1,4 @@
+import { RegisterUserDto } from '@balancer/utils-server/dtos/users.dto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Container, Service } from 'typedi';
@@ -44,6 +45,10 @@ export class AuthService {
       user.access_token = this.createToken( userId )
     }
     return user;
+  }
+
+  public registerUser(user: RegisterUserDto) {
+    return;
   }
 
   public createToken( userId: string ): TokenData {
