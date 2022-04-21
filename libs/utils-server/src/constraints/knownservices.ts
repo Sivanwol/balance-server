@@ -13,6 +13,7 @@ export enum PlatformStatus {
   Online=200,
   Maintenance=300
 }
+
 export enum ServicesRoute {
   APIGateWay = 'Web-API-Gateway',
   SSO = "SSO-server",
@@ -23,6 +24,7 @@ export enum ServicesRoute {
   CommunitiesGroups = "Communities-Groups",
   Payments = "Payments",
 }
+
 export const SharedServicesEvents = [
   'ping',
   'pong',

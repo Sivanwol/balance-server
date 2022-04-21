@@ -1,5 +1,19 @@
-import { IsEmail, IsString, IsOptional, MinLength, MaxLength, Matches } from 'class-validator';
+import { IsEmail, IsString, IsOptional, MinLength, MaxLength, Matches, IsBoolean } from 'class-validator';
 
+export class VerifyUserDto {
+  @IsString()
+  @MinLength( 8 )
+  @MaxLength( 32 )
+  public userId: string;
+  @IsEmail()
+  public email: string;
+  @IsBoolean()
+  public verifyEmail: boolean;
+  @IsEmail()
+  public phone: string;
+  @IsBoolean()
+  public verifyPhone: boolean;
+}
 export class LoginUserDto {
   @IsEmail()
   public email: string;

@@ -1,3 +1,5 @@
+import { IpwareIpInfo } from '@fullerstack/nax-ipware/src/lib/ipware.model';
+import { validate } from 'class-validator';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { Service } from 'typedi';
 import { ServicesRoute } from '../constraints/knownservices';
@@ -11,7 +13,7 @@ export enum RequestMethod {
 }
 export class RequestService {
   private client: AxiosInstance;
-  private readonly apiHeaderParamName = 'X-SERVICE-API_KEY'
+  private readonly apiHeaderParamName = 'X-SERVICE-API-KEY'
   private headers: AxiosRequestHeaders;
   private serviceToken: string;
 
@@ -43,6 +45,10 @@ export class RequestService {
     const obj = {}
     obj[key] = value
     this.headers = {...this.headers, ...obj}
+  }
+
+  public async validateServiceToken(token: string, ip:IpwareIpInfo) : Promise<boolean> {
+      return false;
   }
 
   public async request<T>( method: RequestMethod, uri: string, data?: any ) {
