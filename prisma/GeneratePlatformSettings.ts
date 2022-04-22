@@ -1,6 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
 const settings = [{
+  key: "maintenance_mode",
+  value: {
+    sso: false,
+    api: false,
+  },
+  isEnabled: true
+},{
   key: "url_mapping",
   value: {
     confirm_new_user_failed: '',
