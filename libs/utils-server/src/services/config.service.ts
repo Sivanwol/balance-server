@@ -28,10 +28,8 @@ export class ConfigService {
     let status = await DbService.getInstance().HasCache( CacheKeys.GlobalSettings )
     if (status)
       globalConfig = await DbService.getInstance().GetCacheQuery( CacheKeys.GlobalSettings ) as PlatformSettings[];
-    // @ts-ignore
     status = await DbService.getInstance().HasCache( CacheKeys.ServiceSettings( process.env.MICROSERVICE_Group ) )
     if (status) {
-      // @ts-ignore
       serviceConfig = await DbService.getInstance().GetCacheQuery( CacheKeys.ServiceSettings( process.env.MICROSERVICE_Group ) ) as PlatformSettings[];
     }
     if (globalConfig && serviceConfig) {

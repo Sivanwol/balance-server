@@ -1,9 +1,8 @@
-import { RegisterUserDto } from '@balancer/utils-server/dtos/users.dto';
-import { User, UserProfile } from '@prisma/client';
+import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
+import { User } from '@prisma/client';
 import { v5 as uuidv5 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { EmailService, RolesService, PermissionsService, DbService, ActivityLogService, ActivityType } from './';
-import { IpwareIpInfo } from '@fullerstack/nax-ipware/src/lib/ipware.model';
 import { Container, Service } from 'typedi';
 import { UserModel } from '../models/user.model';
 import { UserNotFoundException } from '../exceptions/UserNotFoundException';
@@ -12,8 +11,7 @@ import { logger } from '../utils/logger';
 import { CacheKeys } from '../constraints/CacheKeys';
 
 @Service()
-export class
-UsersService {
+export class UsersService {
 
   readonly emailService = Container.get( EmailService ) as EmailService;
   readonly rolesService = Container.get( RolesService ) as RolesService;
@@ -27,10 +25,6 @@ UsersService {
       .findFirst( {
         where: {
           id: userId
-        },
-        include: {
-          userProfile: true,
-          access: true
         }
       } );
     if (!locateUser) throw new UserNotFoundException( userId );
@@ -43,38 +37,17 @@ UsersService {
       .findFirst( {
         where: {
           email
-        },
-        include: {
-          userProfile: true,
-          access: true
         }
       } );
     if (!locateUser) throw new UserNotFoundException( email );
     return locateUser
   }
 
-  public async getUsersModel(): Promise<User[]> {
-    logger.info( "received service request => getUserModelByEmail" )
-    const users = await DbService.getInstance().connection.user
-      .findMany( {
-        include: {
-          userProfile: true,
-          access: true
-        }
-      } );
-    return users
-  }
-
-  public async findAllUser(): Promise<UserModel[]> {
+  public async findAllUser(returnModels: boolean): Promise<UserModel[]| User[]> {
     logger.info( "received service request => findAllUser" )
     const users = await DbService.getInstance().connection.user
-      .findMany( {
-        include: {
-          userProfile: true,
-          access: true
-        }
-      } );
-    return users.map( u => UserModel.toModel( u, u?.userProfile as UserProfile ) );
+      .findMany();
+    return (returnModels)? users.map( u => UserModel.toModel( u )): users;
   }
 
   public async findUserById( userId: string, notFilters?: boolean ): Promise<UserModel | null> {
@@ -93,12 +66,7 @@ UsersService {
               NOT: {
                 emailVerified: null
               }
-            },
-            include: {
-              userProfile: true,
-              access: true
-            }
-          } );
+            }} );
         if (!locateUser) return null;
         await DbService.getInstance().CacheResult<User>( cacheKey, locateUser );
       } else {
@@ -109,15 +77,11 @@ UsersService {
         .findFirst( {
           where: {
             id: userId
-          },
-          include: {
-            userProfile: true,
-            access: true
           }
         } );
       if (!locateUser) throw new UserNotFoundException( userId );
     }
-    return UserModel.toModel( locateUser, locateUser.userProfile );
+    return UserModel.toModel( locateUser );
   }
 
   public async findUserByAuth0UserId( userId: string, notFilters?: boolean ): Promise<UserModel | null> {
@@ -130,16 +94,12 @@ UsersService {
         locateUser = await DbService.getInstance().connection.user
           .findFirst( {
             where: {
-              id: userId,
+              authUserId: userId,
               disabledAt: null,
               disabledForeverAt: null,
               NOT: {
                 emailVerified: null
               }
-            },
-            include: {
-              userProfile: true,
-              access: true
             }
           } );
         if (!locateUser) return null;
@@ -152,30 +112,30 @@ UsersService {
         .findFirst( {
           where: {
             id: userId
-          },
-          include: {
-            userProfile: true,
-            access: true
-          }
-        } );
+          } );
       if (!locateUser) throw new UserNotFoundException( userId );
     }
-    return UserModel.toModel( locateUser, locateUser.userProfile );
+    return UserModel.toModel( locateUser);
   }
 
-  public async registerUser( registerUserDto: RegisterUserDto ): Promise<UserModel | null> {
+  public async registerUser( registerUserDto: RegisterUserAuth0Dto ): Promise<UserModel | null> {
     logger.info( "received service request => registerUser" )
     const locateUser = await this.findUserByEmail( registerUserDto.email, true )
-    if (locateUser) throw new UserFoundException( locateUser.id )
-    const hashedPassword = await bcrypt.hash( registerUserDto.password, 10 );
+    let record;
     const user = {
+      authUserId: registerUserDto.userId,
       email: registerUserDto.email,
-      password: hashedPassword
+      emailVerified: registerUserDto.verifyEmail,
+      mobile: registerUserDto.phone,
+      mobileVerified: registerUserDto.verifyPhone,
+      disabledAt: null
     }
-    const record = await DbService.getInstance().connection.user.create( {
-      data: user
-    } )
-    const userId = record.id
+    if (!locateUser) {
+      record = await DbService.getInstance().connection.user.create( {
+        data: user
+      } )
+    }
+    const userId = record.id || locateUser.id
     logger.info( `Created user with id: ${userId}` )
     return await this.findUserById( userId, true )
   }

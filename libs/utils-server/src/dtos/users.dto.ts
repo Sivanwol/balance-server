@@ -13,6 +13,7 @@ import { IsEmail, IsString, IsOptional, MinLength, MaxLength, Matches, IsBoolean
  */
 export class RegisterUserAuth0Dto {
   @IsString()
+  @IsOptional()
   @MinLength( 8 )
   @MaxLength( 32 )
   public userId: string;
