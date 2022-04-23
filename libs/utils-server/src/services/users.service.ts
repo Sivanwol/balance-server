@@ -1,10 +1,7 @@
 
 import { User } from '@prisma/client';
-import { v5 as uuidv5 } from 'uuid';
-import * as bcrypt from 'bcrypt';
 import {
   EmailService,
-  PermissionsService,
   DbService,
   ActivityLogService,
 } from './';
@@ -19,9 +16,6 @@ import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
 @Service()
 export class UsersService {
   readonly emailService = Container.get(EmailService) as EmailService;
-  readonly permissionsService = Container.get(
-    PermissionsService
-  ) as PermissionsService;
   readonly activityLogService = Container.get(
     ActivityLogService
   ) as ActivityLogService;
