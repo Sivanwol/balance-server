@@ -4,11 +4,9 @@ import { v5 as uuidv5 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import {
   EmailService,
-  RolesService,
   PermissionsService,
   DbService,
   ActivityLogService,
-  ActivityType,
 } from './';
 import { Container, Service } from 'typedi';
 import { UserModel } from '../models/user.model';
@@ -21,7 +19,6 @@ import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
 @Service()
 export class UsersService {
   readonly emailService = Container.get(EmailService) as EmailService;
-  readonly rolesService = Container.get(RolesService) as RolesService;
   readonly permissionsService = Container.get(
     PermissionsService
   ) as PermissionsService;

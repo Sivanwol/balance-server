@@ -3,23 +3,21 @@ import { User } from '@prisma/client';
 export class UserModel {
   id: string
   email: string
-  emailVerified: Date | null
+  emailVerified: boolean | null
   mobile: string | null
-  mobileVerified: Date | null
+  mobileVerified?: boolean | null
   disabledAt: Date | null
   createdAt: Date
   updatedAt: Date
 
   static toModel( user: User ): UserModel {
-    const userDisabledAt =  user.disabledForeverAt ? user.disabledForeverAt : user.disabledAt
-
     return {
       id: user.id,
       email: user.email as string,
       emailVerified: user.emailVerified,
       mobile: user.mobile,
       mobileVerified: user.mobileVerified,
-      disabledAt: userDisabledAt,
+      disabledAt: user.disabledAt,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
     }
