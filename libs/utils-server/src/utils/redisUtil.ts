@@ -2,18 +2,21 @@
 import Redis from "ioredis"
 import * as util from 'util';
 let RedisMock = null;
+let client;
 // @ts-ignore
 if (process.env.NODE_ENV.toLowerCase().includes('test')){
   console.log("redis load as a mock")
   RedisMock = require('ioredis-mock')
+  client = new RedisMock();
 } else {
   console.log(`========== RUNNING NODE : ${process.env.NODE_ENV} ==========`)
   console.log(`Redis connections: ${process.env.REDIS_URL}`)
+  client = new Redis( process.env.REDIS_URL)
 }
 class RedisUtil {
   // if redis url is specified use that one, otherwise separate definitions
   // @ts-ignore
-  readonly client = (!process.env.NODE_ENV.toLowerCase().includes('test'))?new Redis( process.env.REDIS_URL):new RedisMock();
+  readonly client = client;
   readonly del = util.promisify( this.client.del ).bind( this.client );
   readonly get = util.promisify( this.client.get ).bind( this.client );
   readonly hmset = util.promisify( this.client.hmset ).bind( this.client );

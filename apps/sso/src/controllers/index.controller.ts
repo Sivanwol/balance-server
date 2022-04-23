@@ -17,18 +17,13 @@ export class IndexController {
     private usersService: UsersService
   ) { }
 
-  @Get('/')
-  index(@Res() res: any , @Req() req:any) {
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
-  }
-
-  @Get('register/user/:userId')
+  @Post('register/user/:userId')
   @OpenAPI( {summary: 'post register feedback from auth0 of register new user',
   security: [{
     'X-SERVICE-API-KEY': ['service code']
   }]} )
   @UseBefore(ExternalServicesChecks)
-  async register( @Param('userId') userId: string, @Body() user: RegisterUserAuth0Dto) {
+  async register(@Param('userId') userId: string, @Body() user: RegisterUserAuth0Dto) {
     user.userId = userId;
     return await this.usersService.registerUser(user);
   }
@@ -42,10 +37,6 @@ export class IndexController {
         screen_hint: 'signup',
       },
     });
-  }
-  @Post('register')
-  registerUser() {
-    return 'Ok'
   }
   @Get('auth-test')
   @UseBefore(checkAuth)
