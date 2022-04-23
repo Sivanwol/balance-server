@@ -1,4 +1,4 @@
-import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
+
 import { User } from '@prisma/client';
 import { v5 as uuidv5 } from 'uuid';
 import * as bcrypt from 'bcrypt';
@@ -13,9 +13,10 @@ import {
 import { Container, Service } from 'typedi';
 import { UserModel } from '../models/user.model';
 import { UserNotFoundException } from '../exceptions/UserNotFoundException';
-import { UserFoundException } from '../exceptions/UserFoundException';
 import { logger } from '../utils/logger';
 import { CacheKeys } from '../constraints/CacheKeys';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
 
 @Service()
 export class UsersService {
