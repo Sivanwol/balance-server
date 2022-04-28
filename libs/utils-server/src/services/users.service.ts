@@ -10,8 +10,7 @@ import { UserModel } from '../models/user.model';
 import { UserNotFoundException } from '../exceptions/UserNotFoundException';
 import { logger } from '../utils/logger';
 import { CacheKeys } from '../constraints/CacheKeys';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
+import { RegisterUserAuth0Dto } from '../dtos/users.dto';
 
 @Service()
 export class UsersService {
