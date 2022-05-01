@@ -5,6 +5,32 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Config Service",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "start:service:config"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
+    {
+      "name": "Launch SSO Service",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "start:service:sso"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
+    {
       "name": "Config Service Attach",
       "port": 9221,
       "request": "attach",

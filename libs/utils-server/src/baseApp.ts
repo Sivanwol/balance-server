@@ -92,7 +92,7 @@ export abstract class BaseApp {
     );
     if (payload && payload.status === 200 && payload.data) {
       const data = payload.data as PlatformSettingsListResponse;
-      console.log(`recived config data ${payload.data}`)
+      console.log(`recived config data ${JSON.stringify(payload.data)}`)
       if (data.status) {
         const configs = data.data.items;
         await configService.SetServiceSettings(configs);

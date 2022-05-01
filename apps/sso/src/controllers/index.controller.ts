@@ -2,7 +2,8 @@ import { Get, JsonController, UseBefore, Params, Res, Post, Req, Param, Body } f
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Service } from 'typedi';
 
-import { checkAuth, ExternalServicesChecks } from '@balancer/utils-server/middlewares/auth.middleware';
+import { checkAuth } from '@balancer/utils-server/middlewares/auth.middleware';
+import { authExternalApiServices } from '@balancer/utils-server/middlewares/auth-external-api-services.middleware'
 import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
 import { UsersService } from '@balancer/utils-server/services';
 @OpenAPI( {
@@ -22,7 +23,7 @@ export class IndexController {
   security: [{
     'X-SERVICE-API-KEY': ['service code']
   }]} )
-  @UseBefore(ExternalServicesChecks)
+  @UseBefore(authExternalApiServices)
   async register(@Param('userId') userId: string, @Body() user: RegisterUserAuth0Dto) {
     user.userId = userId;
     return await this.usersService.registerUser(user);
