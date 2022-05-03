@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PlatformSettings, PrismaClient } from '@prisma/client';
 import { Service } from 'typedi';
-import { decrypt_string, encrypt_string } from '../utils/strings';
 import prisma from '../utils/prisma';
 import RedisUtil from '../utils/redisUtil';
 import { logger } from '../utils/logger';
@@ -28,15 +27,6 @@ export class DbService {
   }
 
   private static instance: DbService;
-
-  public encrypt( value ): string {
-    return encrypt_string( value )
-  }
-
-  public decrypt( value ): string {
-    return decrypt_string( value )
-  }
-
   /**
    * The static method that controls the access to the singleton instance.
    *
@@ -62,8 +52,7 @@ export class DbService {
     try {
       logger.info( `Setting Cache Key ${keyName}` );
       const key = this.getCacheKey( keyName );
-      const value = this.encrypt( ((typeof (result) !== 'string') ?
-        JSON.stringify( result ) : result) )
+      const value = (typeof (result) !== 'string') ? JSON.stringify( result ) : `${result}`
       if (!ttl)
         RedisUtil.client.set( key, value )
       else
@@ -90,7 +79,7 @@ export class DbService {
     const key = this.getCacheKey( keyName );
     const result = await RedisUtil.get( key );
     try {
-      return JSON.parse( this.decrypt( result ) )
+      return JSON.parse(  result || '{}')
     } catch (e) {
       logger.error( `Cache key - ${keyName} got corrupted value ${result}` )
       logger.error( e )

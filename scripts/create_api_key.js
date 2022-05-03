@@ -1,12 +1,11 @@
-const CryptoJS = require("crypto-js")
 const dotenv = require('dotenv')
-
+const crypto = require('crypto')
 dotenv.config();
-const encrypt_string = (value) => {
-  return CryptoJS.AES.encrypt(value, process.env.ENCRYPTION_KEY).toString();
-}
 const format = process.env.API_M2M_FORMAT_REF;
-console.log(encrypt_string(format
-    .replace(':CODE', encrypt_string(process.env.API_M2M_CODE))
-    .replace(':SALT', process.env.SALT)
-    .replace(':SECRET', process.env.SECRET)));
+const hash = crypto.createHmac('sha512', process.env.ENCRYPTION_KEY);
+const data = hash.update(format
+  .replace(':CODE', process.env.API_M2M_CODE)
+  .replace(':SALT', process.env.SALT)
+  .replace(':SECRET', process.env.SECRET), 'utf-8');
+//Creating the hash in the required format
+console.log(data.digest('hex'));
