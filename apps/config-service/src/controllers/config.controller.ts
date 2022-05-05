@@ -1,7 +1,8 @@
-import { JsonController, Get, Put, Req, BodyParam, Param } from 'routing-controllers';
+import { JsonController, Get, Put, Req, BodyParam, Param,UseBefore } from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Service } from 'typedi';
+import { authExternalApiServices } from '@balancer/utils-server/middlewares/auth-external-api-services.middleware'
 import { BaseResponse } from '@balancer/utils-server/responses/baseResponses';
 import {
   PlatformSettingsListResponse,
@@ -11,7 +12,7 @@ import {
 import { queueKeys, queues } from '../jobs';
 import RedisUtil from '@balancer/utils-server/utils/redisUtil';
 import { logger } from '@balancer/utils-server/utils/logger';
-import { PlatformSettingsService } from '../services';
+import { PlatformSettingsService } from '@balancer/utils-server/services';
 
 @OpenAPI( {
   security: [],
@@ -59,11 +60,12 @@ export class ConfigController {
   @Get( '/sync/service' )
   @OpenAPI( {summary: 'will force request sync request to a service'} )
   @ResponseSchema( PlatformSettingsListResponse )
+  @UseBefore(authExternalApiServices)
   async syncService() {
     const response: PlatformSettingsListResponse = {
       status: false,
       data: {
-        items: null,
+        items: [],
         meta: {
           current: 0,
           totalItems: 0,
@@ -72,9 +74,8 @@ export class ConfigController {
       }
     }
     try {
-      const globalSettings = await this.platformSettingsService.GetGlobalSettings()
       const servicesSettings = await this.platformSettingsService.getServicesSettings();
-      response.data.items = [...globalSettings , ...servicesSettings]
+      response.data.items = servicesSettings
       response.data.meta.totalItems = response.data.items.length
       response.status = true
     } catch (e) {
@@ -93,7 +94,7 @@ export class ConfigController {
     const response: PlatformSettingsListResponse = {
       status: false,
       data: {
-        items: null,
+        items: [],
         meta: {
           current: 0,
           totalItems: 0,

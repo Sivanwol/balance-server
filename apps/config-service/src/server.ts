@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 
@@ -9,7 +10,7 @@ import { IndexController } from './controllers/index.controller';
 import { ConfigController } from './controllers/config.controller';
 class Server extends BaseApp {
   constructor( Controllers: Function[] ) {
-    super( Controllers )
+    super(process.env.CONFIG_PORT, Controllers )
   }
 
   protected registerMQEvents(): [] {
@@ -20,7 +21,7 @@ class Server extends BaseApp {
     return;
   }
 
-  protected setupExternalPassport() {
+  protected setupAuth() {
     return;
   }
 }

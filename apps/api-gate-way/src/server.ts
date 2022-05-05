@@ -21,12 +21,12 @@ import { logger } from '@balancer/utils-server/utils/logger';
 import { IndexController } from './controllers/index.controller';
 class App extends BaseApp {
   constructor(Controllers: Function[]) {
-    super(Controllers)
+    super(process.env.API_PORT,Controllers)
   }
   protected registerMQEvents(): [] {
     return [];
   }
-  protected setupExternalPassport() {
+  protected setupAuth() {
     BindLocalAUth()
     BindJWTAUth()
   }
@@ -40,7 +40,7 @@ class App extends BaseApp {
     // We wrap the express server so that we can attach the WebSocket for subscriptions
     const ws = createServer( this.app );
 
-    ws.listen( process.env.WSPORT, () => {
+    ws.listen( process.env.API_WSPORT, () => {
       logger.info( `=================================` );
       logger.info( `======= ENV: ${this.env} =======` );
       logger.info( `🚀 WS GraphQL Server is now running on http://0.0.0.0:${process.env.WSPORT}` );

@@ -151,6 +151,7 @@ export class AuthSchema implements ISchema {
           }
           const loggedUser = await authLogin( req, res ) as UserModel
           if (loggedUser) {
+            // eslint-disable-next-line no-empty
             if (loggedUser.requiredValidatedLogin) {
 
             } else {

@@ -1,70 +1,87 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import { IpwareIpInfo } from '@fullerstack/nax-ipware/src/lib/ipware.model';
+import { validate } from 'class-validator';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+} from 'axios';
 import { Service } from 'typedi';
 import { ServicesRoute } from '../constraints/knownservices';
 import { UnknownServiceException } from '../exceptions/UnknownServiceException';
-
+import crypto from 'crypto';
 export enum RequestMethod {
   GET,
   POST,
   DELETE,
-  PUT
+  PUT,
 }
 export class RequestService {
   private client: AxiosInstance;
-  private readonly apiHeaderParamName = 'X-SERVICE-API_KEY'
   private headers: AxiosRequestHeaders;
   private serviceToken: string;
 
-  public initRequest( service: ServicesRoute ) {
+  public initRequest(service: ServicesRoute) {
     let uri;
     switch (service) {
       case ServicesRoute.APIGateWay:
-        uri = process.env.APIGateWay_Host
+        uri = process.env.APIGateWay_Host;
         break;
       case ServicesRoute.ConfigService:
-        uri = process.env.ConfigService_Host
+        uri = process.env.ConfigService_Host;
         break;
       default:
-        throw new UnknownServiceException;
+        throw new UnknownServiceException();
     }
-    this.client = axios.create( {
+
+    const format = process.env.API_M2M_FORMAT_REF;
+    const hash = crypto.createHmac('sha512', process.env.ENCRYPTION_KEY);
+    const apiServiceCode = hash.update(
+      format
+        .replace(':CODE', process.env.API_M2M_CODE)
+        .replace(':SALT', process.env.SALT)
+        .replace(':SECRET', process.env.SECRET),
+      'utf-8'
+    );
+    this.client = axios.create({
       baseURL: uri,
-    } )
+      headers: {
+        'x-service-api-key': apiServiceCode.digest('hex'),
+      },
+    });
   }
 
-  public setToken( value: string ) {
-    this.serviceToken = value;
-    const obj = {}
-    obj[this.apiHeaderParamName] = this.serviceToken
-    this.headers = obj
+  public setHeader(key: string, value: string) {
+    const obj = {};
+    obj[key] = value;
+    this.headers = { ...this.headers, ...obj };
   }
 
-  public setHeader( key: string, value: string ) {
-    const obj = {}
-    obj[key] = value
-    this.headers = {...this.headers, ...obj}
+  public async validateServiceToken(
+    token: string,
+    ip: IpwareIpInfo
+  ): Promise<boolean> {
+    return false;
   }
 
-  public async request<T>( method: RequestMethod, uri: string, data?: any ) {
+  public async request<T>(method: RequestMethod, uri: string, data?: any) {
     const configRequest: AxiosRequestConfig = {
       headers: this.headers,
       responseType: 'json',
-      timeout: 30000
-    }
+      timeout: 30000,
+    };
     switch (method) {
       case RequestMethod.GET: {
-        return await this.client.get<T>( uri, configRequest )
+        return await this.client.get<T>(uri, configRequest);
       }
       case RequestMethod.DELETE: {
-        return await this.client.delete<T>( uri, configRequest )
+        return await this.client.delete<T>(uri, configRequest);
       }
       case RequestMethod.PUT: {
-        return await this.client.put<T>( uri, data, configRequest )
+        return await this.client.put<T>(uri, data, configRequest);
       }
       case RequestMethod.POST: {
-        return await this.client.post<T>( uri, data, configRequest )
+        return await this.client.post<T>(uri, data, configRequest);
       }
     }
   }
-
 }

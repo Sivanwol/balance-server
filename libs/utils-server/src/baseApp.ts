@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 
 import passport from 'passport';
 import morgan from 'morgan';
-import { getMetadataArgsStorage, useContainer, useExpressServer } from 'routing-controllers';
+import {
+  Action,
+  getMetadataArgsStorage,
+  useContainer,
+  useExpressServer,
+} from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
 import { Container } from 'typedi';
@@ -24,36 +30,50 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import express from 'express';
 
-if (process.env.NEWRELIC_ENABLE === "1") {
-  require( './newrelic' )
+if (process.env.NEWRELIC_ENABLE === '1') {
+  require('./newrelic');
 }
-export const newrelic = (process.env.NEWRELIC_ENABLE === "1") ?require( 'newrelic' ): null;
+export const newrelic =
+  process.env.NEWRELIC_ENABLE === '1' ? require('newrelic') : null;
 export abstract class BaseApp {
   protected app: express.Application;
   protected readonly server: Server;
   protected port: string | number;
   protected env: string;
-  protected onServerEvents: EventEmitter = new EventEmitter()
-  protected constructor(Controllers: Function[]) {
+  protected onServerEvents: EventEmitter = new EventEmitter();
+  protected constructor(port, Controllers: Function[]) {
     this.app = express();
-    this.server = createServer( this.app );
-    this.port = process.env.PORT || 3000;
+    this.server = createServer(this.app);
+    this.port = port;
     this.env = process.env.NODE_ENV || 'development';
     this.onServerEvents.emit(ServerEvents.Preload);
     process.on('exit', (code) => {
       console.log(`About to exit with code: ${code}`);
+      logger.info(`About to exit with code: ${code}`);
       this.onServerEvents.emit(ServerEvents.Exit);
     });
-    this.initServer(Controllers).finally(() => console.log('Server up and running'))
 
+    process.on('uncaughtException', (err, origin) => {
+      console.error(err, origin);
+      logger.error(`global error unhandled ${err} - ${origin}`);
+    });
+
+    process.on('unhandledRejection', (err, promise) => {
+      console.warn('Unhandled Rejection at:', promise, 'reason:', err);
+      logger.error(`promise rejection error unhandled ${err}`);
+    });
+
+    this.initServer(Controllers).finally(() =>
+      console.log('Server up and running')
+    );
   }
   private async initServer(Controllers: Function[]) {
-    await this.initializeMessageBrokerHandling()
+    await this.initializeMessageBrokerHandling();
     this.initializeMiddlewares();
     this.initializeExternalMiddlewares();
     if (process.env.MICROSERVICE_Group !== ServicesRoute.ConfigService)
       await this.requestServiceConfig();
-    this.initializeMiddlewaresPassport()
+    this.initializeMiddlewaresAuth();
     this.initializeRoutes(Controllers);
     this.initializeSwagger(Controllers);
     this.initializeErrorHandling();
@@ -75,21 +95,26 @@ export abstract class BaseApp {
 
   private async requestServiceConfig() {
     const configService = Container.get(ConfigService);
-    const requester = new RequestService()
+    const requester = new RequestService();
     requester.initRequest(ServicesRoute.ConfigService);
-    const payload = await requester.request(RequestMethod.GET, 'config/sync/service')
+    console.log(`Request config data`)
+    const payload = await requester.request(
+      RequestMethod.GET,
+      'config/sync/service'
+    );
     if (payload && payload.status === 200 && payload.data) {
-      const data =  payload.data as PlatformSettingsListResponse;
+      const data = payload.data as PlatformSettingsListResponse;
+      console.log(`recived config data ${JSON.stringify(payload.data)}`)
       if (data.status) {
-        const configs = data.data.items
+        const configs = data.data.items;
         await configService.SetServiceSettings(configs);
         return;
       }
-      logger.info('Unable load Config')
-      logger.error(data.errors.join("\n\r"))
-      throw new ConfigUnableToLoadException;
+      logger.info('Unable load Config');
+      logger.error(data.errors.join('\n\r'));
+      throw new ConfigUnableToLoadException();
     } else {
-      throw new ConfigUnableToLoadException;
+      throw new ConfigUnableToLoadException();
     }
   }
   protected abstract initializeExternalMiddlewares();
@@ -99,19 +124,20 @@ export abstract class BaseApp {
    */
   protected abstract registerMQEvents(): BaseEvent[];
   protected async initializeMessageBrokerHandling() {
-    RabbitMQConnection.getInstance().RegisterEventsList = this.registerMQEvents()
-      await RabbitMQConnection.getInstance().OpenConnection()
+    RabbitMQConnection.getInstance().RegisterEventsList =
+      this.registerMQEvents();
+    await RabbitMQConnection.getInstance().OpenConnection();
     process.on('beforeExit', async () => {
-      await RabbitMQConnection.getInstance().CloseConnection()
-    })
-    await RabbitMQConnection.getInstance().LoadEvents()
+      await RabbitMQConnection.getInstance().CloseConnection();
+    });
+    await RabbitMQConnection.getInstance().LoadEvents();
   }
 
-  protected abstract setupExternalPassport();
+  protected abstract setupAuth();
 
-  private initializeMiddlewaresPassport() {
+  private initializeMiddlewaresAuth() {
     // this.app.use( session() )
-    this.setupExternalPassport()
+    this.setupAuth();
     this.app.use(passport.initialize());
     // this.app.use(passport.session());
   }
@@ -138,6 +164,7 @@ export abstract class BaseApp {
   }
 
   private initializeSwagger(controllers: Function[]) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
     const schemas = validationMetadatasToSchemas({

@@ -1,9 +1,9 @@
 {
-  "root": "apps/config-service",
-  "sourceRoot": "apps/config-service/src",
+  "root": "apps/sso",
+  "sourceRoot": "apps/sso/src",
   "projectType": "application",
-
   "implicitDependencies": [
+    "config-service",
     "shared-utils-server"
   ],
   "targets": {
@@ -11,16 +11,21 @@
       "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/config-service",
-        "main": "apps/config-service/src/server.ts",
-        "tsConfig": "apps/config-service/tsconfig.app.json",
-        "inspect": true
+        "outputPath": "dist/apps/sso",
+        "main": "apps/sso/src/server.ts",
+        "tsConfig": "apps/sso/tsconfig.app.json"
       },
       "configurations": {
         "production": {
           "optimization": true,
           "extractLicenses": true,
-          "inspect": false
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/sso/src/environments/environment.ts",
+              "with": "apps/sso/src/environments/environment.prod.ts"
+            }
+          ]
         }
       }
     },
@@ -28,28 +33,27 @@
       "executor": "@nrwl/node:node",
       "options": {
         "inspect": true,
-        "port": 9221,
-        "buildTarget": "config-service:build"
+        "port": 9223,
+        "buildTarget": "sso:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/config-service/**/*.ts"]
+        "lintFilePatterns": ["apps/sso/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/config-service"],
+      "outputs": ["coverage/apps/sso"],
       "options": {
-        "jestConfig": "apps/config-service/jest.config.js",
+        "jestConfig": "apps/sso/jest.config.js",
         "passWithNoTests": true
       }
     }
   },
   "tags": [
-    "config",
-    "services"
+    "SSO"
   ]
 }

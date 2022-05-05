@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import amqp, { Channel, Connection } from 'amqplib'
 import { Message, Options } from 'amqplib/properties';
@@ -39,6 +40,7 @@ export class RabbitMQConnection {
   }
 
   public FormatLogMessage(message: string) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const ip = require('ip');
     return `MicroService ${process.env.MICROSERVICE_Name}:${ip.address()} - ${message}`
   }
@@ -67,7 +69,7 @@ export class RabbitMQConnection {
       const serviceName = knownServices.find(service => service === process.env.MICROSERVICE_Group)
       if (!serviceName) throw new Error('Unknown service group')
       this.serverServiceName = serviceName;
-      logger.info("Rabbit Mq Server", process.env.MICROSERVICE_MSG_BROKER)
+      logger.info(`Rabbit Mq Server ${process.env.MICROSERVICE_MSG_BROKER}`)
       // @ts-ignore
       this.connection = await amqp.connect(process.env.MICROSERVICE_MSG_BROKER)
       this.channel = await this.connection.createChannel()
