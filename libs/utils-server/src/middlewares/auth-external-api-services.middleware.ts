@@ -13,7 +13,7 @@ export const authExternalApiServices = (
       .replace(':SALT', process.env.SALT)
       .replace(':SECRET', process.env.SECRET), 'utf-8');
 
-    if (apiCode === refHashingCode) {
+    if (apiCode === refHashingCode.digest('hex')) {
       next();
     } else {
       throw new Error('unauthorized service access');
