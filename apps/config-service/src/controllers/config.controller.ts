@@ -2,6 +2,7 @@ import { JsonController, Get, Put, Req, BodyParam, Param } from 'routing-control
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Service } from 'typedi';
+import { authExternalApiServices } from '@balancer/utils-server/middlewares/auth-external-api-services.middleware'
 import { BaseResponse } from '@balancer/utils-server/responses/baseResponses';
 import {
   PlatformSettingsListResponse,
@@ -59,6 +60,7 @@ export class ConfigController {
   @Get( '/sync/service' )
   @OpenAPI( {summary: 'will force request sync request to a service'} )
   @ResponseSchema( PlatformSettingsListResponse )
+  @UseBefore(authExternalApiServices)
   async syncService() {
     const response: PlatformSettingsListResponse = {
       status: false,

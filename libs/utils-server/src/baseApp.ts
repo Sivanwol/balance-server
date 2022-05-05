@@ -49,8 +49,20 @@ export abstract class BaseApp {
     this.onServerEvents.emit(ServerEvents.Preload);
     process.on('exit', (code) => {
       console.log(`About to exit with code: ${code}`);
+      logger.info(`About to exit with code: ${code}`);
       this.onServerEvents.emit(ServerEvents.Exit);
     });
+
+    process.on('uncaughtException', (err, origin) => {
+      console.error(err, origin);
+      logger.error(`global error unhandled ${err} - ${origin}`);
+    });
+
+    process.on('unhandledRejection', (err, promise) => {
+      console.warn('Unhandled Rejection at:', promise, 'reason:', err);
+      logger.error(`promise rejection error unhandled ${err}`);
+    });
+
     this.initServer(Controllers).finally(() =>
       console.log('Server up and running')
     );
