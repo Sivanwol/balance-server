@@ -1,4 +1,4 @@
-import { JsonController, Get, Put, Req, BodyParam, Param } from 'routing-controllers';
+import { JsonController, Get, Put, Req, BodyParam, Param,UseBefore } from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Service } from 'typedi';
@@ -65,7 +65,7 @@ export class ConfigController {
     const response: PlatformSettingsListResponse = {
       status: false,
       data: {
-        items: null,
+        items: {},
         meta: {
           current: 0,
           totalItems: 0,
@@ -74,9 +74,7 @@ export class ConfigController {
       }
     }
     try {
-      const globalSettings = await this.platformSettingsService.GetGlobalSettings()
-      const servicesSettings = await this.platformSettingsService.getServicesSettings();
-      response.data.items = [...globalSettings , ...servicesSettings]
+      response.data.items = await this.platformSettingsService.getServicesSettings();
       response.data.meta.totalItems = response.data.items.length
       response.status = true
     } catch (e) {
@@ -95,7 +93,7 @@ export class ConfigController {
     const response: PlatformSettingsListResponse = {
       status: false,
       data: {
-        items: null,
+        items: {},
         meta: {
           current: 0,
           totalItems: 0,
