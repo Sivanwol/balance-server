@@ -1,0 +1,6 @@
+{
+    "search-node-modules.useLastFolder": true,
+    "npm-intellisense.showBuildInLibs": true,
+    "tslint.packageManager": "pnpm",
+    "nxConsole.useNVM": true
+}

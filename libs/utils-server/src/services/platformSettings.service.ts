@@ -1,11 +1,11 @@
 import { PlatformSettings } from '@prisma/client';
 import { find, isArray } from 'lodash';
 import { Service } from 'typedi';
-import RedisUtil from '@balancer/utils-server/utils/redisUtil';
-import { logger } from '@balancer/utils-server/utils/logger';
-import { CacheKeys } from '@balancer/utils-server/constraints/CacheKeys';
-import { DbService } from '@balancer/utils-server/services';
-import { knownServices } from '@balancer/utils-server/constraints/knownservices';
+import RedisUtil from '../utils/redisUtil';
+import { logger } from '../utils/logger';
+import { CacheKeys } from '../constraints/CacheKeys';
+import { DbService } from '../services';
+import { knownServices } from '../constraints/knownservices';
 import moment = require('moment');
 
 @Service()
@@ -15,7 +15,7 @@ export class PlatformSettingsService {
     let platformSettings: PlatformSettings[] = [];
     for (const service of knownServices) {
       if (service) {
-        const settings = await this.getSettings(service);
+        const settings = await this.GetSettings(service);
         if (settings && isArray(settings))
           platformSettings = [...platformSettings, ...settings];
       }
@@ -144,7 +144,7 @@ export class PlatformSettingsService {
     );
     RedisUtil.client.set('require_services_sync', '1');
   }
-  private async getSettings(service: string): Promise<PlatformSettings[]> {
+  public async GetSettings(service: string): Promise<PlatformSettings[]> {
     const cacheKey = !service
       ? CacheKeys.GlobalSettings
       : CacheKeys.ServiceSettings(service);

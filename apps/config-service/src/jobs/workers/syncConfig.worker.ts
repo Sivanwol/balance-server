@@ -4,12 +4,13 @@ import { Redis } from 'ioredis';
 import RedisUtil from '@balancer/utils-server/utils/redisUtil';
 import { logger } from '@balancer/utils-server/utils/logger';
 import { RabbitMQConnection } from '@balancer/utils-server/utils/RabbitMQConnection';
-import { PlatformSettingsService } from '../../services';
+import { PlatformSettingsService } from '@balancer/utils-server/services';
+import { ServicesRoute } from '@balancer/utils-server/constraints/knownservices';
 
 export const syncConfigWorker = (redisConnection: Redis) => new Worker(queueName, async (job: Job) => {
   const jobInfo = job.asJSON()
   const platformSettingsService = new PlatformSettingsService
-  const settings = await platformSettingsService.GetGlobalSettings()
+  const settings = await platformSettingsService.GetSettings(ServicesRoute.ConfigService)
   logger.info(`[JobId:${jobInfo.id} ,Timestamp: ${jobInfo.timestamp}] Sync new configs ${settings.length} keys`)
   RabbitMQConnection.getInstance().SendToQueue('syncConfig', Buffer.from(JSON.stringify(settings)))
   await RedisUtil.client.del('require_services_sync')
