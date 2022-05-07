@@ -1,3 +1,4 @@
+import { VoidResponse } from '@balancer/utils-server/responses/UtillResponses';
 import { JsonController, Get, Put, Req, BodyParam, Param,UseBefore } from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Ipware } from '@fullerstack/nax-ipware';
@@ -25,8 +26,28 @@ export class ConfigController {
 
   readonly ipware = new Ipware();
 
+  @Get( '/maintenance/toggle' )
+  @OpenAPI( {summary: 'will toggle what ever platform is on '} )
+  @UseBefore(authExternalApiServices)
+  @ResponseSchema( VoidResponse )
+  async maintenanceToggle() {
+
+    const response: VoidResponse = {
+      status: false,
+      data: null
+    }
+    try {
+      await this.platformSettingsService.TogglePlatformMaintenanceMode();
+    } catch (e) {
+      logger.error( `toggle maintenance status end up with error (${e.message}`, {error: e} )
+      response.errorCode = 500
+      response.errors = [`unable set maintenance mode`]
+    }
+  return response
+  }
+
   @Get( '/sync' )
-  @OpenAPI( {summary: 'will force request sync request to all micro service'} )
+  @OpenAPI( {summary: 'will force request sync request to all micro service maintenance mode'} )
   @ResponseSchema( PlatformSettingsMessageResponse )
   async sync() {
     const response: PlatformSettingsMessageResponse = {
@@ -74,7 +95,7 @@ export class ConfigController {
       }
     }
     try {
-      const servicesSettings = await this.platformSettingsService.getServicesSettings();
+      const servicesSettings = await this.platformSettingsService.GetServicesSettings();
       response.data.items = servicesSettings
       response.data.meta.totalItems = response.data.items.length
       response.status = true
@@ -106,7 +127,7 @@ export class ConfigController {
       }
     }
     try {
-      response.data.items = await this.platformSettingsService.getServicesSettings()
+      response.data.items = await this.platformSettingsService.GetServicesSettings()
       response.metaData.requireSync = !!(await RedisUtil.client.get( 'require_services_sync' ))
       response.data.meta.totalItems = response.data.items.length
       response.status = true

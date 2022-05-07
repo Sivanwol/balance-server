@@ -3,6 +3,7 @@ import { OpenAPI } from 'routing-controllers-openapi';
 import { Service } from 'typedi';
 
 import { checkAuth } from '@balancer/utils-server/middlewares/auth.middleware';
+import { verifyMaintenanceMode } from '@balancer/utils-server/middlewares/veirfy-maintenance-mode.middeware';
 import { authExternalApiServices } from '@balancer/utils-server/middlewares/auth-external-api-services.middleware'
 import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
 import { UsersService } from '@balancer/utils-server/services';
@@ -40,8 +41,14 @@ export class IndexController {
     });
   }
   @Get('auth-test')
+  @UseBefore(verifyMaintenanceMode)
   @UseBefore(checkAuth)
   testAuth() {
+    return 'OK'
+  }
+  @Get('noauth-test')
+  @UseBefore(verifyMaintenanceMode)
+  testNoAuth() {
     return 'OK'
   }
 }
