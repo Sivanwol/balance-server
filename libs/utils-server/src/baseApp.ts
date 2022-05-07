@@ -210,3 +210,4 @@ export abstract class BaseApp {
     this.app.use(errorMiddleware);
   }
 }
+
