@@ -95,12 +95,7 @@ specifiers:
   node-config: ^0.0.2
   node-gyp: ^9.0.0
   nodemon: ^2.0.15
-  otplib: ^12.0.1
   parse-redis-url: 0.0.2
-  passport: ^0.5.2
-  passport-jwt: ^4.0.0
-  passport-local: ^1.0.0
-  passport-totp: ^0.0.2
   prettier: ^2.6.2
   reflect-metadata: ^0.1.13
   rhea-promise: ^2.1.0
@@ -170,12 +165,7 @@ dependencies:
   moment: 2.29.3
   morgan: 1.10.0
   newrelic: 8.10.0
-  otplib: 12.0.1
   parse-redis-url: 0.0.2
-  passport: 0.5.2
-  passport-jwt: 4.0.0
-  passport-local: 1.0.0
-  passport-totp: 0.0.2
   reflect-metadata: 0.1.13
   rhea-promise: 2.1.0
   round-robin-js: 2.0.1
@@ -1807,39 +1797,6 @@ packages:
       '@ns3/nx-core': 2.5.2
       fs-extra: 10.1.0
     dev: true
-
-  /@otplib/core/12.0.1:
-    resolution: {integrity: sha512-4sGntwbA/AC+SbPhbsziRiD+jNDdIzsZ3JUyfZwjtKyc/wufl1pnSIaG4Uqx8ymPagujub0o92kgBnB89cuAMA==}
-    dev: false
-
-  /@otplib/plugin-crypto/12.0.1:
-    resolution: {integrity: sha512-qPuhN3QrT7ZZLcLCyKOSNhuijUi9G5guMRVrxq63r9YNOxxQjPm59gVxLM+7xGnHnM6cimY57tuKsjK7y9LM1g==}
-    dependencies:
-      '@otplib/core': 12.0.1
-    dev: false
-
-  /@otplib/plugin-thirty-two/12.0.1:
-    resolution: {integrity: sha512-MtT+uqRso909UkbrrYpJ6XFjj9D+x2Py7KjTO9JDPhL0bJUYVu5kFP4TFZW4NFAywrAtFRxOVY261u0qwb93gA==}
-    dependencies:
-      '@otplib/core': 12.0.1
-      thirty-two: 1.0.2
-    dev: false
-
-  /@otplib/preset-default/12.0.1:
-    resolution: {integrity: sha512-xf1v9oOJRyXfluBhMdpOkr+bsE+Irt+0D5uHtvg6x1eosfmHCsCC6ej/m7FXiWqdo0+ZUI6xSKDhJwc8yfiOPQ==}
-    dependencies:
-      '@otplib/core': 12.0.1
-      '@otplib/plugin-crypto': 12.0.1
-      '@otplib/plugin-thirty-two': 12.0.1
-    dev: false
-
-  /@otplib/preset-v11/12.0.1:
-    resolution: {integrity: sha512-9hSetMI7ECqbFiKICrNa4w70deTUfArtwXykPUvSHWOdzOlfa9ajglu7mNCntlvxycTiOAXkQGwjQCzzDEMRMg==}
-    dependencies:
-      '@otplib/core': 12.0.1
-      '@otplib/plugin-crypto': 12.0.1
-      '@otplib/plugin-thirty-two': 12.0.1
-    dev: false
 
   /@paljs/plugins/4.0.18_graphql@16.3.0:
     resolution: {integrity: sha512-4aLyqHzfpBb65Pr3p1xf4Ih8khgCGH3lGrLIrF+0MO3zy5vWk2UbHUA1fIIii1gSYUFtozceH/DvPmCMOpB5QA==}
@@ -8409,11 +8366,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /notp/2.0.3:
-    resolution: {integrity: sha1-qf0R4lz+HMs5/GaJVE7kwQ75pXc=}
-    engines: {node: '> v0.6.0'}
-    dev: false
-
   /npm-run-path/4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
@@ -8723,14 +8675,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /otplib/12.0.1:
-    resolution: {integrity: sha512-xDGvUOQjop7RDgxTQ+o4pOol0/3xSZzawTiPKRrHnQWAy0WjhNs/5HdIDJCrqC4MBynmjXgULc6YfioaxZeFgg==}
-    dependencies:
-      '@otplib/core': 12.0.1
-      '@otplib/preset-default': 12.0.1
-      '@otplib/preset-v11': 12.0.1
-    dev: false
-
   /p-cancelable/1.1.0:
     resolution: {integrity: sha512-s73XxOZ4zpt1edZYZzvhqFa6uvQc1vwUa0K0BdtIZgQMAJj9IbebH+JkgKZc9h+B05PKHLOTl4ajG1BmNrVZlw==}
     engines: {node: '>=6'}
@@ -8902,42 +8846,6 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /passport-jwt/4.0.0:
-    resolution: {integrity: sha512-BwC0n2GP/1hMVjR4QpnvqA61TxenUMlmfNjYNgK0ZAs0HK4SOQkHcSv4L328blNTLtHq7DbmvyNJiH+bn6C5Mg==}
-    dependencies:
-      jsonwebtoken: 8.5.1
-      passport-strategy: 1.0.0
-    dev: false
-
-  /passport-local/1.0.0:
-    resolution: {integrity: sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4=}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      passport-strategy: 1.0.0
-    dev: false
-
-  /passport-strategy/1.0.0:
-    resolution: {integrity: sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=}
-    engines: {node: '>= 0.4.0'}
-    dev: false
-
-  /passport-totp/0.0.2:
-    resolution: {integrity: sha1-MXOBWva3UYb5af1CVr5//Uwb5Zo=}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      notp: 2.0.3
-      passport-strategy: 1.0.0
-      pkginfo: 0.2.3
-    dev: false
-
-  /passport/0.5.2:
-    resolution: {integrity: sha512-w9n/Ot5I7orGD4y+7V3EFJCQEznE5RxHamUxcqLT2QoJY0f2JdN8GyHonYFvN0Vz+L6lUJfVhrk2aZz2LbuREw==}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      passport-strategy: 1.0.0
-      pause: 0.0.1
-    dev: false
-
   /path-exists/3.0.0:
     resolution: {integrity: sha1-zg6+ql94yxiSXqfYENe1mwEP1RU=}
     engines: {node: '>=4'}
@@ -8987,10 +8895,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /pause/0.0.1:
-    resolution: {integrity: sha1-HUCLP9t2kjuVQ9lvtMnf1TXZy10=}
-    dev: false
-
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
     dev: true
@@ -9025,11 +8929,6 @@ packages:
     dependencies:
       find-up: 4.1.0
     dev: true
-
-  /pkginfo/0.2.3:
-    resolution: {integrity: sha1-cjnEKl72wwuPMoQ52bn/cQQkkPg=}
-    engines: {node: '>= 0.4.0'}
-    dev: false
 
   /prelude-ls/1.1.2:
     resolution: {integrity: sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=}
@@ -10253,11 +10152,6 @@ packages:
   /text-table/0.2.0:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
     dev: true
-
-  /thirty-two/1.0.2:
-    resolution: {integrity: sha1-TKL//AKlEpDSdEueP1V2k8prYno=}
-    engines: {node: '>=0.2.6'}
-    dev: false
 
   /throat/6.0.1:
     resolution: {integrity: sha512-8hmiGIJMDlwjg7dlJ4yKGLK8EsYqKgPWbG3b4wjJddKNwc7N7Dpn08Df4szr/sZdMVeOstrdYSsqzX6BYbcB+w==}

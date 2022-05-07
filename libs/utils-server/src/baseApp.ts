@@ -75,7 +75,9 @@ export abstract class BaseApp {
       await this.requestServiceConfig();
     this.initializeMiddlewaresAuth();
     this.initializeRoutes(Controllers);
-    this.initializeSwagger(Controllers);
+    if (this.env === 'development'){
+      this.initializeSwagger(Controllers);
+    }
     this.initializeErrorHandling();
   }
 
@@ -181,10 +183,15 @@ export abstract class BaseApp {
       components: {
         schemas,
         securitySchemes: {
-          ApiKeyAuth: {
+          bearerAuth: {
+            type: 'http',
+            bearerFormat: 'JWT',
+            scheme: 'bearer',
+          },
+          verifyServiceCode: {
             type: 'apiKey',
             in: 'header',
-            name: 'X-ACCESS-KEY',
+            name: 'x-service-api-key',
           },
         },
       },

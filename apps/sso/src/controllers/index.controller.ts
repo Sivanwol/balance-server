@@ -9,6 +9,9 @@ import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
 import { UsersService } from '@balancer/utils-server/services';
 @OpenAPI( {
   security: [{
+    bearerAuth: [],
+    verifyServiceCode: [],
+
   }],
 } )
 @Service()
