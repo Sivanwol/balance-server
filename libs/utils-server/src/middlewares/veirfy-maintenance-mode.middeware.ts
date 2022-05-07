@@ -10,7 +10,7 @@ export const verifyMaintenanceMode =async (
     const currentMaintenanceMode = await RedisUtil.get(
       CacheKeys.MaintenanceMode
     );
-    if (currentMaintenanceMode === '1') {
+    if (currentMaintenanceMode !== '1') {
       next();
     } else {
       throw new Error('platform on maintenance mode');
