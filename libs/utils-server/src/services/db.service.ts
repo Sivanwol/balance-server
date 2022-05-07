@@ -56,7 +56,7 @@ export class DbService {
       if (!ttl)
         RedisUtil.client.set( key, value )
       else
-        RedisUtil.client.set( key, value, 'ex', ttl )
+        RedisUtil.client.setex( key, value, ttl )
     } catch (e) {
       logger.error( `Saving Cache Key ${keyName} resulted with an error` )
       logger.error( e )

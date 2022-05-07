@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
-
-import passport from 'passport';
 import morgan from 'morgan';
 import {
   Action,
@@ -140,8 +138,6 @@ export abstract class BaseApp {
   private initializeMiddlewaresAuth() {
     // this.app.use( session() )
     this.setupAuth();
-    this.app.use(passport.initialize());
-    // this.app.use(passport.session());
   }
   private initializeMiddlewares() {
     this.app.use(morgan(process.env.LOGFormat, { stream }));
