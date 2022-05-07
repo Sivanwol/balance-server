@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
-
-import passport from 'passport';
 import morgan from 'morgan';
 import {
   Action,
@@ -75,7 +73,9 @@ export abstract class BaseApp {
       await this.requestServiceConfig();
     this.initializeMiddlewaresAuth();
     this.initializeRoutes(Controllers);
-    this.initializeSwagger(Controllers);
+    if (this.env === 'development'){
+      this.initializeSwagger(Controllers);
+    }
     this.initializeErrorHandling();
   }
 
@@ -138,8 +138,6 @@ export abstract class BaseApp {
   private initializeMiddlewaresAuth() {
     // this.app.use( session() )
     this.setupAuth();
-    this.app.use(passport.initialize());
-    // this.app.use(passport.session());
   }
   private initializeMiddlewares() {
     this.app.use(morgan(process.env.LOGFormat, { stream }));
@@ -181,10 +179,15 @@ export abstract class BaseApp {
       components: {
         schemas,
         securitySchemes: {
-          ApiKeyAuth: {
+          bearerAuth: {
+            type: 'http',
+            bearerFormat: 'JWT',
+            scheme: 'bearer',
+          },
+          verifyServiceCode: {
             type: 'apiKey',
             in: 'header',
-            name: 'X-ACCESS-KEY',
+            name: 'x-service-api-key',
           },
         },
       },
@@ -203,3 +206,4 @@ export abstract class BaseApp {
     this.app.use(errorMiddleware);
   }
 }
+

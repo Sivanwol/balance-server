@@ -10,8 +10,18 @@ import moment = require('moment');
 
 @Service()
 export class PlatformSettingsService {
-  public async getServicesSettings() {
-    logger.info('fetching Data from getServicesSettings');
+  public async TogglePlatformMaintenanceMode() {
+    logger.info('toggle Maintenance Mod  from TogglePlatformMaintenanceMode');
+    const currentMaintenanceMode = await RedisUtil.get(
+      CacheKeys.MaintenanceMode
+    );
+    await RedisUtil.client.set(
+      CacheKeys.MaintenanceMode,
+      currentMaintenanceMode === '1' ? '0' : '1'
+    );
+  }
+  public async GetServicesSettings() {
+    logger.info('fetching Data from GetServicesSettings');
     let platformSettings: PlatformSettings[] = [];
     for (const service of knownServices) {
       if (service) {
