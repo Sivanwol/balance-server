@@ -116,7 +116,7 @@ export class ConfigController {
       response.data.meta.totalItems = response.data.items.length;
       response.status = true;
     } catch (e) {
-      logger.error(`sync service end up with error (${e.message}`, {
+      logger.error(`sync service end up with error (${e.message})`, {
         error: e,
       });
       delete response.data;
