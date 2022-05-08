@@ -1,8 +1,8 @@
 import exprressJwt from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import jwtAuthz from "express-jwt-authz";
-
-export const checkAuth = exprressJwt({
+import * as jwt from 'jsonwebtoken'
+export const checkAuthHttp = exprressJwt({
   // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint
   secret: jwksRsa.expressJwtSecret({
     cache: true,
@@ -25,3 +25,46 @@ export const checkPermissions = (permissions: string | string[]) => {
   });
 };
 
+const client = jwksRsa({
+  jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
+});
+
+function getKey(header, callback) {
+  client.getSigningKey(header.kid, function(error, key) {
+    const signingKey = key.publicKey || key.rsaPublicKey;
+    callback(null, signingKey);
+  });
+}
+
+export async function isAuthTokenValidGQL(token): Promise<{
+  error?: any,
+  decoded?: any
+}> {
+  if (token) {
+    const bearerToken = token.split(" ");
+
+    const result = new Promise((resolve, reject) => {
+      jwt.verify(
+        bearerToken[1],
+        getKey,
+        {
+          audience: process.env.API_IDENTIFIER,
+          issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+          algorithms: ["RS256"]
+        },
+        (error, decoded) => {
+          if (error) {
+            resolve({ error });
+          }
+          if (decoded) {
+            resolve({ decoded });
+          }
+        }
+      );
+    });
+
+    return result;
+  }
+
+  return { error: "No token provided" };
+}

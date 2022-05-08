@@ -14,8 +14,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import depthLimit from 'graphql-depth-limit';
 import { createServer, Server } from 'http';
 import schema from './graph-ql/schema';
-import { BindJWTAUth } from './passport/jwt';
-import { BindLocalAUth } from './passport/local';
+import expressPlayground from 'graphql-playground-middleware-express'
 import { BaseApp } from '@balancer/utils-server/baseApp';
 import { logger } from '@balancer/utils-server/utils/logger';
 import { IndexController } from './controllers/index.controller';
@@ -27,8 +26,7 @@ class App extends BaseApp {
     return [];
   }
   protected setupAuth() {
-    BindLocalAUth()
-    BindJWTAUth()
+    return;
   }
 
   protected async initializeExternalMiddlewares() {
@@ -62,19 +60,21 @@ class App extends BaseApp {
   }
 
   private async initializeGraphQL() {
+    const isDev = process.env.NODE_ENV === 'development'
     const server = new ApolloServer( {
       schema,
-      debug: process.env.NODE_ENV === 'development',
-      tracing: process.env.NODE_ENV === 'development',
-      playground: process.env.NODE_ENV === 'development',
+      debug: isDev,
       introspection: true,
       context: ( {req, res} ) => ({req, res}),
       // @ts-ignore
       plugins: [ApolloServerPluginDrainHttpServer( {httpServer: this.server} )],
       validationRules: [depthLimit( parseInt( process.env.GRAPH_QL_MAX_DEPTH ) )]
     } )
-    await server.start();
     server.applyMiddleware({app: this.app})
+    if (isDev) {
+      this.app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+    }
+    await server.start();
   }
 
 }

@@ -73,6 +73,7 @@ specifiers:
   graphql: 16.3.0
   graphql-depth-limit: 1.1.0
   graphql-directive: 0.2.1
+  graphql-playground-middleware-express: ^1.7.23
   graphql-redis-subscriptions: 2.4.2
   graphql-scalars: ^1.17.0
   graphql-subscriptions: 2.0.0
@@ -223,6 +224,7 @@ devDependencies:
   eslint-config-prettier: 8.5.0_eslint@8.13.0
   eslint-plugin-prettier: 4.0.0_dak2zfnx7mtmcpd5jcuo55rnb4
   faker: 6.6.6
+  graphql-playground-middleware-express: 1.7.23_express@4.18.1
   husky: 7.0.4
   ioredis-mock: 7.2.0_ioredis@5.0.4
   jest: 27.5.1_ts-node@10.7.0
@@ -4475,7 +4477,6 @@ packages:
 
   /cssfilter/0.0.10:
     resolution: {integrity: sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4=}
-    dev: false
 
   /cssom/0.3.8:
     resolution: {integrity: sha512-b0tGHbfegbhPJpxpiBPU2sCkigAqtM9O121le6bbOlgyV+NyGyCmVfJ6QW9eRjz8CpNfWEOYBIMIGRYkLwsIYg==}
@@ -5844,6 +5845,21 @@ packages:
   /graphql-fields/2.0.3:
     resolution: {integrity: sha512-x3VE5lUcR4XCOxPIqaO4CE+bTK8u6gVouOdpQX9+EKHr+scqtK5Pp/l8nIGqIpN1TUlkKE6jDCCycm/WtLRAwA==}
     dev: false
+
+  /graphql-playground-html/1.6.30:
+    resolution: {integrity: sha512-tpCujhsJMva4aqE8ULnF7/l3xw4sNRZcSHu+R00VV+W0mfp+Q20Plvcrp+5UXD+2yS6oyCXncA+zoQJQqhGCEw==}
+    dependencies:
+      xss: 1.0.11
+    dev: true
+
+  /graphql-playground-middleware-express/1.7.23_express@4.18.1:
+    resolution: {integrity: sha512-M/zbTyC1rkgiQjFSgmzAv6umMHOphYLNWZp6Ye5QrD77WfGOOoSqDsVmGUczc2pDkEPEzzGB/bvBO5rdzaTRgw==}
+    peerDependencies:
+      express: ^4.16.2
+    dependencies:
+      express: 4.18.1
+      graphql-playground-html: 1.6.30
+    dev: true
 
   /graphql-redis-subscriptions/2.4.2_nsv4zbviaf54hk5nfhl4slig7i:
     resolution: {integrity: sha512-zMd1G6uZcEvqHZ6PsQ63BfRtw5Bg4cccql1pfkEQsj1vXVWe4p+o8DqNfd9DDUFXIqhHpqkSeN/49BlIwud4Ag==}
@@ -10929,7 +10945,6 @@ packages:
     dependencies:
       commander: 2.20.3
       cssfilter: 0.0.10
-    dev: false
 
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}

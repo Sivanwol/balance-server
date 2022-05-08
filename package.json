@@ -148,6 +148,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "faker": "^6.6.6",
+    "graphql-playground-middleware-express": "^1.7.23",
     "husky": "^7.0.4",
     "ioredis-mock": "^7.2.0",
     "jest": "^27.5.1",
