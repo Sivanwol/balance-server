@@ -1,5 +1,5 @@
 import { VoidResponse } from '@balancer/utils-server/responses/UtillResponses';
-import { JsonController, Get, Put, Req, BodyParam, Param, UseBefore } from 'routing-controllers';
+import { JsonController, Get, Put, Req, BodyParam, Param, QueryParam, UseBefore } from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Service } from 'typedi';
@@ -126,10 +126,10 @@ export class ConfigController {
     return response;
   }
 
-  @Get('/all')
+  @Get('/all/:serviceName')
   @OpenAPI({ summary: 'get all settings without any filters and cache' })
   @ResponseSchema(PlatformSettingsListResponse)
-  async allConfig() {
+  async allConfig(@Param('serviceName') serviceName: string, @QueryParam('key') key: string) {
     const response: PlatformSettingsListResponse = {
       status: false,
       data: {
@@ -145,8 +145,7 @@ export class ConfigController {
       },
     };
     try {
-      response.data.items = await this.platformSettingsService.GetServicesSettings();
-      response.metaData.requireSync = !!(await RedisUtil.client.get('require_services_sync'));
+      response.data.items = await this.platformSettingsService.GetSettings(serviceName, key, true);
       response.data.meta.totalItems = response.data.items.length;
       response.status = true;
     } catch (e) {

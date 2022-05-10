@@ -48,7 +48,7 @@ const attachDirectives = ( schema: GraphQLSchema ): GraphQLSchema => {
         }
         if (permissions.length > 0) {
           if (decoded.permissions && decoded.permissions.length > 0) {
-            if (decoded.permissions.filter(perm => decoded.permissions.includes(perm)).length > 0) {
+            if (decoded.permissions.filter(perm => permissions.includes(perm)).length > 0) {
               return resolve();
             }
           }
