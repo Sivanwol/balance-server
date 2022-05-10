@@ -126,7 +126,7 @@ export class ConfigController {
     return response;
   }
 
-  @Get('/all/:serviceName')
+  @Get('/list/:serviceName')
   @OpenAPI({ summary: 'get all settings without any filters and cache' })
   @ResponseSchema(PlatformSettingsListResponse)
   async allConfig(@Param('serviceName') serviceName: string, @QueryParam('key') key: string) {

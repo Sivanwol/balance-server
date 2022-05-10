@@ -1,11 +1,9 @@
 import { IpwareIpInfo } from '@fullerstack/nax-ipware/src/lib/ipware.model';
-import { validate } from 'class-validator';
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
   AxiosRequestHeaders,
 } from 'axios';
-import { Service } from 'typedi';
 import { ServicesRoute } from '../constraints/knownservices';
 import { UnknownServiceException } from '../exceptions/UnknownServiceException';
 import crypto from 'crypto';
@@ -71,9 +69,11 @@ export class RequestService {
     };
     switch (method) {
       case RequestMethod.GET: {
+        configRequest.params = data;
         return await this.client.get<T>(uri, configRequest);
       }
       case RequestMethod.DELETE: {
+        configRequest.params = data;
         return await this.client.delete<T>(uri, configRequest);
       }
       case RequestMethod.PUT: {
