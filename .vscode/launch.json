@@ -31,6 +31,19 @@
       "type": "node"
     },
     {
+      "name": "Launch API Gateway Service",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "start:service:api"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
+    {
       "name": "Config Service Attach",
       "port": 9221,
       "request": "attach",
