@@ -12,18 +12,18 @@ export class ConfigSchema implements ISchema {
     type Config {
       # config key
       key: String!
-      # service name
-      service: String!
       # user first name
       value: String
+      # when this config key been created
       createdAt: Date
+      # when this config key been updated
       updatedAt: Date
     }
   `;
 
   query = `
     # Get list of configs from a config service
-    getConfig(serviceName: String!, key: String): User[] @hasScopeByPermissions(permissions: ["platform_control"])
+    getConfig(serviceName: String!, key: String): [Config] @hasScopeByPermissions(permissions: ["platform_control"])
   `;
 
   mutation = `
