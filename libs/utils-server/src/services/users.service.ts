@@ -61,11 +61,7 @@ export class UsersService {
       if (!status) {
         locateUser = await DbService.getInstance().connection.user.findFirst({
           where: {
-            id: userId,
-            disabledAt: null,
-            NOT: {
-              emailVerified: null,
-            },
+            id: userId
           },
         });
         if (!locateUser) return null;
@@ -99,10 +95,6 @@ export class UsersService {
         locateUser = await DbService.getInstance().connection.user.findFirst({
           where: {
             authUserId: userId,
-            disabledAt: null,
-            NOT: {
-              emailVerified: null,
-            },
           },
         });
         if (!locateUser) return null;
@@ -124,27 +116,28 @@ export class UsersService {
   }
 
   public async registerUser(
+    userId: string,
     registerUserDto: RegisterUserAuth0Dto
   ): Promise<UserModel | null> {
     logger.info('received service request => registerUser');
     const locateUser = await this.findUserByEmail(registerUserDto.email, true);
     let record;
     const user = {
-      authUserId: registerUserDto.userId,
+      authUserId: userId,
       email: registerUserDto.email,
-      emailVerified: registerUserDto.verifyEmail,
-      mobile: registerUserDto.phone,
-      mobileVerified: registerUserDto.verifyPhone,
-      disabledAt: null,
+      fullName: registerUserDto.fullName,
+      username: registerUserDto.userName,
+      displayName: registerUserDto.displayName
+
     };
     if (!locateUser) {
       record = await DbService.getInstance().connection.user.create({
         data: user,
       });
     }
-    const userId = record.id || locateUser.id;
-    logger.info(`Created user with id: ${userId}`);
-    return await this.findUserById(userId, true);
+    const localUserId = record.id || locateUser.id;
+    logger.info(`Created user with id: ${localUserId}`);
+    return await this.findUserById(localUserId, true);
   }
 
   public async findUserByEmail(
@@ -156,11 +149,7 @@ export class UsersService {
     if (!noFilters) {
       locateUser = await DbService.getInstance().connection.user.findFirst({
         where: {
-          email: email,
-          disabledAt: null,
-          NOT: {
-            emailVerified: null,
-          },
+          email: email
         },
       });
     } else {

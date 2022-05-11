@@ -22,26 +22,13 @@ import {
  */
 export class RegisterUserAuth0Dto {
   @IsString()
-  @IsOptional()
-  @MinLength(8)
-  @MaxLength(32)
-  public userId: string;
-  @IsString()
   public userName: string;
-  @IsOptional()
   @IsString()
   public displayName: string;
+  @IsString()
+  public fullName:string;
   @IsEmail()
   public email: string;
-  @IsOptional()
-  @IsBoolean()
-  public verifyEmail: boolean;
-  @IsMobilePhone()
-  @IsOptional()
-  public phone: string;
-  @IsOptional()
-  @IsBoolean()
-  public verifyPhone: boolean;
 }
 export class LoginUserDto {
   @IsEmail()

@@ -1,8 +1,8 @@
-import exprressJwt from "express-jwt";
+import expressjwt from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import jwtAuthz from "express-jwt-authz";
 import * as jwt from 'jsonwebtoken'
-export const checkAuthHttp = exprressJwt({
+export const checkAuthRoute = expressjwt({
   // Dynamically provide a signing key based on the kid in the header and the signing keys provided by the JWKS endpoint
   secret: jwksRsa.expressJwtSecret({
     cache: true,
@@ -30,7 +30,7 @@ const client = jwksRsa({
 });
 
 function getKey(header, callback) {
-  client.getSigningKey(header.kid, function(error, key) {
+  client.getSigningKey(header.kid, function(error, key:any) {
     const signingKey = key.publicKey || key.rsaPublicKey;
     callback(null, signingKey);
   });

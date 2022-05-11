@@ -12,7 +12,7 @@ import {
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Service } from 'typedi';
 
-import { checkAuth } from '@balancer/utils-server/middlewares/auth.middleware';
+import { checkAuthRoute } from '@balancer/utils-server/middlewares/auth.middleware';
 import { verifyMaintenanceMode } from '@balancer/utils-server/middlewares/veirfy-maintenance-mode.middeware';
 import { authExternalApiServices } from '@balancer/utils-server/middlewares/auth-external-api-services.middleware';
 import { RegisterUserAuth0Dto } from '@balancer/utils-server/dtos/users.dto';
@@ -45,8 +45,7 @@ export class IndexController {
     @Param('userId') userId: string,
     @Body() user: RegisterUserAuth0Dto
   ) {
-    user.userId = userId;
-    return await this.usersService.registerUser(user);
+    return await this.usersService.registerUser(userId, user);
   }
 
   @Get('signup/:page')
@@ -70,7 +69,7 @@ export class IndexController {
     ],
   })
   @UseBefore(verifyMaintenanceMode)
-  @UseBefore(checkAuth)
+  @UseBefore(checkAuthRoute)
   testAuth() {
     return 'OK';
   }

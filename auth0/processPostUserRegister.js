@@ -10,16 +10,13 @@ exports.onExecutePostUserRegistration = async (event) => {
     userName: event.user.username,
     displayName: event.user.nickname,
     fullname: event.user.name,
-    email: event.user.email,
-    emailVerified: event.user.email_verified,
-    phone: event.user.phone,
-    phoneVerified: event.user.phone_verified
+    email: event.user.email
   }
   await axios.post(`${event.secrets.API_BACKEND}/register/user/${event.user.user_id}`, user , {
     method: 'POST',
     headers: {
       'content-type': 'multipart/form-data',
-      'X-SERVICE-API-KEY': event.secrets.API_SECRET_TOKEN
+      'x-service-api-key': event.secrets.API_SECRET_TOKEN
     },
   })
 };
