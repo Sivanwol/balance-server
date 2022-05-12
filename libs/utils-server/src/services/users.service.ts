@@ -125,17 +125,16 @@ export class UsersService {
     const user = {
       authUserId: userId,
       email: registerUserDto.email,
-      fullName: registerUserDto.fullName,
+      fullName: registerUserDto.fullName || '',
       username: registerUserDto.userName,
-      displayName: registerUserDto.displayName
-
+      displayName: registerUserDto.displayName  || ''
     };
     if (!locateUser) {
       record = await DbService.getInstance().connection.user.create({
         data: user,
       });
     }
-    const localUserId = record.id || locateUser.id;
+    const localUserId = record?.id || locateUser?.id;
     logger.info(`Created user with id: ${localUserId}`);
     return await this.findUserById(localUserId, true);
   }

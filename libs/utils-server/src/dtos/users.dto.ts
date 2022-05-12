@@ -24,8 +24,10 @@ export class RegisterUserAuth0Dto {
   @IsString()
   public userName: string;
   @IsString()
+  @IsOptional()
   public displayName: string;
   @IsString()
+  @IsOptional()
   public fullName:string;
   @IsEmail()
   public email: string;
