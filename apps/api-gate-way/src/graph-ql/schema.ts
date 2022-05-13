@@ -1,5 +1,5 @@
 import { GraphQLSchema } from 'graphql';
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from '@graphql-tools/schema'
 import { typeDefs, resolvers } from 'graphql-scalars';
 import ISchema from './schemas/ISchema';
 import directives from './directives';

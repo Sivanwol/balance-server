@@ -1,5 +1,5 @@
-import { logger } from './../../../../../libs/jest-common/src/LoggerMock';
-import { IsBoolean } from 'class-validator';
+
+import { logger } from '@balancer/utils-server/utils/logger';
 import ISchema from './ISchema';
 import { Ipware } from '@fullerstack/nax-ipware';
 import { Container } from 'typedi';
