@@ -11,7 +11,7 @@
         "run-script",
         "start:service:config"
       ],
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "skipFiles": [
         "<node_internals>/**"
       ],
@@ -24,7 +24,7 @@
         "run-script",
         "start:service:sso"
       ],
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "skipFiles": [
         "<node_internals>/**"
       ],
@@ -37,31 +37,10 @@
         "run-script",
         "start:service:api"
       ],
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "type": "node"
-    },
-    {
-      "name": "Config Service Attach",
-      "port": 9221,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "API Service Attach",
-      "port": 9222,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "SSO Attach",
-      "port": 9221,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
       "type": "node"
     }
   ]
