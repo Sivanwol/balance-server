@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, RedisOptions } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -15,7 +15,6 @@ import {
   WinstonModule,
 } from 'nest-winston';
 import * as winston from 'winston';
-import pkg from '../../../package.json';
 dotenv.config();
 
 declare const module: any;
@@ -43,20 +42,24 @@ async function bootstrap() {
   }, { inheritAppConfig: true });
   app.use(helmet());
   app.enableCors();
-  app.setGlobalPrefix('api');
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: process.env.API_VERSION,
+    prefix: 'api/v',
+  });
   app.startAllMicroservices();
   if (isDev) {
     const config = new DocumentBuilder()
     .setTitle('Api Services')
     .setDescription('Api Services Document')
-    .setVersion(pkg.version)
+    .setVersion(process.env.API_VERSION)
     .addTag('api')
     .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
   }
   await app.listen(+process.env.API_PORT || 3333);
-  Logger.log(`🚀 Application is running [${process.env.NODE_ENV}] on: http://0.0.0.0:${port}/${globalPrefix}`);
+  Logger.log(`🚀 Application is running [${process.env.NODE_ENV}] service Version [${process.env.API_VERSION}] on: http://0.0.0.0:${+process.env.API_PORT || 3333}/api/v${process.env.API_VERSION}`);
   if (isDev && module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
