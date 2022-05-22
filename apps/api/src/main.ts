@@ -9,13 +9,30 @@ import { Transport, RedisOptions } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { AppModule } from './app/app.module';
+import helmet from 'helmet';
+import {
+  utilities as nestWinstonModuleUtilities,
+  WinstonModule,
+} from 'nest-winston';
+import * as winston from 'winston';
 import pkg from '../../../package.json';
 dotenv.config();
 
 declare const module: any;
 async function bootstrap() {
   const isDev = process.env.NODE_ENV === 'development'
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            nestWinstonModuleUtilities.format.nestLike(),
+          ),
+        }),
+      ],
+    }),
+  });
   const micorServiceConnection = await app.connectMicroservice<RedisOptions>({
     transport: Transport.REDIS,
     options: {
@@ -24,10 +41,9 @@ async function bootstrap() {
       retryDelay: 500
     },
   }, { inheritAppConfig: true });
+  app.use(helmet());
+  app.enableCors();
   app.setGlobalPrefix('api');
-  app.enableCors({
-    origin: '*'
-  })
   app.startAllMicroservices();
   if (isDev) {
     const config = new DocumentBuilder()
@@ -44,6 +60,7 @@ async function bootstrap() {
   if (isDev && module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
+    Logger.log('Reloading Server')
   }
 }
 
