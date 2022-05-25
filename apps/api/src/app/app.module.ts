@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,6 +15,7 @@ import * as redisStore from 'cache-manager-redis-store';
       store: redisStore,
       url: process.env.REDIS_URL_CACHE,
     }),
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
