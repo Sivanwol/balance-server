@@ -65,6 +65,7 @@ specifiers:
   ajv: ^8.11.0
   amqplib: ^0.8.0
   axios: ^0.27.2
+  axios-retry: ^3.2.5
   bcrypt: ^5.0.1
   bull: ^4.8.1
   bullmq: ^1.80.4
@@ -178,6 +179,7 @@ dependencies:
   ajv: 8.11.0
   amqplib: 0.8.0
   axios: 0.27.2
+  axios-retry: 3.2.5
   bcrypt: 5.0.1
   bull: 4.8.2
   bullmq: 1.81.4
@@ -2062,12 +2064,6 @@ packages:
     dependencies:
       mkdirp: 1.0.4
       rimraf: 3.0.2
-    dev: true
-
-  /@nrwl/cli/14.1.4:
-    resolution: {integrity: sha512-XjJe/bnOKDYvvY9IxKdETWTGekRu/cN9wThwwlo8xo4Tqy1VK0MfqpDDALrFYp739NG5Zyuhtbz5+Ko48RK75g==}
-    dependencies:
-      nx: 14.1.4_typescript@4.6.4
     dev: true
 
   /@nrwl/cli/14.1.4_typescript@4.6.4:
@@ -4274,6 +4270,13 @@ packages:
       queue-microtask: 1.2.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /axios-retry/3.2.5:
+    resolution: {integrity: sha512-a8umkKbfIkTiYJQLx3v3TzKM85TGKB8ZQYz4zwykt2fpO64TsRlUhjaPaAb3fqMWCXFm2YhWcd8V5FHDKO9bSA==}
+    dependencies:
+      '@babel/runtime': 7.17.9
+      is-retry-allowed: 2.2.0
     dev: false
 
   /axios/0.21.4:
@@ -7929,6 +7932,11 @@ packages:
       has-tostringtag: 1.0.0
     dev: false
 
+  /is-retry-allowed/2.2.0:
+    resolution: {integrity: sha512-XVm7LOeLpTW4jV19QSH38vkswxoLud8sQ57YwJVTPWdiaI9I8keEhGFpBlslyVsgdQy4Opg8QOLb8YRgsyZiQg==}
+    engines: {node: '>=10'}
+    dev: false
+
   /is-shared-array-buffer/1.0.2:
     resolution: {integrity: sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA==}
     dependencies:
@@ -10241,7 +10249,7 @@ packages:
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@nrwl/cli': 14.1.4
+      '@nrwl/cli': 14.1.4_typescript@4.6.4
       '@nrwl/tao': 14.1.4_typescript@4.6.4
       '@parcel/watcher': 2.0.4
       '@swc-node/register': 1.5.1_typescript@4.6.4
@@ -13025,7 +13033,7 @@ packages:
     dev: false
 
   github.com/Sivanwol/graphql-directive/9fb07adaeaea5618448b2f012503d571779e44ef_graphql@16.5.0:
-    resolution: {tarball: https://codeload.github.com/Sivanwol/graphql-directive/tar.gz/9fb07adaeaea5618448b2f012503d571779e44ef}
+    resolution: {commit: 9fb07adaeaea5618448b2f012503d571779e44ef, repo: git+ssh://git@github.com/Sivanwol/graphql-directive.git, type: git}
     id: github.com/Sivanwol/graphql-directive/9fb07adaeaea5618448b2f012503d571779e44ef
     name: '@serverfarm/graphql-directive'
     version: 0.3.2
