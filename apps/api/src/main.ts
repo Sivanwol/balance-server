@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, VersioningType } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, RedisOptions } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -15,6 +15,7 @@ import {
   WinstonModule,
 } from 'nest-winston';
 import * as winston from 'winston';
+import { HttpExceptionFilter } from './app/filters/http-exception.filter';
 dotenv.config();
 
 declare const module: any;
@@ -42,6 +43,12 @@ async function bootstrap() {
   }, { inheritAppConfig: true });
   app.use(helmet());
   app.enableCors();
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: isDev,
+    }),
+  );
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: process.env.API_VERSION,
