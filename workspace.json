@@ -2,6 +2,8 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "backoffice-ui": "apps/backoffice-ui",
+    "backoffice-ui-e2e": "apps/backoffice-ui-e2e",
     "common-services": "libs/common-services",
     "config-service": "apps/config-service",
     "jest-common": "libs/jest-common",

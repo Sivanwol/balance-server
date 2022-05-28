@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
-import { Observable } from 'rxjs';
 
 axiosRetry(axios, { retries: 3 });
 export enum RequestMethod {
