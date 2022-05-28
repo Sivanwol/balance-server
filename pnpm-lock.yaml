@@ -138,6 +138,7 @@ specifiers:
   helmet: ^5.0.2
   hpp: ^0.2.3
   husky: ^7.0.4
+  iconsב: link:@chakra-ui/iconsב
   ioredis: ^5.0.4
   ioredis-mock: ^8.2.0
   ip: ^1.1.5
@@ -162,6 +163,7 @@ specifiers:
   prettier: ^2.6.2
   react: 18.1.0
   react-dom: 18.1.0
+  react-icons: ^4.3.1
   react-router-dom: 6.3.0
   react-table: ^7.8.0
   react-test-renderer: 18.1.0
@@ -255,6 +257,7 @@ dependencies:
   graphql-type-json: 0.3.2_graphql@16.5.0
   helmet: 5.0.2
   hpp: 0.2.3
+  iconsב: link:@chakra-ui/iconsב
   ioredis: 5.0.4
   ip: 1.1.5
   js-yaml: 4.1.0
@@ -271,6 +274,7 @@ dependencies:
   passport-jwt: 4.0.0
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
+  react-icons: 4.3.1_react@18.1.0
   react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
   react-table: 7.8.0_react@18.1.0
   redis: 3.1.2
@@ -22461,6 +22465,14 @@ packages:
       react-clientside-effect: 1.2.6_react@18.1.0
       use-callback-ref: 1.3.0_ci6b7qrbzfuzg4ahcdqxg6om2y
       use-sidecar: 1.1.2_ci6b7qrbzfuzg4ahcdqxg6om2y
+    dev: false
+
+  /react-icons/4.3.1_react@18.1.0:
+    resolution: {integrity: sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.1.0
     dev: false
 
   /react-inspector/5.1.1_react@18.1.0:
