@@ -3,13 +3,15 @@ import styles from './app.module.styl';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
+import Layout from '../layout/main';
 
 export function App() {
   return (
     <>
-      <NxWelcome title="backoffice-ui" />
-      <div />
-
+      <Layout>
+        <NxWelcome title="backoffice-ui" />
+        <div />
+      </Layout>
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
