@@ -137,7 +137,7 @@ const Layout: FC<Props> = ({ children, ...props }) => {
               </Link>
             </Box>
             <Spacer />
-            <Box p="4" gap="2">
+            <Box p="4" gap="2" color="black">
               <Flex padding='5px' paddingBottom='8px'>
                 <Center padding={1} flexWrap="nowrap">
                   <Notifictions />
