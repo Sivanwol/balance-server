@@ -25,6 +25,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@balancer/backoffice-common": ["libs/backoffice-common/src/index.ts"],
       "@balancer/common-services": ["libs/common-services/src/index.ts"],
       "@balancer/graphql-utils": ["libs/graphql-utils/src/index.ts"],
       "@balancer/jest-common/*": ["libs/jest-common/src/*"],

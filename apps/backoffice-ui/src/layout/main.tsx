@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { RiBuilding4Fill, RiBarChartHorizontalFill } from 'react-icons/ri';
+import { RiBuilding4Fill, RiBarChartHorizontalFill, RiMailLine } from 'react-icons/ri';
 import {
   Link,
   Avatar,
@@ -39,7 +39,7 @@ const Layout: FC<Props> = ({ children, ...props }) => {
   return (
     <VStack align="stretch">
       <Flex color="white">
-        <Box w="50px" bg="green.500">
+        <Box w="75px" bg="green.500">
           <Center marginTop="1em">
             <Icon as={RiBarChartHorizontalFill} onClick={onOpen} />
           </Center>
@@ -54,13 +54,15 @@ const Layout: FC<Props> = ({ children, ...props }) => {
             <DrawerOverlay />
             <DrawerContent padding={4}>
               <Flex minWidth="max-content" alignItems="center" gap="2">
-                <VStack w='100%' divider={<StackDivider borderColor="gray.200" />} spacing={4}>
-                  <Accordion w='100%' defaultIndex={[0]}>
-                    <AccordionItem w='100%'>
+                <VStack w="100%" divider={<StackDivider borderColor="gray.200" />} spacing={4}>
+                  <Accordion w="100%" defaultIndex={[0]}>
+                    <AccordionItem w="100%">
                       <h2>
                         <AccordionButton>
                           <Box flex="1" textAlign="left">
-                            <Icon as={RiBuilding4Fill} />
+                            <Box marginRight={3} display="inline">
+                              <Icon as={RiBuilding4Fill} />
+                            </Box>
                             Category Title
                           </Box>
                           <AccordionIcon />
@@ -135,14 +137,23 @@ const Layout: FC<Props> = ({ children, ...props }) => {
             </Box>
             <Spacer />
             <Box p="4" gap="2">
+              <Flex padding='5px' paddingBottom='8px'>
+                <Center padding={1} flexWrap="nowrap">
+                  <Avatar size="sm" icon={<Icon as={RiMailLine} />}>
+                    <AvatarBadge boxSize="1em" bg="red.500" />
+                  </Avatar>
+                </Center>
+              </Flex>
+            </Box>
+            <Box p="4" gap="2">
               <Menu>
                 <MenuButton>
                   <Flex>
-                    <Avatar>
+                    <Avatar size="sm">
                       <AvatarBadge boxSize="1em" bg="green.500" />
                     </Avatar>
                     <Spacer />
-                    <Center padding={3} flexWrap="nowrap">
+                    <Center padding={1} flexWrap="nowrap">
                       <Text color="black">Sivan Wolberg</Text>
                     </Center>
                   </Flex>

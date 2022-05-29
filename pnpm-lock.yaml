@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': 7.12.13
   '@babel/preset-typescript': 7.12.13
+  '@chakra-ui/focus-lock': ^2.0.2
   '@chakra-ui/react': ^2.1.2
   '@chakra-ui/storybook-addon': ^3.0.2
   '@commitlint/cli': ^16.2.3
@@ -192,6 +193,7 @@ specifiers:
   winston-daily-rotate-file: ^4.6.1
 
 dependencies:
+  '@chakra-ui/focus-lock': 2.0.2_ci6b7qrbzfuzg4ahcdqxg6om2y
   '@chakra-ui/react': 2.1.2_2asxe3ighhwbtlny34rptsfkpq
   '@emotion/react': 11.9.0_4l65rmx5uepr75ptr3d56ivz2i
   '@emotion/styled': 11.8.1_kzk6p7zfyz7mwpfc5nyj266oi4
@@ -16727,7 +16729,7 @@ packages:
     dev: true
 
   /http-errors/1.6.3:
-    resolution: {integrity: sha1-i1VoC7S+KDoLW/TqLjhYC+HZMg0=}
+    resolution: {integrity: sha512-lks+lVC8dgGyh97jxvxeYTWQFvh4uw4yC12gVl63Cg30sjPX4wuGcdkICVXDAESr6OJGjqGA8Iz5mkeN6zlD7A==}
     engines: {node: '>= 0.6'}
     dependencies:
       depd: 1.1.2
@@ -20175,6 +20177,7 @@ packages:
   /multer/1.4.4:
     resolution: {integrity: sha512-2wY2+xD4udX612aMqMcB8Ws2Voq6NIUPEtD1be6m411T4uDH/VtL9i//xvcyFlTVfRdaBsk7hV5tgrGQqhuBiw==}
     engines: {node: '>= 0.10.0'}
+    deprecated: Multer 1.x is affected by CVE-2022-24434. This is fixed in v1.4.4-lts.1 which drops support for versions of Node.js before 6. Please upgrade to at least Node.js 6 and version 1.4.4-lts.1 of Multer. If you need support for older versions of Node.js, we are open to accepting patches that would fix the CVE on the main 1.x release line, whilst maintaining compatibility with Node.js 0.10.
     requiresBuild: true
     dependencies:
       append-field: 1.0.0
