@@ -25,9 +25,6 @@ export function App() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/backoffice-common">BackofficeCommon</Link>
-          </li>
-          <li>
             <Link to="/page-2">Page 2</Link>
           </li>
         </ul>
@@ -41,7 +38,6 @@ export function App() {
             </div>
           }
         />
-        <Route path="/backoffice-common" element={<BackofficeCommon />} />
         <Route
           path="/page-2"
           element={

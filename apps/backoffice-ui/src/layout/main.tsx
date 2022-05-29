@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { RiBuilding4Fill, RiBarChartHorizontalFill, RiMailLine } from 'react-icons/ri';
+import { RiBuilding4Fill, RiBarChartHorizontalFill } from 'react-icons/ri';
 import {
   Link,
   Avatar,
@@ -30,6 +30,7 @@ import {
   DrawerCloseButton,
   Icon,
 } from '@chakra-ui/react';
+import { Notifictions } from '@balancer/backoffice-common';
 interface Props {
   children: any;
 }
@@ -139,9 +140,7 @@ const Layout: FC<Props> = ({ children, ...props }) => {
             <Box p="4" gap="2">
               <Flex padding='5px' paddingBottom='8px'>
                 <Center padding={1} flexWrap="nowrap">
-                  <Avatar size="sm" icon={<Icon as={RiMailLine} />}>
-                    <AvatarBadge boxSize="1em" bg="red.500" />
-                  </Avatar>
+                  <Notifictions />
                 </Center>
               </Flex>
             </Box>
