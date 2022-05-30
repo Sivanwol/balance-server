@@ -27,15 +27,15 @@ import {
 } from '@chakra-ui/react';
 /* eslint-disable-next-line */
 export interface NotifictionsProps {}
-const notifictionItemMock = (): React.ReactElement => (
-  <ListItem _hover={{ background: 'gray.500' }}>
+const notificationItemMock = (idx: number): React.ReactElement => (
+  <ListItem _hover={{ background: 'gray.500' }} key={idx}>
     <Grid h="100px" templateColumns="repeat(5, 1fr)" gap={2}>
       <GridItem rowSpan={2} colSpan={1}>
         <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
       </GridItem>
       <GridItem colSpan={4} alignItems="middle">
         <Text fontWeight="bold" display="inline" paddingRight={15}>
-          Name Nmae
+          Name Name
         </Text>
         <Text display="inline" paddingLeft="15">
           14 hours age
@@ -48,7 +48,7 @@ const notifictionItemMock = (): React.ReactElement => (
 const addNewNotificationMock = (): React.ReactElement => {
   const rows = [];
   for (let i = 0; i < 5; i++) {
-    rows.push(notifictionItemMock());
+    rows.push(notificationItemMock(i));
   }
   return (
     <Box>
