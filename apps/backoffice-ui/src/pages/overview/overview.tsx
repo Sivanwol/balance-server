@@ -5,7 +5,7 @@
  Delete this file and get started with your project!
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-export function NxWelcome({ title }: { title: string }) {
+export function Overview({ title }: { title: string }) {
   return (
     <>
       <style
@@ -665,4 +665,4 @@ export function NxWelcome({ title }: { title: string }) {
   );
 }
 
-export default NxWelcome;
+export default Overview;

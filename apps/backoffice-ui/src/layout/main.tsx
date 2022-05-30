@@ -35,7 +35,7 @@ interface Props {
   children: any;
 }
 
-const Layout: FC<Props> = ({ children, ...props }) => {
+const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <VStack align="stretch">
@@ -174,4 +174,4 @@ const Layout: FC<Props> = ({ children, ...props }) => {
   );
 };
 
-export default Layout;
+export default MainLayout;

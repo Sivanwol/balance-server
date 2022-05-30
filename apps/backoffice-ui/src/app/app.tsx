@@ -3,16 +3,35 @@ import styles from './app.module.styl';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
-import Layout from '../layout/main';
+import MainLayout from '../layout/main';
+import IntroLayout from '../layout/intro';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Button } from '@chakra-ui/react';
+import Intro from '../pages/intro/intro';
 
-
+const renderAuthUser = () => (
+  <MainLayout>
+    <NxWelcome title="backoffice-ui" />
+    <div />
+  </MainLayout>
+);
+const renderNoAuthUser = (loginWithRedirect: any) => (
+  <IntroLayout>
+    <Button onClick={() => loginWithRedirect()}>Login</Button>
+  </IntroLayout>
+);
 export function App() {
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <div>Loading ...</div>
+      </MainLayout>
+    );
+  }
   return (
     <>
-      <Layout>
-        <NxWelcome title="backoffice-ui" />
-        <div />
-      </Layout>
+      {isAuthenticated ? renderAuthUser() : renderNoAuthUser(loginWithRedirect)}
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
@@ -30,22 +49,11 @@ export function App() {
         </ul>
       </div>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route. <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
+        <Route path="/">
+          <Intro />
+        </Route>
+        <Route path="/overview">
+            </Route>
       </Routes>
       {/* END: routes */}
     </>
