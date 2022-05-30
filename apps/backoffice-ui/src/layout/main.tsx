@@ -38,7 +38,7 @@ interface Props {
 
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAuth0();
+  const { user, logout } = useAuth0();
   return (
     <VStack align="stretch">
       <Flex color="white">
@@ -140,7 +140,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
             </Box>
             <Spacer />
             <Box p="4" gap="2" color="black">
-              <Flex padding='5px' paddingBottom='8px'>
+              <Flex padding="5px" paddingBottom="8px">
                 <Center padding={1} flexWrap="nowrap">
                   <Notifications />
                 </Center>
@@ -150,7 +150,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               <Menu>
                 <MenuButton>
                   <Flex>
-                    <Avatar size="sm">
+                    <Avatar src={user.picture} name={user.name} size="sm">
                       <AvatarBadge boxSize="1em" bg="green.500" />
                     </Avatar>
                     <Spacer />
@@ -165,7 +165,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
                   <MenuList>
                     <MenuItem>User Settings</MenuItem>
                     <MenuItem>Help</MenuItem>
-                    <MenuItem>Logout</MenuItem>
+                    <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Logout</MenuItem>
                   </MenuList>
                 </Portal>
               </Menu>

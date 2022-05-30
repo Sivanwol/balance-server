@@ -3,4 +3,6 @@
 
 export const environment = {
   production: false,
+  AUTH0_CLIENT_ID: 'CtN6MvqePPLDLOAPPyN9kn6uaTM59bcl',
+  AUTH0_DOMAIN: 'dev-jjlyag8w.eu.auth0.com',
 };

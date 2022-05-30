@@ -16,11 +16,6 @@ const IntroLayout: FC<Props> = ({ children, ...props }) => {
   return (
     <VStack align="stretch">
       <Flex color="white">
-        <Box w="75px" bg="green.500">
-          <Center marginTop="1em">
-            &nbsp;
-          </Center>
-        </Box>
         <Box w="100%">
           <Flex minWidth="max-content" alignItems="center" gap="2">
             <Box p="4">

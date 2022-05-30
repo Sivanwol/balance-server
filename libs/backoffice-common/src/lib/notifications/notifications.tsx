@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './notifictions.module.styl';
+import styles from './notifications.module.styl';
 import { RiMailLine } from 'react-icons/ri';
 import {
   Avatar,

@@ -12,7 +12,7 @@
     "start:service:config": "pnpm prisma:generate && pnpm run build:service:config && pnpm exec nx serve config-service",
     "start:service:api": "pnpm prisma:generate && pnpm run build:service:api && pnpm exec nx serve api",
     "start:service:sso": "pnpm prisma:generate && pnpm run build:service:sso && pnpm exec nx serve sso",
-    "start:client:backoffice:dev": "pnpm run build:client:backoffice && pnpm exec nx run backoffice-ui:development",
+    "start:client:backoffice:dev": "pnpm run build:client:backoffice && pnpm exec nx run backoffice-ui:serve:development",
     "start:client:backoffice": "pnpm run build:client:backoffice && pnpm exec nx run backoffice-ui:serve",
     "storybook:client:backoffice": "pnpm run build:client:backoffice && nx run backoffice-ui:storybook",
     "start:all:debug": "concurrently \"pnpm run start:service:config\" \"pnpm run start:service:api\" \"pnpm run start:service:sso\"",
