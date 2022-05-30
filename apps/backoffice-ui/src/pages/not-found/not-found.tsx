@@ -1,14 +1,9 @@
-import styles from './not-found.module.styl';
+import React from "react";
 
-/* eslint-disable-next-line */
-export interface NotFoundProps {}
-
-export function NotFound(props: NotFoundProps) {
+export const NotFound = () => {
   return (
-    <div className={styles['container']}>
-      <h1>Welcome to NotFound!</h1>
+    <div className="content-layout">
+      <h1 className="content__title">Not Found</h1>
     </div>
   );
-}
-
-export default NotFound;
+};
