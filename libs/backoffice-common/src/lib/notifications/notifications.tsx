@@ -22,11 +22,11 @@ import {
   PopoverHeader,
   PopoverTrigger,
   useDisclosure,
-  Divider,
+
   Center,
 } from '@chakra-ui/react';
 /* eslint-disable-next-line */
-export interface NotifictionsProps {}
+export interface NotificationsProps {}
 const notificationItemMock = (idx: number): React.ReactElement => (
   <ListItem _hover={{ background: 'gray.500' }} key={idx}>
     <Grid h="100px" templateColumns="repeat(5, 1fr)" gap={2}>
@@ -56,7 +56,7 @@ const addNewNotificationMock = (): React.ReactElement => {
     </Box>
   );
 };
-export function Notifictions(props: NotifictionsProps) {
+export function Notifications(props: NotificationsProps) {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const firstFieldRef = React.useRef(null);
   return (
@@ -95,5 +95,3 @@ export function Notifictions(props: NotifictionsProps) {
     </div>
   );
 }
-
-export default Notifictions;

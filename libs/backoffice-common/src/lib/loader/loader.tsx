@@ -1,11 +1,11 @@
 import React from "react";
-const loadingImg =
-  "https://cdn.auth0.com/blog/auth0-react-sample/assets/loading.svg";
 
-const Loading = () => (
-  <div className="spinner">
-    <img src={loadingImg} alt="Loading..." />
-  </div>
-);
+export const Loader: React.FC = () => {
+  const loadingImg = "https://cdn.auth0.com/blog/hello-auth0/loader.svg";
 
-export default Loading;
+  return (
+    <div className="loader">
+      <img src={loadingImg} alt="Loading..." />
+    </div>
+  );
+};

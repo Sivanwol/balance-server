@@ -5,7 +5,7 @@
  Delete this file and get started with your project!
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-export function Overview({ title }: { title: string }) {
+export function Overview() {
   return (
     <>
       <style
@@ -418,7 +418,7 @@ export function Overview({ title }: { title: string }) {
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome {title} 👋
+              Welcome To Dashboard 👋
             </h1>
           </div>
 

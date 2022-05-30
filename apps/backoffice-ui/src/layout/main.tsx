@@ -30,13 +30,15 @@ import {
   DrawerCloseButton,
   Icon,
 } from '@chakra-ui/react';
-import { Notifictions } from '@balancer/backoffice-common';
+import { Notifications } from '@balancer/backoffice-common';
+import { useAuth0 } from '@auth0/auth0-react';
 interface Props {
   children: any;
 }
 
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth0();
   return (
     <VStack align="stretch">
       <Flex color="white">
@@ -140,7 +142,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
             <Box p="4" gap="2" color="black">
               <Flex padding='5px' paddingBottom='8px'>
                 <Center padding={1} flexWrap="nowrap">
-                  <Notifictions />
+                  <Notifications />
                 </Center>
               </Flex>
             </Box>
@@ -153,7 +155,9 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
                     </Avatar>
                     <Spacer />
                     <Center padding={1} flexWrap="nowrap">
-                      <Text color="black">Sivan Wolberg</Text>
+                      <Text color="black">
+                        {user.name} {user.family_name}
+                      </Text>
                     </Center>
                   </Flex>
                 </MenuButton>
