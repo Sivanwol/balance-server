@@ -1,11 +1,12 @@
-import React from "react";
+import { Center, Spinner } from '@chakra-ui/react';
+import React from 'react';
 
 export const Loader: React.FC = () => {
-  const loadingImg = "https://cdn.auth0.com/blog/hello-auth0/loader.svg";
-
   return (
     <div className="loader">
-      <img src={loadingImg} alt="Loading..." />
+      <Center>
+        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+      </Center>
     </div>
   );
 };
