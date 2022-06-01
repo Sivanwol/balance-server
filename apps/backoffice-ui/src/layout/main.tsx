@@ -30,7 +30,7 @@ import {
   DrawerCloseButton,
   Icon,
 } from '@chakra-ui/react';
-import { Notifications } from '@balancer/backoffice-common';
+import { Loader, Notifications } from '@balancer/backoffice-common';
 import { useAuth0 } from '@auth0/auth0-react';
 interface Props {
   children: any;
@@ -38,7 +38,7 @@ interface Props {
 
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout } = useAuth0();
+  const { user, logout, isLoading } = useAuth0();
   return (
     <VStack align="stretch">
       <Flex color="white">
@@ -150,13 +150,13 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               <Menu>
                 <MenuButton>
                   <Flex>
-                    <Avatar src={user.picture} name={user.name} size="sm">
+                    <Avatar src={user?.picture} name={user?.name} size="sm">
                       <AvatarBadge boxSize="1em" bg="green.500" />
                     </Avatar>
                     <Spacer />
                     <Center padding={1} flexWrap="nowrap">
                       <Text color="black">
-                        {user.name} {user.family_name}
+                        {user?.name} {user?.family_name}
                       </Text>
                     </Center>
                   </Flex>
@@ -171,7 +171,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               </Menu>
             </Box>
           </Flex>
-          <Container {...props}>{children} </Container>
+          <Container {...props}>{isLoading ? <Loader /> : children} </Container>
         </Box>
       </Flex>
     </VStack>

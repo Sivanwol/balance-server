@@ -8,11 +8,15 @@ import {
   Flex,
   Center,
 } from '@chakra-ui/react';
+import { Loader } from '@balancer/backoffice-common';
+import { useAuth0 } from '@auth0/auth0-react';
 interface Props {
   children: any;
 }
 
 const IntroLayout: FC<Props> = ({ children, ...props }) => {
+  const {  isLoading } = useAuth0();
+  console.log(isLoading)
   return (
     <VStack align="stretch">
       <Flex color="white">
@@ -24,7 +28,7 @@ const IntroLayout: FC<Props> = ({ children, ...props }) => {
               </Link>
             </Box>
           </Flex>
-          <Container {...props}>{children} </Container>
+          <Container {...props}>{isLoading? <Loader />: children} </Container>
         </Box>
       </Flex>
     </VStack>

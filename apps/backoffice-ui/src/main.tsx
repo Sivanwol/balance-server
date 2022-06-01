@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import App from './app/app';
 import { theme } from './theme';
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Auth0Provider } from '@auth0/auth0-react';
 import { environment } from './environments/environment';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

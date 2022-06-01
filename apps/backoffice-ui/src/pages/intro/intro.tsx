@@ -15,7 +15,7 @@ export function Intro(props: IntroProps) {
   return (
     <div className={styles['container']}>
       <Center>
-        <Button onClick={() => loginWithRedirect()}>Login</Button>
+        <Button color='black' onClick={() => loginWithRedirect()}>Please click for login</Button>
       </Center>
     </div>
   );
