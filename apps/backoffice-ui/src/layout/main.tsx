@@ -42,8 +42,9 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   const navigate = useNavigate();
   const { user, logout,isAuthenticated, isLoading } = useAuth0();
   if (!isAuthenticated) {
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   }
+  console.log(`${window.location.origin}/login` )
   return (
     <VStack align="stretch">
       <Flex color="white">
@@ -170,7 +171,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
                   <MenuList>
                     <MenuItem>User Settings</MenuItem>
                     <MenuItem>Help</MenuItem>
-                    <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Logout</MenuItem>
+                    <MenuItem onClick={() => logout({ returnTo: `${window.location.origin}` })}>Logout</MenuItem>
                   </MenuList>
                 </Portal>
               </Menu>

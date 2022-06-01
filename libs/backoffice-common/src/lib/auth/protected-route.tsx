@@ -1,7 +1,7 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { ComponentType } from "react";
 import { Loader } from "../loader/loader";
-import { Redirect, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 interface ProtectedRouteProps {
   component: ComponentType;
