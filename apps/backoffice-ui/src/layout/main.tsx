@@ -32,13 +32,18 @@ import {
 } from '@chakra-ui/react';
 import { Loader, Notifications } from '@balancer/backoffice-common';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from "react-router-dom";
 interface Props {
   children: any;
 }
 
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout, isLoading } = useAuth0();
+  const navigate = useNavigate();
+  const { user, logout,isAuthenticated, isLoading } = useAuth0();
+  if (!isAuthenticated) {
+    navigate("/login", { replace: true });
+  }
   return (
     <VStack align="stretch">
       <Flex color="white">

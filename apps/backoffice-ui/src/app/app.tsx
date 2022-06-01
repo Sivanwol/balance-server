@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Redirect } from 'react-router-dom';
 import MainLayout from '../layout/main';
 import IntroLayout from '../layout/intro';
 import Intro from '../pages/intro/intro';
@@ -14,7 +14,8 @@ export function App() {
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
       <Routes>
-        <Route path="/" element={<IntroLayout><Intro /></IntroLayout>} />
+        <Redirect exact from="/" to="/login" />
+        <Route path="/login" element={<IntroLayout><Intro /></IntroLayout>} />
         <Route path="/overview" element={<MainLayout><ProtectedRoute component={Overview} /></MainLayout>} />
         <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
       </Routes>
