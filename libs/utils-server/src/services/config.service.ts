@@ -5,19 +5,31 @@ import { DbService } from './db.service';
 import { CacheKeys } from '../constraints/CacheKeys';
 import { Configuration, ConfigurationMessage } from '../interfaces/IConfiguration';
 
+
 @Service()
 export class ConfigService {
   private configData: PlatformSettings[] = [];
 
-  public async GetServiceSettings( forceReload?: boolean ): Promise<PlatformSettings[]> {
+  public async GetServiceSettings( clientFilter?: { isSecure: boolean }, forceReload?: boolean ): Promise<PlatformSettings[]> {
     if (this.configData.length === 0 || forceReload)
       await this.reloadServiceSettings()
+
+    if (clientFilter) {
+      return this.configData.filter(config => ( config.isClientSecure === clientFilter.isSecure))
+    }
     return this.configData;
+
   }
 
-  public async GetServiceSettingsByKey( key: string, forceReload?: boolean ): Promise<PlatformSettings> {
+  public async GetServiceSettingsByKey( key: string,clientFilter?: { isSecure: boolean },  forceReload?: boolean ): Promise<PlatformSettings> {
     if (this.configData.length === 0 || forceReload)
       await this.reloadServiceSettings()
+    if (clientFilter) {
+      if (this.configData[key].isClientSecure === clientFilter.isSecure) {
+        return this.configData[key]
+      }
+      return null;
+    }
     return this.configData[key]
   }
 

@@ -15,14 +15,14 @@ enum PlatformServices {
 }
 
 model PlatformSettings {
-  key          String           @id @unique
-  service      PlatformServices @default(ALL)
-  isClientSide Boolean          @default(false)
-  isSecure     Boolean          @default(false)
-  value        Json
-  isEnabled    Boolean          @default(true)
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @default(now())
+  key            String           @id @unique
+  service        PlatformServices @default(ALL)
+  isClientSide   Boolean          @default(false)
+  isClientSecure Boolean          @default(false)
+  value          Json
+  isEnabled      Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
 
   @@map("platform_settings")
 }
