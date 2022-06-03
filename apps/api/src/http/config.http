@@ -1,0 +1,3 @@
+###
+GET {{baseURL}}/config/all
+Content-Type: application/json

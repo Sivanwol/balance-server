@@ -6,7 +6,6 @@
     "backoffice-common-e2e": "apps/backoffice-common-e2e",
     "backoffice-ui": "apps/backoffice-ui",
     "backoffice-ui-e2e": "apps/backoffice-ui-e2e",
-    "common-services": "libs/common-services",
     "config-service": "apps/config-service",
     "jest-common": "libs/jest-common",
     "shared-utils-server": "libs/utils-server",

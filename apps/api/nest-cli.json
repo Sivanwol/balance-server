@@ -1,6 +1,0 @@
-{
-  "language": "ts",
-  "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/api/src",
-  "assets": [{ "include": "apps/api/config/*.yaml", "outDir": "dist/api/config" }]
-}
