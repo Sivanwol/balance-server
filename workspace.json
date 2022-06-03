@@ -8,7 +8,6 @@
     "backoffice-ui-e2e": "apps/backoffice-ui-e2e",
     "config-service": "apps/config-service",
     "jest-common": "libs/jest-common",
-    "shared-utils-server": "libs/utils-server",
-    "sso": "apps/sso"
+    "shared-utils-server": "libs/utils-server"
   }
 }

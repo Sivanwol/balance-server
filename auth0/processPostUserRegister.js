@@ -12,7 +12,7 @@ exports.onExecutePostUserRegistration = async (event) => {
     fullName: event.user.name || '',
     email: event.user.email
   }
-  await axios.post(`${event.secrets.API_BACKEND}/register/user/${event.user.user_id.replace('auth0|','')}`, user , {
+  await axios.post(`${event.secrets.API_BACKEND}/register/${event.user.user_id.replace('auth0|','')}`, user , {
     method: 'POST',
     headers: {
       'content-type': 'application/json; charset=utf-8',
