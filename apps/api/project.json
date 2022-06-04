@@ -3,12 +3,11 @@
   "sourceRoot": "apps/api/src",
   "projectType": "application",
   "implicitDependencies": [
-    "config-service",
     "shared-utils-server"
   ],
   "targets": {
     "build": {
-      "executor": "@nrwl/node:build",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/api",
@@ -25,7 +24,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/node:execute",
+      "executor": "@nrwl/node:node",
       "options": {
         "inspect": true,
         "port": 9222,
