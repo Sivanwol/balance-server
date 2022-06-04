@@ -64,7 +64,7 @@
     "@graphql-yoga/node": "^2.6.0",
     "@nrwl/nx-cloud": "^14.0.3",
     "@paljs/plugins": "^4.0.18",
-    "@prisma/client": "latest",
+    "@prisma/client": "^3.14.0",
     "@sendgrid/mail": "^7.6.2",
     "ajv": "^8.11.0",
     "amqplib": "^0.8.0",

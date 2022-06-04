@@ -5,7 +5,6 @@ import RedisUtil from '@balancer/utils-server/utils/redisUtil';
 import { logger } from '@balancer/utils-server/utils/logger';
 import { RabbitMQConnection } from '@balancer/utils-server/utils/RabbitMQConnection';
 import { PlatformSettingsService } from '@balancer/utils-server/services';
-import { ServicesRoute } from '@balancer/utils-server/constraints/knownservices';
 import { PlatformServices } from '@prisma/client';
 
 export const syncConfigWorker = (redisConnection: Redis) => new Worker(queueName, async (job: Job) => {

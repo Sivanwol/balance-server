@@ -47,7 +47,7 @@ specifiers:
   '@nrwl/workspace': ^14.1.4
   '@ns3/nx-jest-playwright': ^2.4.0
   '@paljs/plugins': ^4.0.18
-  '@prisma/client': latest
+  '@prisma/client': ^3.14.0
   '@sendgrid/mail': ^7.6.2
   '@storybook/addon-essentials': ~6.5.5
   '@storybook/addons': ^6.5.5

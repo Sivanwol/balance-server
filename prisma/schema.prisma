@@ -9,14 +9,12 @@ datasource db {
 }
 
 enum PlatformServices {
-  ALL
   API
-  CONFIG
 }
 
 model PlatformSettings {
   key            String           @id @unique
-  service        PlatformServices @default(ALL)
+  service        PlatformServices @default(API)
   isClientSide   Boolean          @default(false)
   isClientSecure Boolean          @default(false)
   value          Json
