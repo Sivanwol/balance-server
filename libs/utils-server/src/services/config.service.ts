@@ -10,8 +10,8 @@ import { Configuration, ConfigurationMessage } from '../interfaces/IConfiguratio
 export class ConfigService {
   private configData: PlatformSettings[] = [];
 
-  public async GetServiceSettings(clientFilter?: { isSecure: boolean }, forceReload?: boolean): Promise<PlatformSettings[]> {
-    if (this.configData.length === 0 || forceReload) await this.reloadServiceSettings();
+  public async GetServiceSettings(service: PlatformServices ,clientFilter?: { isSecure: boolean }, forceReload?: boolean): Promise<PlatformSettings[]> {
+    if (this.configData.length === 0 || forceReload) await this.reloadServiceSettings(service);
 
     if (clientFilter) {
       return this.configData.filter((config) => config.isClientSecure === clientFilter.isSecure);
@@ -19,15 +19,15 @@ export class ConfigService {
     return this.configData;
   }
 
-  public async GetServiceSettingsByKey(key: string, clientFilter?: { isSecure: boolean }, forceReload?: boolean): Promise<PlatformSettings> {
-    if (this.configData.length === 0 || forceReload) await this.reloadServiceSettings();
+  public async GetServiceSettingsByKey(service: PlatformServices ,key: string, clientFilter?: { isSecure: boolean }, forceReload?: boolean): Promise<PlatformSettings> {
+    if (this.configData.length === 0 || forceReload) await this.reloadServiceSettings(service);
     if (clientFilter) {
-      if (this.configData[key].isClientSecure === clientFilter.isSecure) {
+      if (this.configData[key].isClientSecure === clientFilter.isSecure && this.configData[key].service === service) {
         return this.configData[key];
       }
       return null;
     }
-    return this.configData[key];
+    return this.configData[key].filter(c => c.service === service);
   }
 
   private async reloadServiceSettings(service: PlatformServices) {
@@ -46,21 +46,12 @@ export class ConfigService {
     }
   }
 
-  public async SetServiceSettings(payload: ConfigurationMessage[]) {
+  public async SetServiceSettings(service: PlatformServices ,payload: ConfigurationMessage[]) {
     if (payload.length > 0) {
-      const services = [];
-      for (let index = 0; index < payload.length; index++) {
-        const config = payload[index];
-        const { service } = config;
-        services.push(service);
-      }
-      for (let index = 0; index < services.length; index++) {
-        const service = services[index];
-        const cacheKey = CacheKeys.ServiceSettings(service);
-        const status = await DbService.getInstance().HasCache(cacheKey);
-        if (status) await DbService.getInstance().RemoveCache(cacheKey);
-        await DbService.getInstance().CacheResult<Configuration>(cacheKey, { items: payload.filter((item) => item.service === service) });
-      }
+      const cacheKey = CacheKeys.ServiceSettings(service);
+      const status = await DbService.getInstance().HasCache(cacheKey);
+      if (status) await DbService.getInstance().RemoveCache(cacheKey);
+      await DbService.getInstance().CacheResult<Configuration>(cacheKey, { items: payload.filter((item) => item.service === service) });
     }
   }
 }
