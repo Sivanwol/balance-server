@@ -5,33 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Config Service",
-      "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "start:service:config"
-      ],
-      "runtimeExecutable": "pnpm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "node"
-    },
-    {
-      "name": "Launch SSO Service",
-      "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "start:service:sso"
-      ],
-      "runtimeExecutable": "pnpm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "node"
-    },
-    {
-      "name": "Launch API Gateway Service",
+      "name": "Launch API Service",
       "request": "launch",
       "runtimeArgs": [
         "run-script",

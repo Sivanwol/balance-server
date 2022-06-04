@@ -1,7 +1,0 @@
-###
-GET {{configBaseURL}}/config/all
-Content-Type: application/json
-
-###
-GET {{configBaseURL}}/config/sync/service
-Content-Type: application/json

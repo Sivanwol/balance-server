@@ -16,7 +16,6 @@ export enum RequestMethod {
 export class RequestService {
   private client: AxiosInstance;
   private headers: AxiosRequestHeaders;
-  private serviceToken: string;
 
   public initRequest(service: ServicesRoute) {
     let uri;
