@@ -7,9 +7,11 @@ import { ProtectedRoute } from '@balancer/backoffice-common';
 import Overview from '../pages/overview/overview';
 import { NotFound } from '../pages/not-found/not-found';
 import { useAuth0 } from '@auth0/auth0-react';
+import Configuration from '../pages/configuration/configuration';
 const authenticateRoutes = () => (
   <>
     <Route path="/" element={<ProtectedRoute component={Overview} />} />
+    <Route path="/configuration" element={<ProtectedRoute component={Configuration} />} />
     <Route path="/overview" element={<ProtectedRoute component={Overview} />} />
   </>
 );

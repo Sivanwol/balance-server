@@ -1,4 +1,4 @@
-import { PlatformSettings } from '@prisma/client';
+import { PlatformServices, PlatformSettings } from '@prisma/client';
 import { find, isArray } from 'lodash';
 import { Service } from 'typedi';
 import RedisUtil from '../utils/redisUtil';
@@ -18,47 +18,20 @@ export class PlatformSettingsService {
   public async GetServicesSettings() {
     logger.info('fetching Data from GetServicesSettings');
     let platformSettings: PlatformSettings[] = [];
-    for (const service of knownServices) {
+    for (const service of Object.keys(PlatformServices)) {
       if (service) {
-        const settings = await this.GetSettings(service);
+        const settings = await this.GetSettings(PlatformServices[service]);
         if (settings && isArray(settings)) platformSettings = [...platformSettings, ...settings];
       }
     }
     return platformSettings;
   }
 
-  public async HasGlobalSettingKey(keyName: string) {
-    logger.info('received service request => HasGlobalSettingKey');
-    const status = await DbService.getInstance().HasCache(CacheKeys.GlobalSettings);
-    if (!status) {
-      const playformSettings: PlatformSettings = await DbService.getInstance().connection.platformSettings.findFirst({
-        where: {
-          key: keyName,
-          isEnabled: true,
-        },
-      });
-      if (!playformSettings) return false;
-    } else {
-      // we need verify if it on cache
-      const playformSettings: PlatformSettings[] = (await DbService.getInstance().GetCacheQuery(CacheKeys.GlobalSettings)) as PlatformSettings[];
-      const locateSettings = find(playformSettings, { key: keyName });
-      if (!locateSettings) {
-        const playformSettings: PlatformSettings = await DbService.getInstance().connection.platformSettings.findFirst({
-          where: {
-            key: keyName,
-            isEnabled: true,
-          },
-        });
-        if (!playformSettings) return false;
-      }
-    }
-    return true;
-  }
-
-  public async HasSettingKey(keyName: string) {
+  public async HasSettingKey(service: PlatformServices,keyName: string) {
     logger.info('received service request => HasSettingKey');
     const playformSettings: PlatformSettings = await DbService.getInstance().connection.platformSettings.findFirst({
       where: {
+        service,
         key: keyName,
         isEnabled: true,
       },
@@ -66,10 +39,11 @@ export class PlatformSettingsService {
     return !!playformSettings;
   }
 
-  public async GetSettingKey(keyName: string) {
+  public async GetSettingKey(service: PlatformServices, keyName: string) {
     logger.info('received service request => GetSettingKey');
     const playformSettings: PlatformSettings = await DbService.getInstance().connection.platformSettings.findFirst({
       where: {
+        service,
         key: keyName,
         isEnabled: true,
       },
@@ -77,13 +51,16 @@ export class PlatformSettingsService {
     return playformSettings;
   }
 
-  public async HasGlobalSettingCacheKey(keyName: string) {
+  public async HasSettingCacheKey(service: PlatformServices, keyName: string) {
     logger.info('received service request => HasGlobalSettingCacheKey');
-    const status = await DbService.getInstance().HasCache(CacheKeys.GlobalSettings);
+    const status = await DbService.getInstance().HasCache(CacheKeys.ServiceSettings(service));
     if (status) {
       // we need verify if it on cache
-      const playformSettings: PlatformSettings[] = (await DbService.getInstance().GetCacheQuery(CacheKeys.GlobalSettings)) as PlatformSettings[];
-      const locateSettings = find(playformSettings, { key: keyName });
+      const playformSettings: PlatformSettings[] = (await DbService.getInstance().GetCacheQuery(CacheKeys.ServiceSettings(service))) as PlatformSettings[];
+      const locateSettings = find(playformSettings, {
+        service,
+        key: keyName,
+      });
       if (!locateSettings) {
         return false;
       }
@@ -91,26 +68,28 @@ export class PlatformSettingsService {
     return true;
   }
 
-  public async UpdateSettingsValue(keyName: string, valueObj: any) {
+  public async UpdateSettingsValue(service: PlatformServices, keyName: string, valueObj: any) {
     logger.info('received service request => UpdateSettingsValue');
-    if (await this.HasGlobalSettingKey(keyName)) {
-      await DbService.getInstance().RemoveCache(CacheKeys.GlobalSettings);
+    if (await this.HasSettingKey(service,keyName)) {
+      await DbService.getInstance().RemoveCache(CacheKeys.ServiceSettings(service));
     }
     const setting = await DbService.getInstance().connection.platformSettings.update({
-      where: { key: keyName },
+      where: {
+        key: keyName,
+      },
       data: { value: valueObj, updatedAt: moment().format() },
     });
     logger.info('re save cache Data for PlatformSettings');
-    await DbService.getInstance().CacheResult<PlatformSettings>(CacheKeys.GlobalSettings, setting);
+    await DbService.getInstance().CacheResult<PlatformSettings>(CacheKeys.ServiceSettings(service), setting);
     RedisUtil.client.set('require_services_sync', '1');
     return setting;
   }
 
-  public async ToggleSettingStatus(keyName: string) {
+  public async ToggleSettingStatus(service: PlatformServices,keyName: string) {
     logger.info('received service request => ToggleSettingStatus');
 
-    if (await this.HasGlobalSettingKey(keyName)) {
-      await DbService.getInstance().RemoveCache(CacheKeys.GlobalSettings);
+    if (await this.HasSettingKey(service,keyName)) {
+      await DbService.getInstance().RemoveCache(CacheKeys.ServiceSettings(service));
     }
     const playformSettings: PlatformSettings = await DbService.getInstance().connection.platformSettings.findFirst({
       where: {
@@ -122,11 +101,11 @@ export class PlatformSettingsService {
       where: { key: keyName },
       data: { isEnabled: status, updatedAt: moment().format() },
     });
-    await DbService.getInstance().CacheResult<PlatformSettings>(CacheKeys.GlobalSettings, setting);
+    await DbService.getInstance().CacheResult<PlatformSettings>(CacheKeys.ServiceSettings(service), setting);
     RedisUtil.client.set('require_services_sync', '1');
   }
-  public async GetSettings(service: string, key?: string, noCache?: boolean): Promise<PlatformSettings[]> {
-    const cacheKey = !service ? CacheKeys.GlobalSettings : CacheKeys.ServiceSettings(service);
+  public async GetSettings(service: PlatformServices, noCache?: boolean): Promise<PlatformSettings[]> {
+    const cacheKey = CacheKeys.ServiceSettings(service);
     if (cacheKey && !noCache) {
       const status = await DbService.getInstance().HasCache(cacheKey);
       if (status) {
@@ -136,11 +115,7 @@ export class PlatformSettingsService {
         const $platformWhere = {
           service: service,
           isEnabled: true,
-          key: null,
         };
-        if (key !== '') {
-          $platformWhere.key = key;
-        }
         const platformSettings: PlatformSettings[] = await DbService.getInstance().connection.platformSettings.findMany({
           where: $platformWhere,
         });
