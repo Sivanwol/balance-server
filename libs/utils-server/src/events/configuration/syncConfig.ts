@@ -4,6 +4,7 @@ import { ConfigPayloadFormatException } from '../../exceptions/ConfigPayloadForm
 import { ConfigurationMessage } from '../../interfaces/IConfiguration';
 import { ConfigService } from '../../services/config.service';
 import { Container } from 'typedi';
+import { PlatformServices } from '@prisma/client';
 
 export const SyncConfigQueueName = "sync_config"
 
@@ -19,7 +20,7 @@ export class SyncConfigEvent extends BaseEvent {
     const {content} = message;
     try {
       const payload = JSON.parse( content.toString() ) as ConfigurationMessage[]
-      await this.configService.SetServiceSettings( payload )
+      await this.configService.SetServiceSettings( PlatformServices[process.env['MICROSERVICE_Group']], payload )
     } catch (e) {
       throw new ConfigPayloadFormatException( content.toString() )
     }

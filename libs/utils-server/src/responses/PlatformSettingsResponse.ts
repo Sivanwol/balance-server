@@ -1,15 +1,24 @@
 import { IsBoolean, IsDate, IsDefined, IsString } from 'class-validator';
+import { ConfigurationMessage } from '../interfaces/IConfiguration';
 import { BaseResponse, ListResponse, StatusMessageResponse } from './baseResponses';
 
 export class PlatformSettingsResponse {
   @IsString()
-  public key: string
+  public service: string;
+  @IsString()
+  public key: string;
   @IsDefined()
   public value: any
+
   @IsBoolean()
-  public isEnabled: boolean
+  public isClient: boolean
+  @IsBoolean()
+  public isSecureClient: boolean
   @IsDate()
   public updatedAt: Date
+  public toConfigurationMessage(): ConfigurationMessage {
+    return this as ConfigurationMessage;
+  }
 }
 
 export class PlatformSettingsMessageResponse extends BaseResponse<StatusMessageResponse> {}

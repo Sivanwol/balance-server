@@ -6,11 +6,12 @@ import { logger } from '@balancer/utils-server/utils/logger';
 import { RabbitMQConnection } from '@balancer/utils-server/utils/RabbitMQConnection';
 import { PlatformSettingsService } from '@balancer/utils-server/services';
 import { ServicesRoute } from '@balancer/utils-server/constraints/knownservices';
+import { PlatformServices } from '@prisma/client';
 
 export const syncConfigWorker = (redisConnection: Redis) => new Worker(queueName, async (job: Job) => {
   const jobInfo = job.asJSON()
   const platformSettingsService = new PlatformSettingsService
-  const settings = await platformSettingsService.GetSettings(ServicesRoute.APIGateWay)
+  const settings = await platformSettingsService.GetSettings(PlatformServices.API)
   logger.info(`[JobId:${jobInfo.id} ,Timestamp: ${jobInfo.timestamp}]`)
   RabbitMQConnection.getInstance().SendToQueue('syncConfig', Buffer.from(JSON.stringify(settings)))
   await RedisUtil.client.del('require_services_sync')

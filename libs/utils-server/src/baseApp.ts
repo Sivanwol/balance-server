@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import morgan from 'morgan';
-import {
-  Action,
-  getMetadataArgsStorage,
-  useContainer,
-  useExpressServer,
-} from 'routing-controllers';
+import { getMetadataArgsStorage, useContainer, useExpressServer } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
 import { Container } from 'typedi';
@@ -27,12 +22,13 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import express from 'express';
+import { PlatformServices } from '@prisma/client';
+import { ConfigurationMessage } from './interfaces/IConfiguration';
 
 if (process.env.NEWRELIC_ENABLE === '1') {
   require('./newrelic');
 }
-export const newrelic =
-  process.env.NEWRELIC_ENABLE === '1' ? require('newrelic') : null;
+export const newrelic = process.env.NEWRELIC_ENABLE === '1' ? require('newrelic') : null;
 export abstract class BaseApp {
   protected app: express.Application;
   protected readonly server: Server;
@@ -61,19 +57,16 @@ export abstract class BaseApp {
       logger.error(`promise rejection error unhandled ${err}`);
     });
 
-    this.initServer(Controllers).finally(() =>
-      console.log('Server up and running')
-    );
+    this.initServer(Controllers).finally(() => console.log('Server up and running'));
   }
   private async initServer(Controllers: Function[]) {
     await this.initializeMessageBrokerHandling();
     this.initializeMiddlewares();
     this.initializeExternalMiddlewares();
-    if (process.env.MICROSERVICE_Group !== ServicesRoute.ConfigService)
-      await this.requestServiceConfig();
+    if (process.env.MICROSERVICE_Group !== ServicesRoute.ConfigService) await this.requestServiceConfig();
     this.initializeMiddlewaresAuth();
     this.initializeRoutes(Controllers);
-    if (this.env === 'development'){
+    if (this.env === 'development') {
       this.initializeSwagger(Controllers);
     }
     this.initializeErrorHandling();
@@ -97,17 +90,14 @@ export abstract class BaseApp {
     const configService = Container.get(ConfigService);
     const requester = new RequestService();
     requester.initRequest(ServicesRoute.ConfigService);
-    console.log(`Request config data`)
-    const payload = await requester.request(
-      RequestMethod.GET,
-      'config/sync/service'
-    );
+    console.log(`Request config data`);
+    const payload = await requester.request(RequestMethod.GET, 'config/sync/service');
     if (payload && payload.status === 200 && payload.data) {
       const data = payload.data as PlatformSettingsListResponse;
-      console.log(`recived config data ${JSON.stringify(payload.data)}`)
+      console.log(`received config data ${JSON.stringify(payload.data)}`);
       if (data.status) {
-        const configs = data.data.items;
-        await configService.SetServiceSettings(configs);
+        const configs = data.data.items.map((item) => item.toConfigurationMessage());
+        await configService.SetServiceSettings(PlatformServices[process.env['MICROSERVICE_Group']], configs);
         return;
       }
       logger.info('Unable load Config');
@@ -124,8 +114,7 @@ export abstract class BaseApp {
    */
   protected abstract registerMQEvents(): BaseEvent[];
   protected async initializeMessageBrokerHandling() {
-    RabbitMQConnection.getInstance().RegisterEventsList =
-      this.registerMQEvents();
+    RabbitMQConnection.getInstance().RegisterEventsList = this.registerMQEvents();
     await RabbitMQConnection.getInstance().OpenConnection();
     process.on('beforeExit', async () => {
       await RabbitMQConnection.getInstance().CloseConnection();
@@ -198,12 +187,10 @@ export abstract class BaseApp {
       },
     });
 
-    if (process.env.NODE_ENV === 'development')
-      this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
+    if (process.env.NODE_ENV === 'development') this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
   }
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
   }
 }
-

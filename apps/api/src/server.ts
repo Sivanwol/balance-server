@@ -4,8 +4,8 @@ import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-import { ServicesRoute } from '@balancer/utils-server/constraints/knownservices';
-process.env['MICROSERVICE_Group'] = ServicesRoute.APIGateWay;
+import { PlatformServices } from '@prisma/client';
+process.env['MICROSERVICE_Group'] = PlatformServices.API;
 
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';

@@ -3,6 +3,7 @@ import { Ipware } from '@fullerstack/nax-ipware';
 import { Container } from 'typedi';
 import { ConfigService, UsersService } from '@balancer/utils-server/services';
 import { logger } from '@balancer/utils-server/utils/logger';
+import { PlatformServices } from '@prisma/client';
 
 export class ConfigurationSchema implements ISchema {
   readonly usersService = Container.get( UsersService ) as UsersService;
@@ -36,10 +37,10 @@ export class ConfigurationSchema implements ISchema {
         const ip = this.ipware.getClientIP( req )
         if (key === ''){
           logger.info(`Request all client configurations`)
-          return (await this.configService.GetServiceSettings())
+          return (await this.configService.GetServiceSettings(PlatformServices.API))
         }
         logger.info(`Request client configuration with key ${key}`)
-        return [await this.configService.GetServiceSettingsByKey(key)];
+        return [await this.configService.GetServiceSettingsByKey(PlatformServices.API,key)];
       }
     },
     Mutation: {
