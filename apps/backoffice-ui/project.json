@@ -1,0 +1,113 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/backoffice-ui/src",
+  "projectType": "application",
+  "implicitDependencies": ["operations-service", "backoffice-common"],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/backoffice-ui",
+        "index": "apps/backoffice-ui/src/index.html",
+        "baseHref": "/",
+        "main": "apps/backoffice-ui/src/main.tsx",
+        "polyfills": "apps/backoffice-ui/src/polyfills.ts",
+        "tsConfig": "apps/backoffice-ui/tsconfig.app.json",
+        "assets": ["apps/backoffice-ui/src/favicon.ico", "apps/backoffice-ui/src/assets"],
+        "styles": ["apps/backoffice-ui/src/styles.styl"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/backoffice-ui/src/environments/environment.ts",
+              "with": "apps/backoffice-ui/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "backoffice-ui:build",
+        "hmr": true,
+        "proxyConfig": "apps/backoffice-ui/proxy.conf.json"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "backoffice-ui:build:development"
+        },
+        "production": {
+          "buildTarget": "backoffice-ui:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/backoffice-ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/backoffice-ui"],
+      "options": {
+        "jestConfig": "apps/backoffice-ui/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/react",
+        "port": 4400,
+        "config": {
+          "configFolder": "apps/backoffice-ui/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/react",
+        "outputPath": "dist/storybook/backoffice-ui",
+        "config": {
+          "configFolder": "apps/backoffice-ui/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

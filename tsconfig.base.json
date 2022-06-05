@@ -16,7 +16,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2018",
     "module": "commonjs",
     "lib": ["es2018", "esnext.asynciterable", "dom"],
     "typeRoots": ["node_modules/@types"],
@@ -25,8 +25,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@balancer/backoffice-common": ["libs/backoffice-common/src/index.ts"],
       "@balancer/jest-common/*": ["libs/jest-common/src/*"],
-      "@balancer/utils-server/*": ["libs/utils-server/src/*"]
+      "@balancer/share-server-common/*": ["libs/share-server-common/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

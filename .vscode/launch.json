@@ -5,50 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Config Service",
+      "name": "Launch operations Service",
       "request": "launch",
       "runtimeArgs": [
         "run-script",
-        "start:service:config"
+        "start:service:operations"
       ],
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "type": "node"
-    },
-    {
-      "name": "Launch SSO Service",
-      "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "start:service:sso"
-      ],
-      "runtimeExecutable": "npm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "node"
-    },
-    {
-      "name": "Config Service Attach",
-      "port": 9221,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "API Service Attach",
-      "port": 9222,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "SSO Attach",
-      "port": 9221,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
       "type": "node"
     }
   ]

@@ -8,18 +8,15 @@ exports.onExecutePostUserRegistration = async (event) => {
   const axios = require('axios')
   const user = {
     userName: event.user.username,
-    displayName: event.user.nickname,
-    fullname: event.user.name,
-    email: event.user.email,
-    emailVerified: event.user.email_verified,
-    phone: event.user.phone,
-    phoneVerified: event.user.phone_verified
+    displayName: event.user.nickname || '',
+    fullName: event.user.name || '',
+    email: event.user.email
   }
-  await axios.post(`${event.secrets.API_BACKEND}/register/user/${event.user.user_id}`, user , {
+  await axios.post(`${event.secrets.API_BACKEND}/register/${event.user.user_id.replace('auth0|','')}`, user , {
     method: 'POST',
     headers: {
-      'content-type': 'multipart/form-data',
-      'X-SERVICE-API-KEY': event.secrets.API_SECRET_TOKEN
+      'content-type': 'application/json; charset=utf-8',
+      'x-service-api-key': event.secrets.API_SECRET_TOKEN
     },
   })
 };

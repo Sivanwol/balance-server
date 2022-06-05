@@ -1,5 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -8,13 +10,18 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+enum PlatformServices {
+  API
+}
+
 model PlatformSettings {
-  key       String   @id @unique
-  service   String?
-  value     Json
-  isEnabled Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  key            String           @id @unique
+  service        PlatformServices @default(API)
+  isClientSide   Boolean          @default(false)
+  value          Json
+  isEnabled      Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
 
   @@map("platform_settings")
 }
@@ -71,6 +78,7 @@ model ActivityLog {
   id        String   @id @default(uuid()) @db.Uuid
   action    Int      @default(0)
   referalIp String
+  entityId  String?
   message   String?
   userId    String?  @db.Uuid
   metaData  Json?
@@ -83,16 +91,16 @@ model ActivityLog {
 }
 
 model User {
-  id                String        @id @default(uuid()) @db.Uuid
-  authUserId        String
-  email             String       @unique
-  emailVerified     Boolean       @default(false)
-  mobile            String?       @unique
-  mobileVerified    Boolean?       @default(false)
-  disabledAt        DateTime?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  activitiys        ActivityLog[]
+  id          String        @id @default(uuid()) @db.Uuid
+  username    String        @unique @db.VarChar(100)
+  email       String        @unique @db.VarChar(500)
+  mobile      String?       @unique @db.VarChar(20)
+  fullName    String        @db.VarChar(100)
+  displayName String        @db.VarChar(100)
+  authUserId  String        @unique @db.VarChar(500)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  activitiys  ActivityLog[]
 
   @@index([id])
   @@map("users")

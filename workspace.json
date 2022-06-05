@@ -1,10 +1,12 @@
 {
   "version": 2,
   "projects": {
-    "api-gate-way": "apps/api-gate-way",
-    "config-service": "apps/config-service",
+    "backoffice-common": "libs/backoffice-common",
+    "backoffice-common-e2e": "apps/backoffice-common-e2e",
+    "backoffice-ui": "apps/backoffice-ui",
+    "backoffice-ui-e2e": "apps/backoffice-ui-e2e",
     "jest-common": "libs/jest-common",
-    "shared-utils-server": "libs/utils-server",
-    "sso": "apps/sso"
+    "operations-service": "apps/operations-service",
+    "share-server-common": "libs/share-server-common"
   }
 }

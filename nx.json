@@ -30,5 +30,21 @@
       }
     ]
   },
-  "defaultProject": "api-gate-way"
+  "defaultProject": "operations-service",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "styl",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "styl"
+      },
+      "library": {
+        "style": "styl",
+        "linter": "eslint"
+      }
+    }
+  }
 }
