@@ -11,17 +11,33 @@ export class ConfigurationSchema implements ISchema {
   readonly ipware = new Ipware();
   type = `
     # platform client side configuration
-    type ConfigurationPlatform {
+    type ConfigurationClientPlatform {
       # config key
       key: String
       # config value
       value: String
     }
+    # platform side configuration (both client and server)
+    type ConfigurationClientPlatform {
+      # config key
+      key: String
+      # config value
+      value: String
+      # service name
+      service: String
+      # is config is for client side
+      isClient: Boolean
+      # is config is for secure client side
+      isSecureClient: Boolean
+    }
   `;
 
   query = `
+    # fetch client side config
+    clientSideConfiguration(isSecure: Boolean): [ConfigurationClientPlatform]
     # fetch relevant config
-    configuration(key: String!): [ConfigurationPlatform]
+    configuration(key: String!): [ConfigurationClientPlatform]
+
   `;
 
   mutation = `
@@ -32,14 +48,22 @@ export class ConfigurationSchema implements ISchema {
 
   resolver = {
     Query: {
+      clientSideConfiguration: async ( root, {isSecure}, context ) => {
+        const {req, res} = context
+        const ip = this.ipware.getClientIP( req )
+        logger.info(`Client Request: ${ip}`);
+        logger.info(`Request all configurations`)
+        return (await this.configService.GetServiceSettings(PlatformServices.API, {isSecure}))
+      },
       configuration: async ( root, {key}, context ) => {
         const {req, res} = context
         const ip = this.ipware.getClientIP( req )
+        logger.info(`Client Request: ${ip}`);
         if (key === ''){
-          logger.info(`Request all client configurations`)
+          logger.info(`Request all configurations`)
           return (await this.configService.GetServiceSettings(PlatformServices.API))
         }
-        logger.info(`Request client configuration with key ${key}`)
+        logger.info(`Request configuration with key ${key}`)
         return [await this.configService.GetServiceSettingsByKey(PlatformServices.API,key)];
       }
     },

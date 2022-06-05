@@ -14,7 +14,7 @@ export class ConfigService {
     if (this.configData.length === 0 || forceReload) await this.reloadServiceSettings(service);
 
     if (clientFilter) {
-      return this.configData.filter((config) => config.isClientSecure === clientFilter.isSecure);
+      return this.configData.filter((config) => config.isClientSide&&config.isClientSecure === clientFilter.isSecure);
     }
     return this.configData;
   }
