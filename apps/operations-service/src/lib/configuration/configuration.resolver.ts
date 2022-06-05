@@ -6,14 +6,18 @@ import { GqlAuth0Guard } from '@balancer/share-server-common/lib/authentication'
 @Resolver((of) => Configuration)
 export class ConfigurationResolver {
   constructor(private configurationService: ConfigurationService) {}
+  @Query(() => String)
+  sayHello(): string {
+    return 'Hello World!';
+  }
 
   @Query(() => ConfigurationClientSide)
   async siteSettings() {
     return await this.configurationService.fetchClientSideConfigurations();
   }
-  @Query(() => ConfigurationClientSide)
+  @Query(() => Configuration)
   @UseGuards(GqlAuth0Guard)
   async platformSettings() {
-    return await this.configurationService.fetchClientSideConfigurations();
+    return await this.configurationService.fetchConfigurations();
   }
 }
