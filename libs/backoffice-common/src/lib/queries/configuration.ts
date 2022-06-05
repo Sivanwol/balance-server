@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const ClientSideConfigurationQuery = gql`
-query getSiteSettings() {
+query getSiteSettings {
   siteSettings {
     key,value
   }

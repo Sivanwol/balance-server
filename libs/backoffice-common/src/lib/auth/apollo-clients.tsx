@@ -1,14 +1,15 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-
+import { setContext } from "@apollo/client/link/context";
 export const publicGQLClient = (environment:any) =>(new ApolloClient({
-  uri: environment.GQL_PUBLIC_URI,
+  uri: environment.OPERATIONS_SERVICE,
   cache: new InMemoryCache()
 }));
 
 export const secureGQLClient  = (environment:any, getAccessTokenSilently:any) => {
   const httpLink = createHttpLink({
-    uri: environment.GQL_SECURE_URI, // your URI here...
+    uri: environment.OPERATIONS_SERVICE, // your URI here...
   });
+
 
   const authLink = setContext(async () => {
     const token = await getAccessTokenSilently();
@@ -25,13 +26,4 @@ export const secureGQLClient  = (environment:any, getAccessTokenSilently:any) =>
     connectToDevTools: true
   });
 
-}
-
-function createHttpLink(arg0: { uri: string; }) {
-  throw new Error("Function not implemented.");
-}
-
-
-function setContext(arg0: () => Promise<{ headers: { Authorization: string; }; }>) {
-  throw new Error("Function not implemented.");
 }

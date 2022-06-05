@@ -43,15 +43,14 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   const navigate = useNavigate();
   const { user, logout, isAuthenticated, isLoading } = useAuth0();
   const [configuration, setConfiguration] = useState([]);
-  const [isLoadingData, setIsLoadingData] = useState(false);
   const { loading, error, data } = useQuery(ClientSideConfigurationQuery, {
     variables: {},
   });
-  if (!loading && data) {
-    setConfiguration(JSON.parse(data));
+  if (!loading && data && !error && configuration.length <=0) {
+    setConfiguration(data.siteSettings);
   }
-  setIsLoadingData(loading);
 
+  console.log('client config', configuration);
   if (!isAuthenticated) {
     navigate('/', { replace: true });
   }
@@ -69,7 +68,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               <Icon as={RiBuilding4Fill} />
             </Link>
             <Link href="https://chakra-ui.com" isExternal>
-              <Icon as={RiBuilding4Fill} /> Platform Configuration
+              <Icon as={RiBuilding4Fill} />
             </Link>
           </VStack>
           <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
@@ -191,7 +190,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               </Menu>
             </Box>
           </Flex>
-          <Container {...props}>{isLoading || isLoadingData ? <Loader /> : children} </Container>
+          <Container {...props}>{isLoading || loading ? <Loader /> : children} </Container>
         </Box>
       </Flex>
     </VStack>
