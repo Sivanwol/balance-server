@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { RiBuilding4Fill, RiBarChartHorizontalFill } from 'react-icons/ri';
 import {
   Link,
@@ -30,9 +30,10 @@ import {
   DrawerCloseButton,
   Icon,
 } from '@chakra-ui/react';
-import { Loader, Notifications } from '@balancer/backoffice-common';
+import { ClientSideConfigurationQuery, Loader, Notifications } from '@balancer/backoffice-common';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 interface Props {
   children: any;
 }
@@ -40,11 +41,21 @@ interface Props {
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const { user, logout,isAuthenticated, isLoading } = useAuth0();
-  if (!isAuthenticated) {
-    navigate("/", { replace: true });
+  const { user, logout, isAuthenticated, isLoading } = useAuth0();
+  const [configuration, setConfiguration] = useState([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const { loading, error, data } = useQuery(ClientSideConfigurationQuery, {
+    variables: {},
+  });
+  if (!loading && data) {
+    setConfiguration(JSON.parse(data));
   }
-  console.log(`${window.location.origin}/login` )
+  setIsLoadingData(loading);
+
+  if (!isAuthenticated) {
+    navigate('/', { replace: true });
+  }
+  console.log(`${window.location.origin}/login`);
   return (
     <VStack align="stretch">
       <Flex color="white">
@@ -56,6 +67,9 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
           <VStack divider={<StackDivider borderColor="gray.200" />} spacing={4}>
             <Link href="https://chakra-ui.com" isExternal>
               <Icon as={RiBuilding4Fill} />
+            </Link>
+            <Link href="https://chakra-ui.com" isExternal>
+              <Icon as={RiBuilding4Fill} /> Platform Configuration
             </Link>
           </VStack>
           <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
@@ -177,7 +191,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               </Menu>
             </Box>
           </Flex>
-          <Container {...props}>{isLoading ? <Loader /> : children} </Container>
+          <Container {...props}>{isLoading || isLoadingData ? <Loader /> : children} </Container>
         </Box>
       </Flex>
     </VStack>
