@@ -1,0 +1,34 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/share-seerver-common/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/share-seerver-common",
+        "tsConfig": "libs/share-seerver-common/tsconfig.lib.json",
+        "packageJson": "libs/share-seerver-common/package.json",
+        "main": "libs/share-seerver-common/src/index.ts",
+        "assets": ["libs/share-seerver-common/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/share-seerver-common/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/share-seerver-common"],
+      "options": {
+        "jestConfig": "libs/share-seerver-common/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -2,10 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/backoffice-ui/src",
   "projectType": "application",
-  "implicitDependencies": [
-    "api",
-    "backoffice-common"
-  ],
+  "implicitDependencies": ["api", "backoffice-common"],
   "targets": {
     "build": {
       "executor": "@nrwl/web:webpack",
@@ -52,7 +49,8 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "backoffice-ui:build",
-        "hmr": true
+        "hmr": true,
+        "proxyConfig": "apps/backoffice-ui/proxy.conf.json"
       },
       "configurations": {
         "development": {

@@ -18,7 +18,6 @@ model PlatformSettings {
   key            String           @id @unique
   service        PlatformServices @default(API)
   isClientSide   Boolean          @default(false)
-  isClientSecure Boolean          @default(false)
   value          Json
   isEnabled      Boolean          @default(true)
   createdAt      DateTime         @default(now())

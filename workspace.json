@@ -1,12 +1,12 @@
 {
   "version": 2,
   "projects": {
-    "api": "apps/api",
+    "backoffice-common": "libs/backoffice-common",
     "backoffice-common-e2e": "apps/backoffice-common-e2e",
     "backoffice-ui": "apps/backoffice-ui",
     "backoffice-ui-e2e": "apps/backoffice-ui-e2e",
-    "backoffice-common": "libs/backoffice-common",
     "jest-common": "libs/jest-common",
-    "shared-utils-server": "libs/utils-server"
+    "operations-service": "apps/operations-service",
+    "share-server-common": "libs/share-server-common"
   }
 }
