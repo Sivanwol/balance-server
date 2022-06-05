@@ -30,7 +30,7 @@
       }
     ]
   },
-  "defaultProject": "api",
+  "defaultProject": "operations-service",
   "generators": {
     "@nrwl/react": {
       "application": {

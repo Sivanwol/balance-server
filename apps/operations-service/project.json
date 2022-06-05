@@ -2,6 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/operations-service/src",
   "projectType": "application",
+  "implicitDependencies": ["share-server-common"],
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",

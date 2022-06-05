@@ -1,4 +1,4 @@
-import { AuthenticationModule, GqlContext } from '@balancer/share-server-common';
+import { AuthenticationModule } from '@balancer/share-server-common/lib/authentication';
 import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -22,7 +22,7 @@ import * as redisStore from 'cache-manager-redis-store';
       debug: process.env.NODE_ENV === 'development',
       playground: process.env.NODE_ENV === 'development',
       installSubscriptionHandlers: true,
-      context: ({ req, res, payload, connection }: GqlContext) => ({ req, res, payload, connection }),
+      context: ({ req, res, payload, connection }) => ({ req, res, payload, connection }),
       // configure graphql cors here
       path: 'gql/secure',
       // import AuthModule

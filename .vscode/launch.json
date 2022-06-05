@@ -5,11 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch API Service",
+      "name": "Launch operations Service",
       "request": "launch",
       "runtimeArgs": [
         "run-script",
-        "start:service:api"
+        "start:service:operations"
       ],
       "runtimeExecutable": "pnpm",
       "skipFiles": [

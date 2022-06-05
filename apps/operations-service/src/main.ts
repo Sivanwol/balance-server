@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { AppModule } from './lib/app.module';
 import helmet from 'helmet';
-import {HttpExceptionFilter} from '@balancer/share-server-common'
+import {HttpExceptionFilter} from '@balancer/share-server-common/lib/filters'
 import {
   utilities as nestWinstonModuleUtilities,
   WinstonModule,
