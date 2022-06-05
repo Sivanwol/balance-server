@@ -12,12 +12,12 @@ export class ConfigurationService {
           isEnabled: true,
         },
       })
-    ).map((item) => ({ key: item.key, value: item.value })) as ConfigurationClientSide[];
+    ).map((item) => ({ key: item.key, value: JSON.stringify(item.value) })) as ConfigurationClientSide[];
   }
   public async fetchConfigurations(): Promise<Configuration[]> {
     return (await this.prismaService.platformSettings.findMany()).map((item) => ({
       key: item.key,
-      value: item.value,
+      value: JSON.stringify(item.value),
       service: item.service,
       isClientSide: item.isClientSide,
       isEnabled: item.isEnabled,
