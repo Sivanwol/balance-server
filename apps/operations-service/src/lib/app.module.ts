@@ -21,15 +21,15 @@ import { ConfigurationModule } from './configuration/configuration.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: '../schema.gql',
+      autoSchemaFile: true,
       debug: process.env.NODE_ENV === 'development',
       playground: process.env.NODE_ENV === 'development',
-      installSubscriptionHandlers: true,
-      include: [AuthenticationModule],
-      context: ({ req, res, payload, connection }) => ({ req, res, payload, connection }),
-      // configure graphql cors here
-      path: 'gql/secure',
+      subscriptions: {
+        'graphql-ws': true
+      },
+      include: [ConfigurationModule],
     }),
+    AuthenticationModule,
     ConfigurationModule
   ],
 })

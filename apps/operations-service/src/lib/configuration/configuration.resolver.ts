@@ -1,21 +1,20 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Float, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { ConfigurationService } from './configuration.service';
 import { Configuration, ConfigurationClientSide } from './models/configuration.model';
 import { GqlAuth0Guard } from '@balancer/share-server-common/lib/authentication';
-@Resolver((of) => Configuration)
+@Resolver((of) => ConfigurationClientSide)
 export class ConfigurationResolver {
   constructor(private configurationService: ConfigurationService) {}
-  @Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
+  @Query(() => Float)
+  uptime() {
+    return process.uptime();
   }
-
-  @Query(() => ConfigurationClientSide)
+  @Query(returns => [ConfigurationClientSide])
   async siteSettings() {
     return await this.configurationService.fetchClientSideConfigurations();
   }
-  @Query(() => Configuration)
+  @Query(returns => [Configuration])
   @UseGuards(GqlAuth0Guard)
   async platformSettings() {
     return await this.configurationService.fetchConfigurations();

@@ -6,6 +6,5 @@ import { ConfigurationService } from './configuration.service';
 @Module({
   imports: [CommonModule],
   providers: [ConfigurationService, ConfigurationResolver],
-  exports: [ConfigurationService],
 })
 export class ConfigurationModule {}

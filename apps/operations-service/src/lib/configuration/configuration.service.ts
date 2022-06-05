@@ -1,10 +1,9 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { Configuration, ConfigurationClientSide } from './models/configuration.model';
 import { PrismaService } from '@balancer/share-server-common/lib/services/prisma.service';
 @Injectable()
 export class ConfigurationService {
-  constructor(private configService: ConfigService, @Inject(CACHE_MANAGER) private cacheManager: Cache, private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
   public async fetchClientSideConfigurations(): Promise<ConfigurationClientSide[]> {
     return (
       await this.prismaService.platformSettings.findMany({
