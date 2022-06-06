@@ -1,4 +1,4 @@
-import { PrismaService } from '@balancer/share-server-common/lib/services/prisma.service';
+import { PrismaService } from '@balancer/share-server-common/prisma.service';
 import { Module } from '@nestjs/common';
 
 @Module({

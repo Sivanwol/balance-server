@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'oprations-service',
+  displayName: 'operations-service',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
