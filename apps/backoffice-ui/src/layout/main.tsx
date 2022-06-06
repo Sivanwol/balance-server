@@ -41,8 +41,11 @@ interface Props {
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated, isLoading } = useAuth0();
+  const { user, logout, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [configuration, setConfiguration] = useState([]);
+  const [setUserSecurityToken] = useState(null);
+
+
   const { loading, error, data } = useQuery(ClientSideConfigurationQuery, {
     variables: {},
   });
@@ -54,6 +57,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   if (!isAuthenticated) {
     navigate('/', { replace: true });
   }
+  setUserSecurityToken(getAccessTokenSilently());
   console.log(`${window.location.origin}/login`);
   return (
     <VStack align="stretch">
