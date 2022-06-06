@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-
+import graphqlTypeJson from 'graphql-type-json'
 @ObjectType({
   description: 'client side configuration setting'
 })
@@ -10,11 +10,11 @@ export class ConfigurationClientSide {
   })
   key!: string;
 
-  @Field(() => String, {
+  @Field(() => graphqlTypeJson, {
     nullable: true,
     description: 'config value (need convert to json)'
   })
-  value!: string;
+  value!: object;
 
 }
 @ObjectType({

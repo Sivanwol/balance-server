@@ -11,17 +11,17 @@ datasource db {
 }
 
 enum PlatformServices {
-  API
+  operations
 }
 
 model PlatformSettings {
-  key            String           @id @unique
-  service        PlatformServices @default(API)
-  isClientSide   Boolean          @default(false)
-  value          Json
-  isEnabled      Boolean          @default(true)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @default(now())
+  key          String           @id @unique
+  service      PlatformServices @default(operations)
+  isClientSide Boolean          @default(false)
+  value        Json
+  isEnabled    Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @default(now())
 
   @@map("platform_settings")
 }
@@ -52,7 +52,7 @@ model Assets {
   publishAt  DateTime?
   createdAt  DateTime                   @default(now())
   updatedAt  DateTime                   @updatedAt
-  categoies  AssetsCategoriesOnAssets[]
+  categories AssetsCategoriesOnAssets[]
 
   @@map("assets")
 }
