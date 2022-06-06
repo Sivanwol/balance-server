@@ -9,7 +9,7 @@
       "request": "launch",
       "runtimeArgs": [
         "run-script",
-        "start:service:operations"
+        "start:service:operations:dev"
       ],
       "runtimeExecutable": "pnpm",
       "skipFiles": [

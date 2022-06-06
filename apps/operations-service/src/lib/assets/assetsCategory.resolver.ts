@@ -22,7 +22,7 @@ export class AssetsCategoryResolver {
   }
 
   @ResolveField('assets')
-  async posts(@Parent() category) {
+  async assets(@Parent() category) {
     const { id } = category;
     return await this.assetsService.fetchAssetByCategoryId(id);
   }

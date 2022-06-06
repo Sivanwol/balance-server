@@ -6,6 +6,7 @@ import type { ClientOpts } from 'redis';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import * as redisStore from 'cache-manager-redis-store';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { AssetsModule } from './assets/assets.module';
 
 @Module({
   imports: [
@@ -26,11 +27,11 @@ import { ConfigurationModule } from './configuration/configuration.module';
       playground: process.env.NODE_ENV === 'development',
       subscriptions: {
         'graphql-ws': true
-      },
-      include: [ConfigurationModule],
+      }
     }),
     AuthenticationModule,
-    ConfigurationModule
+    ConfigurationModule,
+    AssetsModule
   ],
 })
 export class AppModule {}
