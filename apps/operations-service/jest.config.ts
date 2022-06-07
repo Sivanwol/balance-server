@@ -12,5 +12,9 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
+  moduleNameMapper: {
+    "^uuid$": "<rootDir>../../node_modules/uuid/dist/index.js",
+    '^@balancer/share-server-common/(.*)$': '<rootDir>../../libs/share-server-common/src/$1',
+  },
   coverageDirectory: '../../coverage/apps/oprations-service',
 };

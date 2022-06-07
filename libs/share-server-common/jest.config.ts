@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'share-seerver-common',
+  displayName: 'share-server-common',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/libs/share-seerver-common',
+  coverageDirectory: '../../coverage/libs/share-server-common',
 };

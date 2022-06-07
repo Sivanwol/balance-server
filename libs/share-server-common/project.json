@@ -1,31 +1,31 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/share-seerver-common/src",
+  "sourceRoot": "libs/share-server-common/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/share-seerver-common",
-        "tsConfig": "libs/share-seerver-common/tsconfig.lib.json",
-        "packageJson": "libs/share-seerver-common/package.json",
-        "main": "libs/share-seerver-common/src/index.ts",
-        "assets": ["libs/share-seerver-common/*.md"]
+        "outputPath": "dist/libs/share-server-common",
+        "tsConfig": "libs/share-server-common/tsconfig.lib.json",
+        "packageJson": "libs/share-server-common/package.json",
+        "main": "libs/share-server-common/src/index.ts",
+        "assets": ["libs/share-server-common/*.md"]
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/share-seerver-common/**/*.ts"]
+        "lintFilePatterns": ["libs/share-server-common/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/share-seerver-common"],
+      "outputs": ["coverage/libs/share-server-common"],
       "options": {
-        "jestConfig": "libs/share-seerver-common/jest.config.ts",
+        "jestConfig": "libs/share-server-common/jest.config.ts",
         "passWithNoTests": true
       }
     }

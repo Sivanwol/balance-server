@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@balancer/share-server-common/prisma.service';
+import { PrismaService } from '@balancer/share-server-common/lib'
 import { Asset } from './models/asset.model';
 import { AssetCategory } from './models/asset-category.model';
 @Injectable()

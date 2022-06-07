@@ -1,6 +1,6 @@
+import { PrismaService } from '@balancer/share-server-common/lib'
 import { Injectable } from '@nestjs/common';
 import { Configuration, ConfigurationClientSide } from './models/configuration.model';
-import { PrismaService } from '@balancer/share-server-common/prisma.service';
 @Injectable()
 export class ConfigurationService {
   constructor(private prismaService: PrismaService) {}
