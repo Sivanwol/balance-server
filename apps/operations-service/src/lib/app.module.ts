@@ -29,7 +29,10 @@ import { AssetsModule } from './assets/assets.module';
         'graphql-ws': true
       }
     }),
-    AuthenticationModule,
+    AuthenticationModule.forRoot({
+      audience: process.env.AUTH0_Audience,
+      issuer: process.env.AUTH0_DOMAIN
+    }),
     ConfigurationModule,
     AssetsModule
   ],

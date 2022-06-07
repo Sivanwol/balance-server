@@ -7,7 +7,7 @@ import { Asset } from './asset.model';
 })
 export class AssetCategory {
   @Field(() => ID, {
-    nullable: false,
+    nullable: true,
     description: 'category id'
   })
   id!: string;

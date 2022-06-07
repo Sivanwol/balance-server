@@ -23,6 +23,9 @@ export class AssetsService {
             },
           },
         },
+        orderBy: {
+          sortBy: 'desc'
+        }
       })
     ).map((item) => Asset.toModel(item));
   }

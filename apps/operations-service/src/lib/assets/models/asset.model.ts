@@ -6,25 +6,25 @@ import graphqlTypeJson from 'graphql-type-json'
   description: 'asset file registry',
 })
 export class Asset {
-  @Field(() => ID, {
+  @Field((type) => ID, {
     nullable: false,
     description: 'asset id',
   })
   id!: string;
 
-  @Field(() => String, {
-    nullable: false,
+  @Field((type) => String, {
+    nullable: true,
     description: 'file name',
   })
-  fileName!: string;
+  fileName: string;
 
-  @Field(() => String, {
+  @Field((type) => String, {
     nullable: false,
     description: 'path to file',
   })
-  path!: string;
+  path: string;
 
-  @Field(() => String, {
+  @Field((type) => String, {
     nullable: false,
     description: 'bucket (s3 or azure or what ever) name',
   })
@@ -40,19 +40,19 @@ export class Asset {
     nullable: true,
     description: 'asset sort order'
   })
-  sortBy!: number;
+  sortBy?: number;
 
   @Field(() => Date, {
     nullable: true,
     description: 'category disabled date',
   })
-  disabledAt!: Date;
+  disabledAt?: Date;
 
   @Field(() => Date, {
     nullable: true,
     description: 'category published date',
   })
-  publishAt!: Date;
+  publishAt?: Date;
 
   @Field(() => Date, {
     nullable: false,
@@ -67,12 +67,25 @@ export class Asset {
   createdAt!: Date;
 
   @Field(() => graphqlTypeJson, {
-    nullable: false,
+    nullable: true,
+    defaultValue: {},
     description: 'asset meta data',
   })
-  metaData!: Date;
+  metaData?: object;
 
-  static toModel(data: Assets):  Asset {
-    return JSON.parse(JSON.stringify(data)) as Asset;
+  static toModel(item: Assets):  Asset {
+    return {
+      id: item.id,
+      fileName: item.fileName,
+      bucket: item.bucket,
+      path: item.path,
+      publicUrl: item.publicUrl,
+      sortBy: item.sortBy,
+      publishAt: item.publishAt,
+      disabledAt: item.disabledAt,
+      metaData: JSON.parse(JSON.stringify(item.metaData)),
+      createdAt:item.createdAt,
+      updatedAt:item.updatedAt
+    };
   }
 }

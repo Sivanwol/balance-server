@@ -1,3 +1,4 @@
+import { EntityNotFoundException } from './../common/exceptions/entity-not-found.exception';
 import { Args, Float, Query, Resolver } from '@nestjs/graphql';
 import { Logger, UseGuards } from '@nestjs/common';
 import { AssetsService } from './assets.service';
@@ -13,16 +14,16 @@ export class AssetsResolver {
   uptime() {
     return process.uptime();
   }
-  @Query(() => Asset, {description: 'get asset by id'})
-  async getAssetBy(@Args('id', { type: () => String } ) id: string) {
+  @Query(() => Asset, {description: 'get asset by id', nullable: true})
+  async getAsset(@Args('id', { type: () => String } ) id: string) {
     this.logger.log(`request asset by id => ${id}`)
-    if (!await this.assetsService.hasAsset(id)) return null;
+    if (!await this.assetsService.hasAsset(id)) throw new EntityNotFoundException();
     return await this.assetsService.fetchAssetById(id)
   }
   @Query(() => [Asset], {description: 'get asset by category id', nullable: true})
-  async getAssetByCategory(@Args('category_id', { type: () => String }) category_id: string) {
+  async getAssetsByCategory(@Args('category_id', { type: () => String }) category_id: string) {
     this.logger.log(`request asset by category id => ${category_id}`)
-    if (!await this.assetsService.hasAssetCategory(category_id)) return null;
+    if (!await this.assetsService.hasAssetCategory(category_id)) throw new EntityNotFoundException();
     return await this.assetsService.fetchAssetByCategoryId(category_id);
   }
 }
