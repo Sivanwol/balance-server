@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-const settings = [
+const entities = [
   {
     key: 'maintenance_mode',
     value: {
@@ -13,8 +13,8 @@ const settings = [
 export async function generatePlatformSettings(prisma: PrismaClient) {
   console.log(`Generate Platform Settings seeding ...`);
   await prisma.platformSettings.createMany({
-    data: settings,
+    data: entities,
     skipDuplicates: true,
   });
-  console.log(`Generate Platform Settings finished.`);
+  console.log(`Generate finished.`);
 }
