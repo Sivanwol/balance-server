@@ -6,7 +6,7 @@ import App from './app/app';
 import { theme } from './theme';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ApolloProvider } from '@apollo/client';
-import { publicGQLClient } from '@balancer/backoffice-common';
+import { publicGQLClient } from '@applib/backoffice-common';
 import { environment } from './environments/environment';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

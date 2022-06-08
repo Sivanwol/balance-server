@@ -3,7 +3,7 @@ import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import MainLayout from '../layout/main';
 import IntroLayout from '../layout/intro';
 import Intro from '../pages/intro/intro';
-import { ProtectedRoute } from '@balancer/backoffice-common';
+import { ProtectedRoute } from '@applib/backoffice-common';
 import Overview from '../pages/overview/overview';
 import { NotFound } from '../pages/not-found/not-found';
 import { useAuth0 } from '@auth0/auth0-react';

@@ -30,7 +30,7 @@ import {
   DrawerCloseButton,
   Icon,
 } from '@chakra-ui/react';
-import { ClientSideConfigurationQuery, Loader, Notifications } from '@balancer/backoffice-common';
+import { ClientSideConfigurationQuery, Loader, Notifications } from '@applib/backoffice-common';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';

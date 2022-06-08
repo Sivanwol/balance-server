@@ -1,5 +1,5 @@
 {
-  "name": "@balancer/share-seerver-common",
+  "name": "@applib/share-seerver-common",
   "version": "0.0.1",
   "type": "commonjs"
 }

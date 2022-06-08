@@ -1,10 +1,8 @@
 import { Args, Float, Query, Resolver } from '@nestjs/graphql';
 import { Logger, UseGuards } from '@nestjs/common';
 import { AssetsService } from './assets.service';
-import { GqlAuth0Guard, EntityNotFoundException } from '@balancer/share-server-common/lib';
+import { GqlAuth0Guard, EntityNotFoundException } from '@applib/share-server-common';
 import { Asset } from './models/asset.model';
-
-
 @UseGuards(GqlAuth0Guard)
 @Resolver((of) => Asset)
 export class AssetsResolver {
@@ -20,7 +18,7 @@ export class AssetsResolver {
     if (!await this.assetsService.hasAsset(id)) throw new EntityNotFoundException();
     return await this.assetsService.fetchAssetById(id)
   }
-  @Query(() => [Asset], {description: 'get asset by category id', nullable: true})
+  @Query(() => [Asset], {description: 'get asset by category id with sorted assets', nullable: true})
   async getAssetsByCategory(@Args('category_id', { type: () => String }) category_id: string) {
     this.logger.log(`request asset by category id => ${category_id}`)
     if (!await this.assetsService.hasAssetCategory(category_id)) throw new EntityNotFoundException();

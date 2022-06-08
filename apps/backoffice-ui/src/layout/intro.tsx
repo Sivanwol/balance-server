@@ -8,7 +8,7 @@ import {
   Flex,
   Center,
 } from '@chakra-ui/react';
-import { Loader } from '@balancer/backoffice-common';
+import { Loader } from '@applib/backoffice-common';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from "react-router-dom";
 interface Props {

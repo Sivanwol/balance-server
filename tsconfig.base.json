@@ -25,9 +25,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@balancer/backoffice-common": ["libs/backoffice-common/src/index.ts"],
-      "@balancer/jest-common/*": ["libs/jest-common/src/*"],
-      "@balancer/share-server-common/*": ["libs/share-server-common/src/*"]
+      "@applib/backoffice-common": ["libs/backoffice-common/src/index.ts"],
+      "@applib/jest-common/*": ["libs/jest-common/src/*"],
+      "@applib/share-server-common": ["libs/share-server-common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

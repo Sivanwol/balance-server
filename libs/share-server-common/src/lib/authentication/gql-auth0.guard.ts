@@ -8,7 +8,6 @@ export class GqlAuth0Guard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
     try {
       const graphqlContext = GqlExecutionContext.create(context);
-      console.log(graphqlContext.getContext().req);
       const [_, token] = graphqlContext
         .getContext()
         .req.headers.authorization.split(' ');

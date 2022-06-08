@@ -1,6 +1,6 @@
 import { ConfigurationService } from './configuration.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '@balancer/share-server-common/lib'
+import { PrismaService } from '@applib/share-server-common/lib'
 import { PlatformServices } from '@prisma/client';
 
 describe('test ConfigurationService', () => {

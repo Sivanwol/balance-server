@@ -7,7 +7,7 @@ import { Asset } from './asset.model';
 })
 export class AssetCategory {
   @Field(() => ID, {
-    nullable: true,
+    nullable: false,
     description: 'category id'
   })
   id!: string;
@@ -22,25 +22,25 @@ export class AssetCategory {
     nullable: true,
     description: 'category description'
   })
-  description!: string;
+  description: string;
 
   @Field(() => Number, {
     nullable: true,
     description: 'category sort order'
   })
-  sortBy!: number;
+  sortBy: number;
 
   @Field(() => Date, {
     nullable: true,
     description: 'category disabled date'
   })
-  disabledAt!: Date;
+  disabledAt: Date;
 
   @Field(() => Date, {
     nullable: true,
     description: 'category published date'
   })
-  publishAt!: Date;
+  publishAt: Date;
 
   @Field(() => Date, {
     nullable: false,
@@ -55,10 +55,11 @@ export class AssetCategory {
   createdAt!: Date;
 
   @Field(() => [Asset], {
-    nullable: false,
+    nullable: true,
+    defaultValue: [],
     description: 'category assets'
   })
-  assets!: Asset[];
+  assets: Asset[];
 
   static toModel(data: AssetsCategories):  AssetCategory {
     return JSON.parse(JSON.stringify(data)) as AssetCategory;

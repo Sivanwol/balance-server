@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '@balancer/share-server-common/lib'
+import { PrismaService } from '@applib/share-server-common/lib'
 import { PlatformServices } from '@prisma/client';
 import { AssetsService} from './assets.service';
 describe('test AssetsService', () => {

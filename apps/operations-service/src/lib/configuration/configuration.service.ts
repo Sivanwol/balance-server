@@ -1,4 +1,4 @@
-import { PrismaService } from '@balancer/share-server-common/lib'
+import { PrismaService } from '@applib/share-server-common'
 import { Injectable } from '@nestjs/common';
 import { Configuration, ConfigurationClientSide } from './models/configuration.model';
 @Injectable()

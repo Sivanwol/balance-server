@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@balancer/share-server-common/lib'
+import { PrismaService } from '@applib/share-server-common';
 import { Asset } from './models/asset.model';
 import { AssetCategory } from './models/asset-category.model';
 @Injectable()
@@ -11,33 +11,89 @@ export class AssetsService {
 
   public async fetchAssetByCategoryId(id: string): Promise<Asset[]> {
     return (
-      await this.prismaService.assets.findMany({
-        where: {
-          disabledAt: null,
-          categories: {
-            every: {
-              categoryId: id,
-              category: {
-                disabledAt: null,
+      (
+        await this.prismaService.assets.findMany({
+          where: {
+            disabledAt: null,
+            NOT: {
+              publishAt: null,
+            },
+            categories: {
+              some: {
+                categoryId: id,
+                category: {
+                  disabledAt: null,
+                  NOT: {
+                    publishAt: null,
+                  },
+                  id,
+                },
               },
             },
           },
-        },
-        orderBy: {
-          sortBy: 'desc'
-        }
-      })
-    ).map((item) => Asset.toModel(item));
+          orderBy: {
+            sortBy: 'desc',
+          },
+        })
+      ).map((item) => Asset.toModel(item)) || []
+    );
   }
 
   public async fetchAssetCategory(id: string): Promise<AssetCategory> {
     return AssetCategory.toModel(
       await this.prismaService.assetsCategories.findFirst({
-        where: { id, disabledAt: null },
+        where: {
+          id,
+          disabledAt: null,
+          NOT: {
+            publishAt: null,
+          },
+          assets: {
+            some: {
+              categoryId: id,
+              category: {
+                disabledAt: null,
+                NOT: {
+                  publishAt: null,
+                },
+                id,
+              },
+            },
+          },
+        },
+        include: { assets: true },
       })
     );
   }
 
+  public async getCategories(): Promise<AssetCategory[]> {
+    return (
+      (
+        await this.prismaService.assetsCategories.findMany({
+          where: {
+            disabledAt: null,
+            NOT: {
+              publishAt: null,
+            },
+            assets: {
+              some: {
+                category: {
+                  disabledAt: null,
+                  NOT: {
+                    publishAt: null,
+                  },
+                },
+              },
+            },
+          },
+          include: { assets: true },
+          orderBy: {
+            sortBy: 'desc',
+          },
+        })
+      ).map((item) => AssetCategory.toModel(item)) || []
+    );
+  }
   public async hasAsset(id: string): Promise<boolean> {
     const hasEntity = await this.prismaService.assets.findFirst({ where: { id, disabledAt: null } });
     return !!hasEntity;

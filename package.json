@@ -1,9 +1,8 @@
 {
-  "name": "balance_buget_server",
+  "name": "williy-app",
   "version": "1.0.1",
   "license": "private",
   "scripts": {
-    "clear:unused:deps": "pnpm run nx generate @trumbitta/nx-plugin-unused-deps:check --no-interactive",
     "generate:server:app": "pnpm run nx g @nrwl/express:app ",
     "generate:server:lib": "pnpm run nx g @nrwl/node:library",
     "generate:secret": "node -e \"console.log(crypto.randomBytes(32).toString('hex'))\"",

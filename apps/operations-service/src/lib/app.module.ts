@@ -1,4 +1,4 @@
-import { AuthenticationModule } from '@balancer/share-server-common/lib/authentication';
+import { AuthenticationModule } from '@applib/share-server-common';
 import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ConfigModule, ConfigService } from '@nestjs/config';

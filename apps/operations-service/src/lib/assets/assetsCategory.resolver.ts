@@ -1,7 +1,7 @@
 import { Args, Float, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Logger, UseGuards } from '@nestjs/common';
 import { AssetsService } from './assets.service';
-import { GqlAuth0Guard } from '@balancer/share-server-common/lib/authentication';
+import { EntityNotFoundException, GqlAuth0Guard } from '@applib/share-server-common';
 import { AssetCategory } from './models/asset-category.model';
 
 @UseGuards(GqlAuth0Guard)
@@ -13,12 +13,18 @@ export class AssetsCategoryResolver {
   uptime() {
     return process.uptime();
   }
-  @Query(() => AssetCategory, {description: 'get category', nullable: true})
+  @Query(() => AssetCategory, {description: 'get category (assets if request will not for sort)', nullable: true})
   async getCategory(@Args('id', { type: () => String } ) id: string) {
     this.logger.log(`request asset category by id => ${id}`)
-    if (!await this.assetsService.hasAssetCategory(id)) return null;
-    return await this.assetsService.fetchAssetByCategoryId(id);
+    if (!await this.assetsService.hasAssetCategory(id))  throw new EntityNotFoundException();
+    return await this.assetsService.fetchAssetCategory(id);
 
+  }
+
+  @Query(() => [AssetCategory], {description: 'get categories (assets if request will not for sort)', nullable: true})
+  async getCategories() {
+    this.logger.log(`request asset categories`)
+    return await this.assetsService.getCategories();
   }
 
   @ResolveField('assets')

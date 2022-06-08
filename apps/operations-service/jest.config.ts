@@ -14,7 +14,7 @@ export default {
   moduleFileExtensions: ['ts', 'js', 'html'],
   moduleNameMapper: {
     "^uuid$": "<rootDir>../../node_modules/uuid/dist/index.js",
-    '^@balancer/share-server-common/(.*)$': '<rootDir>../../libs/share-server-common/src/$1',
+    '^@applib/share-server-common/(.*)$': '<rootDir>../../libs/share-server-common/src/$1',
   },
   coverageDirectory: '../../coverage/apps/oprations-service',
 };
