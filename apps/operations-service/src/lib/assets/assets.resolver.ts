@@ -1,9 +1,9 @@
-import { EntityNotFoundException } from './../common/exceptions/entity-not-found.exception';
 import { Args, Float, Query, Resolver } from '@nestjs/graphql';
 import { Logger, UseGuards } from '@nestjs/common';
 import { AssetsService } from './assets.service';
-import { GqlAuth0Guard } from '@balancer/share-server-common/lib/authentication';
+import { GqlAuth0Guard, EntityNotFoundException } from '@balancer/share-server-common/lib';
 import { Asset } from './models/asset.model';
+
 
 @UseGuards(GqlAuth0Guard)
 @Resolver((of) => Asset)
