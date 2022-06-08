@@ -43,22 +43,27 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   const navigate = useNavigate();
   const { user, logout, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [configuration, setConfiguration] = useState([]);
-  const [setUserSecurityToken] = useState(null);
+  const [loadedConfig, setLoadedConfig] = useState(false);
+  const [userSecurityToken,setUserSecurityToken] = useState(null);
 
-
+  const getToken = async () => {
+    const token =  await getAccessTokenSilently();
+    setUserSecurityToken(token);
+  }
   const { loading, error, data } = useQuery(ClientSideConfigurationQuery, {
     variables: {},
   });
-  if (!loading && data && !error && configuration.length <=0) {
+
+  if (!loading && data && !error && configuration.length <=0 && !loadedConfig) {
+    getToken();
+    setLoadedConfig(true)
     setConfiguration(data.siteSettings);
   }
-
   console.log('client config', configuration);
   if (!isAuthenticated) {
     navigate('/', { replace: true });
   }
-  setUserSecurityToken(getAccessTokenSilently());
-  console.log(`${window.location.origin}/login`);
+  console.log(`${window.location.origin}/login`, userSecurityToken);
   return (
     <VStack align="stretch">
       <Flex color="white">

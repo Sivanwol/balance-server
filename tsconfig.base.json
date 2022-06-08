@@ -25,7 +25,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@balancer/dashboard-common/*": ["libs/dashboard-common/src/*"],
+      "@balancer/backoffice-common": ["libs/backoffice-common/src/index.ts"],
       "@balancer/jest-common/*": ["libs/jest-common/src/*"],
       "@balancer/share-server-common/*": ["libs/share-server-common/src/*"]
     }
