@@ -38,6 +38,7 @@ export class Asset {
 
   @Field(() => Number, {
     nullable: true,
+    defaultValue: 0,
     description: 'asset sort order'
   })
   sortBy?: number;

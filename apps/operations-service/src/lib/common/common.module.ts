@@ -1,9 +1,9 @@
-import { PrismaService } from '@applib/share-server-common'
+import { PrismaService , StorageService} from '@applib/share-server-common'
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [],
-  providers: [PrismaService],
-  exports: [PrismaService],
+  providers: [PrismaService,StorageService],
+  exports: [PrismaService,StorageService],
 })
 export class CommonModule {}
