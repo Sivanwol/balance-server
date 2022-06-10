@@ -50,6 +50,8 @@
       "options": {
         "buildTarget": "backoffice-ui:build",
         "hmr": true,
+        "ssl": true,
+        "host": "develop-app.local",
         "proxyConfig": "apps/backoffice-ui/proxy.conf.json"
       },
       "configurations": {
@@ -58,7 +60,8 @@
         },
         "production": {
           "buildTarget": "backoffice-ui:build:production",
-          "hmr": false
+          "hmr": false,
+          "host": null
         }
       }
     },

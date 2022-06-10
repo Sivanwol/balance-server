@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { RiBuilding4Fill, RiBarChartHorizontalFill } from 'react-icons/ri';
 import {
   Link,
@@ -42,7 +42,8 @@ interface Props {
 const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { user, logout, isAuthenticated, isLoading, getAccessTokenSilently, getIdTokenClaims } = useAuth0();
+  const [userMetadata, setUserMetadata] = useState(null);
   const [userSecurityToken, setUserSecurityToken] = useState(null);
   const clientSideConfiguration = useQuery(ClientSideConfigurationQuery, {
     variables: {},
@@ -51,6 +52,33 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   const platformConfiguration = useQuery(PlatformConfigurationQuery, {
     variables: {},
   });
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: 'http://localhost:3333/',
+        });
+        console.log(accessToken);
+        const userDetailsByIdUrl = `https://${environment.AUTH0_DOMAIN}/userinfo`;
+
+        const metadataResponse = await fetch(userDetailsByIdUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const { user_metadata } = await metadataResponse.json();
+
+        setUserMetadata(user_metadata);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (isAuthenticated) {
+      getUserMetadata();
+    }
+  }, [isAuthenticated, getAccessTokenSilently, user?.sub]);
   const getToken = async () => {
     const token = await getAccessTokenSilently();
     setUserSecurityToken(token);
@@ -60,7 +88,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   }
   getToken();
   console.log('client config', clientSideConfiguration.data, platformConfiguration.data);
-  console.log(`${window.location.origin}/login`, userSecurityToken);
+
   return (
     <VStack align="stretch">
       <Flex color="white">

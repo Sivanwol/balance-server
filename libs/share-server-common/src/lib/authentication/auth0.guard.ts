@@ -4,7 +4,6 @@ import { AuthGuard, IAuthGuard } from '@nestjs/passport';
 @Injectable()
 export class Auth0Guard extends AuthGuard('auth0') implements IAuthGuard {
   canActivate(context: ExecutionContext) {
-    console.log(context);
     return super.canActivate(context);
   }
 
