@@ -17,7 +17,7 @@ const S3 = new AWS.S3({
 });
 
 // Now comes the provider
-export const DoSpacesServicerovider: Provider<AWS.S3> = {
+export const DoSpacesServiceProvider: Provider<AWS.S3> = {
   provide: DoSpacesServiceLib,
   useValue: S3,
 };

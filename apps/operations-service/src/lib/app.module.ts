@@ -7,6 +7,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import * as redisStore from 'cache-manager-redis-store';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { AssetsModule } from './assets/assets.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,9 +15,9 @@ import { AssetsModule } from './assets/assets.module';
     CacheModule.registerAsync<ClientOpts>({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        ttl: configService.get('CACHE_TTL')|| 10,
+        ttl: configService.get('CACHE_TTL') || 10,
         store: redisStore,
-        url: configService.get('REDIS_URL')
+        url: configService.get('REDIS_URL'),
       }),
       inject: [ConfigService],
     }),
@@ -26,15 +27,13 @@ import { AssetsModule } from './assets/assets.module';
       debug: process.env.NODE_ENV === 'development',
       playground: process.env.NODE_ENV === 'development',
       subscriptions: {
-        'graphql-ws': true
-      }
+        'graphql-ws': true,
+      },
     }),
-    AuthenticationModule.forRoot({
-      audience: process.env.AUTH0_Audience,
-      issuer: process.env.AUTH0_DOMAIN
-    }),
+    AuthenticationModule,
     ConfigurationModule,
-    AssetsModule
+    AssetsModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

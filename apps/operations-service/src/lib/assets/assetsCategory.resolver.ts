@@ -29,7 +29,7 @@ export class AssetsCategoryResolver {
   }
 
   @Mutation(() => Asset, { description: 'upload asset the actual upload the client have directly' })
-  async uploadNewAsset(@Args('uploadArgs', { type: () => UploadNewAssetArgs }) args: UploadNewAssetArgs) {
+  async uploadNewAsset(@Args('uploadArgs') args: UploadNewAssetArgs) {
     if (!(await this.assetsService.hasAssetCategory(args.categoryId))) throw new EntityNotFoundException();
   }
 

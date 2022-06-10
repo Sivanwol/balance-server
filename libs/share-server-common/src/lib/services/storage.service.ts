@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import S3 from 'aws-sdk/clients/s3';
 import { DoSpacesServiceLib, UploadedMulterFileI } from '../utils';
-import { series } from 'async-es';
+import { series } from 'async';
 
 @Injectable()
 export class StorageService {

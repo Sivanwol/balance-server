@@ -30,10 +30,11 @@ import {
   DrawerCloseButton,
   Icon,
 } from '@chakra-ui/react';
-import { ClientSideConfigurationQuery, Loader, Notifications } from '@applib/backoffice-common';
+import { ClientSideConfigurationQuery, PlatformConfigurationQuery, Loader, Notifications } from '@applib/backoffice-common';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
+import { environment } from '../environments/environment';
 interface Props {
   children: any;
 }
@@ -42,27 +43,23 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const { user, logout, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [configuration, setConfiguration] = useState([]);
-  const [loadedConfig, setLoadedConfig] = useState(false);
-  const [userSecurityToken,setUserSecurityToken] = useState(null);
-
-  const getToken = async () => {
-    const token =  await getAccessTokenSilently();
-    setUserSecurityToken(token);
-  }
-  const { loading, error, data } = useQuery(ClientSideConfigurationQuery, {
+  const [userSecurityToken, setUserSecurityToken] = useState(null);
+  const clientSideConfiguration = useQuery(ClientSideConfigurationQuery, {
     variables: {},
   });
 
-  if (!loading && data && !error && configuration.length <=0 && !loadedConfig) {
-    getToken();
-    setLoadedConfig(true)
-    setConfiguration(data.siteSettings);
-  }
-  console.log('client config', configuration);
+  const platformConfiguration = useQuery(PlatformConfigurationQuery, {
+    variables: {},
+  });
+  const getToken = async () => {
+    const token = await getAccessTokenSilently();
+    setUserSecurityToken(token);
+  };
   if (!isAuthenticated) {
     navigate('/', { replace: true });
   }
+  getToken();
+  console.log('client config', clientSideConfiguration.data, platformConfiguration.data);
   console.log(`${window.location.origin}/login`, userSecurityToken);
   return (
     <VStack align="stretch">
@@ -199,7 +196,7 @@ const MainLayout: FC<Props> = ({ children, ...props }) => {
               </Menu>
             </Box>
           </Flex>
-          <Container {...props}>{isLoading || loading ? <Loader /> : children} </Container>
+          <Container {...props}>{isLoading ? <Loader /> : children} </Container>
         </Box>
       </Flex>
     </VStack>

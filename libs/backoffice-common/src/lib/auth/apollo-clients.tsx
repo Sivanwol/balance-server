@@ -1,29 +1,35 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-import { setContext } from "@apollo/client/link/context";
-export const publicGQLClient = (environment:any) =>(new ApolloClient({
-  uri: environment.OPERATIONS_SERVICE,
-  cache: new InMemoryCache()
-}));
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { Auth0ContextInterface } from '@auth0/auth0-react';
 
-export const secureGQLClient  = (environment:any, getAccessTokenSilently:any) => {
-  const httpLink = createHttpLink({
-    uri: environment.OPERATIONS_SERVICE, // your URI here...
+export const ApolloProviderWithAuth0 = (environment: any, auth0Client: Auth0ContextInterface) => {
+  const { getAccessTokenSilently } = auth0Client;
+
+  const httpLink = new HttpLink({
+    uri: environment.OPERATIONS_SERVICE,
   });
 
+  const authLink = setContext(async (_, { headers, ...rest }) => {
+    let token;
+    try {
+      token = await getAccessTokenSilently();
+    } catch (error) {
+      console.log(error);
+    }
 
-  const authLink = setContext(async () => {
-    const token = await getAccessTokenSilently();
+    if (!token) return { headers, ...rest };
+
     return {
+      ...rest,
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        ...headers,
+        authorization: `Bearer ${token}`,
+      },
     };
   });
 
   return new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
-    connectToDevTools: true
   });
-
-}
+};
