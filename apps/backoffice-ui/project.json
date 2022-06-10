@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/backoffice-ui/src",
   "projectType": "application",
-  "implicitDependencies": ["operations-service", "backoffice-common"],
+  "implicitDependencies": ["backoffice-common"],
   "targets": {
     "build": {
       "executor": "@nrwl/web:webpack",
