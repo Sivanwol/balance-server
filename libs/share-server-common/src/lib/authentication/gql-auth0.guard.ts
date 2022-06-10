@@ -17,7 +17,6 @@ export class GqlAuth0Guard extends AuthGuard('auth0') {
   }
 
   handleRequest(err, user, info) {
-    console.log(err, user, info);
     if (err || !user) {
       throw err || new UnauthorizedException();
     }
