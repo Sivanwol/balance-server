@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, RedisOptions } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -8,18 +8,55 @@ import helmet from 'helmet';
 import { HttpExceptionFilter } from '@applib/share-server-common';
 import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import 'winston-daily-rotate-file';
+import { PapertrailTransport } from 'winston-papertrail-transport';
+import * as packageFile from 'package.json';
 dotenv.config();
 
+const hostname = `${packageFile.name}:${process.env.NODE_ENV}`;
+const papertrailTransport = new PapertrailTransport({
+  host: process.env.PAPERTRAIL_URL,
+  port: +process.env.PAPERTRAIL_PORT,
+  hostname,
+  program: 'operations-service',
+});
 declare const module: any;
 async function bootstrap() {
   const isDev = process.env.NODE_ENV === 'development';
+  const transports = [];
+  transports.push(papertrailTransport);
+  transports.push(
+    new winston.transports.DailyRotateFile({
+      filename: 'logs/operations-service/combined.log',
+      datePattern: 'YYYY-MM-DD-HH',
+      zippedArchive: true,
+      maxSize: '20m',
+      maxFiles: '14d',
+      format: winston.format.json(),
+    })
+  );
+  transports.push(
+    new winston.transports.DailyRotateFile({
+      filename: 'logs/operations-service/errors.log',
+      datePattern: 'YYYY-MM-DD-HH',
+      zippedArchive: true,
+      maxSize: '20m',
+      maxFiles: '14d',
+      format: winston.format.json(),
+      level: 'error',
+    })
+  );
+  if (isDev) {
+    transports.push(
+      new winston.transports.Console({
+        format: winston.format.combine(winston.format.timestamp(), nestWinstonModuleUtilities.format.nestLike()),
+      })
+    );
+  }
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(winston.format.timestamp(), nestWinstonModuleUtilities.format.nestLike()),
-        }),
-      ],
+      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+      transports,
     }),
   });
   // const micorServiceConnection = await app.connectMicroservice<RedisOptions>({

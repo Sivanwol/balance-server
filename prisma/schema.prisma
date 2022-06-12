@@ -1,6 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
-
+  provider      = "prisma-client-js"
   binaryTargets = ["native"]
 }
 
@@ -42,6 +41,7 @@ model AssetsCategories {
 
 model Assets {
   id         String                     @id @default(uuid()) @db.Uuid
+  entityId   String                     @db.Uuid
   fileName   String
   path       String
   bucket     String

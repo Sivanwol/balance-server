@@ -1,9 +1,9 @@
-import { PrismaService, StorageService, DoSpacesServiceProvider } from '@applib/share-server-common';
+import { PrismaService, StorageService, DoSpacesServiceProvider, ActivityLogService } from '@applib/share-server-common';
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [],
-  providers: [PrismaService, DoSpacesServiceProvider, StorageService],
-  exports: [PrismaService, StorageService],
+  providers: [PrismaService, ActivityLogService, DoSpacesServiceProvider, StorageService],
+  exports: [PrismaService, ActivityLogService, StorageService],
 })
 export class CommonModule {}

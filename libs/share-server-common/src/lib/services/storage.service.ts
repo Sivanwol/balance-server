@@ -7,6 +7,16 @@ import { series } from 'async';
 export class StorageService {
   private readonly logger = new Logger('StorageService');
   constructor(@Inject(DoSpacesServiceLib) private readonly s3: S3) {}
+  async removeFile(bucket: string, path: string, fileName: string) {
+    if (this.hasFileExist(bucket, path, fileName)) {
+      await this.s3
+        .deleteObject({
+          Bucket: bucket,
+          Key: `${path}/${fileName}`,
+        })
+        .promise();
+    }
+  }
   async hasFileExist(bucket: string, path: string, fileName: string) {
     this.logger.log(`checking if file existed in storage [${bucket}, ${path}, ${fileName}`);
     try {
@@ -58,7 +68,7 @@ export class StorageService {
 
   async uploadFile(bucket: string, userId: string, file: UploadedMulterFileI) {
     // Precaution to avoid having 2 files with the same name
-    const fileName = `uploads/${userId}-${Date.now()}-${file.originalname}`;
+    const fileName = `uploads/${userId}-${file.originalname}`;
 
     this.logger.log(`uploading new file [${bucket}, ${userId}, ${fileName}`);
     // Return a promise that resolves only when the file upload is complete

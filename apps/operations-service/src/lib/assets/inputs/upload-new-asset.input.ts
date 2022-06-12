@@ -14,8 +14,8 @@ export class UploadNewAssetArgs {
   @MinLength(5)
   bucket!: string;
 
-  @Field({ nullable: false, description: 'where in the bucket file located' })
-  path!: string;
+  @Field({ nullable: false, description: 'entity the asset belong to' })
+  entityId!: string;
 
   @Field({ nullable: false, description: 'asset public url' })
   @IsUrl()
