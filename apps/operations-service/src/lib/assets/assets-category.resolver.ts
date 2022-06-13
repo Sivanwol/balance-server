@@ -1,11 +1,14 @@
 import { Args, Float, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Logger, UseGuards } from '@nestjs/common';
 import { AssetsService } from './assets.service';
-import { EntityNotFoundException, GqlAuth0Guard, PermissionsGuard } from '@applib/share-server-common';
+import { CurrentUserGQL, EntityNotFoundException, GqlAuth0Guard, PermissionsGuard, RequesterIp } from '@applib/share-server-common';
 import { AssetCategory } from './models/asset-category.model';
 import { Asset } from './models/asset.model';
 import { UploadNewAssetArgs } from './inputs/upload-new-asset.input';
 import { AssetCategoryHasNoAssetsException } from './exceptions/asset-category-has-no-assets.exception';
+import { GraphQLVoid } from 'graphql-scalars';
+import { IpwareIpInfo } from '@fullerstack/nax-ipware';
+import { BoundAssetToCategoryArgs } from './inputs/bound-asset-to-category.input';
 
 @UseGuards(GqlAuth0Guard, PermissionsGuard)
 @Resolver((of) => AssetCategory)
@@ -27,6 +30,15 @@ export class AssetsCategoryResolver {
   async getCategories() {
     this.logger.log(`request asset categories`);
     return await this.assetsService.getCategories();
+  }
+
+  @Mutation(() => GraphQLVoid, { description: 'bind and unbind assets to asset category' })
+  async boundOrUnboundAssetToCategory(
+    @CurrentUserGQL() user: any,
+    @RequesterIp() requesterIp: IpwareIpInfo,
+    @Args('requestData', { type: () => BoundAssetToCategoryArgs }) requestData: BoundAssetToCategoryArgs
+  ) {
+    return null;
   }
 
   @Mutation(() => Asset, { description: 'upload asset the actual upload the client have directly' })

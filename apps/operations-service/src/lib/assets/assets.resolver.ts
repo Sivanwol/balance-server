@@ -10,11 +10,10 @@ import { IpwareIpInfo } from '@fullerstack/nax-ipware';
 export class AssetsResolver {
   private readonly logger = new Logger('AssetsResolver');
   constructor(private assetsService: AssetsService) {}
-  @Query(() => GraphQLVoid, { description: 'test query' })
+  @Query(() => Float, { description: 'test query' })
   testAsset(@CurrentUserGQL() user: any) {
     console.log(user);
-    // return process.uptime();
-    return;
+    return process.uptime();
   }
   @Query(() => Asset, { description: 'get asset by id', nullable: true })
   async getAsset(@Args('id', { type: () => String }) id: string) {

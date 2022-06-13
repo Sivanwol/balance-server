@@ -4,7 +4,6 @@ import { Transport, RedisOptions } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { AppModule } from './lib/app.module';
-import helmet from 'helmet';
 import { HttpExceptionFilter } from '@applib/share-server-common';
 import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
@@ -67,7 +66,6 @@ async function bootstrap() {
   //     retryDelay: 500
   //   },
   // }, { inheritAppConfig: true });
-  app.use(helmet());
   app.enableCors();
   app.useGlobalFilters(new HttpExceptionFilter());
   // app.enableVersioning({
